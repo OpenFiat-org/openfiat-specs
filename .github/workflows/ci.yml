@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  lint:
+    name: markdownlint / yamllint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v18
+        with:
+          globs: "**/*.md"
+      - uses: ibiqlik/action-yamllint@v3
+        with:
+          config_data: "{extends: default, rules: {line-length: disable}}"
