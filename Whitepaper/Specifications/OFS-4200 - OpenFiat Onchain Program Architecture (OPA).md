@@ -53,12 +53,14 @@ pub enum DisputeOutcome { BuyerWins, MerchantWins, MutualSettlement, InvalidDisp
 # 3. `openfiat-presale` (Phase 3 — priority)
 
 ## PDA seeds
-- Sale config: `[b"sale_config"]` — singleton.
-- Contribution record: `[b"contribution", sale_config, buyer_pubkey]` — one per buyer, prevents double-counting.
+- Sale config: `[b"sale_config", sale_nonce.to_le_bytes()]` — `sale_nonce: u64` namespaces independent sale rounds under one deployed program. v1 production usage is a single sale at `sale_nonce = 0`; this is not a hard global singleton so a future round doesn't require a redeploy. (Implementation note, added during Phase 3: the original design here specified a fixed singleton seed with no nonce — that turned out to make even test-suite coverage of the soft-cap-missed/refund branch impossible without a second deployment, since `SaleState` transitions out of `Active` are one-way. The nonce is the fix.)
+- USDC escrow vault: `[b"sale_usdc_vault", sale_nonce.to_le_bytes()]`.
+- Contribution record: `[b"contribution", sale_config, buyer_pubkey]` — one per buyer per sale, prevents double-counting. (Already disambiguated per-sale since `sale_config`'s own address differs per nonce.)
 
 ## Account layouts (field-level)
-- `SaleConfig { admin: Pubkey, usdc_mint: Pubkey, open_mint: Pubkey, hard_cap: u64, soft_cap: u64, min_contribution: u64, max_contribution: u64, start_time: i64, end_time: i64, max_slippage_bps: u16, stablecoin_whitelist: Vec<Pubkey>, total_raised: u64, state: SaleState, bump: u8 }`
-- `SaleState { Pending, Active, Finalized, SoftCapMissed }`
+- `SaleConfig { admin: Pubkey, open_mint: Pubkey, usdc_mint: Pubkey, presale_vault: Pubkey, usdc_vault: Pubkey, treasury: Pubkey, swap_program: Pubkey, hard_cap: u64, soft_cap: u64, min_contribution: u64, max_contribution: u64, max_slippage_bps: u16, open_decimals: u8, usdc_decimals: u8, start_time: i64, end_time: i64, stablecoin_whitelist: Vec<Pubkey>, total_raised: u64, state: SaleState, bump: u8, usdc_vault_bump: u8 }`
+- `SaleState { Active, Finalized, SoftCapMissed }` — no separate `Pending` state; a sale is `Active` from `initialize_sale` onward and simply rejects contributions outside `[start_time, end_time]`.
+- `swap_program` is admin-set at `initialize_sale`, not hardcoded to Jupiter's program id in code — production devnet/mainnet deployments must set it to Jupiter's real, independently verified aggregator program id (`JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4` as of Phase 3); test/CI deployments point it at a deterministic mock instead (`programs/mock-jupiter`). See `contribute_with_swap`'s doc comment for why this is safe: the instruction never trusts anything about the configured program's internal account layout, only that (a) the pubkey matches and (b) the destination vault's balance increased by at least the required amount after the CPI returns.
 - `Contribution { buyer: Pubkey, usdc_amount: u64, open_entitlement: u64, claimed: bool, refunded: bool, bump: u8 }`
 
 ## Instructions
