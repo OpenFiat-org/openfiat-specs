@@ -144,8 +144,8 @@ Initially, a new node connects to one or more well-known bootstrap nodes.
 
 Example bootstrap addresses:
 
-* entry01.openfiat.org
-* entry02.openfiat.org
+* entry01.openfiat.network
+* entry02.openfiat.network
 * openfiat.allenhark.com
 
 These nodes serve only as initial contact points.

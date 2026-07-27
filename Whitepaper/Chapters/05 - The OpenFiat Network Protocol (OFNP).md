@@ -123,8 +123,8 @@ OpenFiat forms a decentralized mesh network.
 
 ```text
                  Bootstrap Nodes
-           entry01.openfiat.org
-           entry02.openfiat.org
+           entry01.openfiat.network
+           entry02.openfiat.network
        openfiat.allenhark.com
        openfiat.allenhark.network
 
@@ -172,9 +172,9 @@ A newly installed OpenFiat node contacts one or more well-known bootstrap addres
 
 Examples include:
 
-* entry01.openfiat.org
-* entry02.openfiat.org
-* bootstrap.openfiat.org
+* entry01.openfiat.network
+* entry02.openfiat.network
+* bootstrap.openfiat.network
 
 These nodes return a list of active peers currently participating in the network.
 

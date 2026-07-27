@@ -104,11 +104,11 @@ OpenFiat defines a set of well-known bootstrap endpoints.
 Examples:
 
 ```text id="bootstrap01"
-entry01.openfiat.org
+entry01.openfiat.network
 
-entry02.openfiat.org
+entry02.openfiat.network
 
-entry03.openfiat.org
+entry03.openfiat.network
 
 openfiat.allenhark.com
 ```

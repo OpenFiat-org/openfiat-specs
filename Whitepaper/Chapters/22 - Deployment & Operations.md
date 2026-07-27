@@ -78,8 +78,8 @@ OpenFiat therefore maintains a small number of well-known bootstrap endpoints.
 
 Examples include:
 
-* entry01.openfiat.org
-* entry02.openfiat.org
+* entry01.openfiat.network
+* entry02.openfiat.network
 * openfiat.allenhark.com
 
 Bootstrap nodes have only one responsibility:
