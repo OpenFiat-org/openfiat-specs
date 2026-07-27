@@ -18,7 +18,7 @@
 
 The OpenFiat Dispute Protocol (ODP) defines how disagreements arising from OpenFiat trades are initiated, managed, investigated, resolved, and permanently recorded.
 
-Unlike traditional peer-to-peer marketplaces that rely on a centralized customer support team, OpenFiat uses decentralized dispute resolution supported by cryptographically verifiable evidence, merchant reputation, community arbitrators (future), and deterministic protocol rules.
+Unlike traditional peer-to-peer marketplaces that rely on a centralized customer support team, OpenFiat uses decentralized dispute resolution supported by cryptographically verifiable evidence, merchant reputation, community arbitrators who stake OPEN and vote using a commit-and-reveal scheme, and deterministic protocol rules.
 
 The protocol guarantees that disputed escrow remains secure until a final resolution has been reached.
 
@@ -152,7 +152,7 @@ Each dispute contains:
 * Merchant Wallet
 * Creation Time
 * Current Status
-* Assigned Arbitrator (future)
+* Assigned Arbitrators
 * Resolution
 * Evidence References
 
@@ -264,7 +264,27 @@ Investigation
 
 ↓
 
-Decision
+Arbitrators Commit Stake & Join Case
+
+↓
+
+Case Locked
+
+↓
+
+Evidence Released To Arbitrators
+
+↓
+
+Commit Phase
+
+↓
+
+Reveal Phase
+
+↓
+
+Decision (Consensus)
 
 ↓
 
@@ -296,18 +316,18 @@ Every action is permanently recorded.
 
 ## 16. Arbitration
 
-The initial OpenFiat network may utilize trusted protocol arbitrators appointed through governance.
+OpenFiat uses decentralized arbitration from the initial network launch. Disputes are resolved by independent, staked arbitrators who voluntarily join a case and vote using a commit-and-reveal scheme, as defined in Chapter 11 (The OpenFiat Dispute Resolution Protocol). This is the v1 arbitration mechanism, not a placeholder pending a future decentralization step.
 
-Future protocol versions are expected to evolve toward decentralized arbitration mechanisms.
+In summary:
 
-Potential future models include:
+* Qualified arbitrators (minimum OPEN stake, minimum reputation, sufficient protocol age, no active penalties — Chapter 11 §11.6) may voluntarily join a published case.
+* Case evidence remains hidden until an arbitrator has committed stake and been accepted into the case, reducing pre-participation bribery risk (Chapter 11 §11.7-11.8).
+* The arbitrator threshold required for a case is determined internally and not publicly disclosed (Chapter 11 §11.9); once reached, the case locks and no further arbitrators may join (Chapter 11 §11.10).
+* Arbitrators vote via commit-and-reveal: each arbitrator submits a cryptographic commitment during the commit phase, then reveals the vote and secret during the reveal phase (Chapter 11 §11.12). Only revealed votes matching their earlier commitment are counted.
+* Consensus follows deterministic protocol rules, with no discretionary interpretation by AllenHark or any node operator (Chapter 11 §11.13).
+* Arbitrators whose revealed vote falls outside consensus may incur a partial, moderate stake slash; arbitrators voting with consensus earn arbitration rewards (Chapter 11 §11.15-11.16).
 
-* Stake-weighted arbitrators
-* Reputation-based arbitrators
-* Jury selection
-* Randomized arbitration committees
-
-The arbitration mechanism itself is intentionally upgradeable.
+Future protocol versions MAY extend this model — specialized arbitrator categories, expert witnesses, cross-protocol interoperability (Chapter 11 §11.20) — but the underlying commit-reveal, stake-secured, voluntary-participation mechanism is not itself a future upgrade; it is the current protocol.
 
 ---
 
@@ -399,7 +419,10 @@ Dispute events include:
 * DisputeOpened
 * EvidenceSubmitted
 * EvidenceRequested
-* ArbitrationStarted
+* ArbitratorJoined
+* CaseLocked
+* VoteCommitted
+* VoteRevealed
 * ResolutionIssued
 * EscrowReleased
 * AppealSubmitted (future)
@@ -452,8 +475,13 @@ Implementations MUST protect against:
 * Duplicate disputes
 * Fake arbitrators
 * Identity spoofing
+* Duplicate processing of the same signed dispute event
 
 Every dispute action MUST be digitally signed.
+
+## Idempotency
+
+Every dispute event (evidence submission, arbitrator commitment, vote commit, vote reveal, resolution) carries a unique nonce tied to its dispute case. Implementations MUST detect and silently discard a duplicate event with an already-processed nonce rather than re-applying it — for example, a resubmitted `VoteRevealed` message for a vote already recorded MUST NOT be counted twice, and a replayed `EscrowReleased` outcome MUST NOT trigger a second transfer.
 
 ---
 

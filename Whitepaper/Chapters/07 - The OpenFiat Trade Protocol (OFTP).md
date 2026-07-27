@@ -65,23 +65,19 @@ Advertisement
 
 ↓
 
-Reservation
+Reservation (Requested → Validated → Accepted → Escrow Locked)
 
 ↓
 
-Escrow Funding
+Awaiting Payment
 
 ↓
 
-Awaiting Fiat Payment
+Payment Sent ("I Paid")
 
 ↓
 
-Buyer Marks "I Paid"
-
-↓
-
-Merchant Verification
+Merchant Reviewing
 
 ↓
 
@@ -89,12 +85,14 @@ Settlement
      │
      ├──────────────┐
      │              │
-Success         Dispute
+Approved         Dispute
      │              │
-Funds Released   Arbitration
+Escrow Released  Arbitration
      │              │
-     └──── Final Settlement ────→ Reputation Update
+     └──── Completed ────→ Reputation Update
 ```
+
+This is a narrative simplification of two formally-specified state machines: the Reservation state machine (OFS-2200 §18), which governs everything up to `Escrow Locked`, and the Settlement state machine (OFS-2300 §20), which governs everything from `Escrow Locked` onward. This chapter does not define either machine independently — see those specifications for the authoritative transitions.
 
 A trade may never skip mandatory states.
 
@@ -140,17 +138,21 @@ This prevents overselling while maintaining fairness.
 
 ---
 
-## 7.6 Step 3 — Escrow Funding
+## 7.6 Step 3 — Escrow Lock
 
-Immediately after a reservation is accepted, the advertised stablecoins are transferred into the OpenFiat escrow program on Solana.
+What happens immediately after a reservation is accepted depends on the trade's direction, because OpenFiat uses two different vault models (Chapter 8).
 
-At this point:
+**When the merchant is selling stablecoins:** the funds are already sitting in the merchant's Liquidity Vault — deposited before the advertisement could even go live. No new transfer occurs at reservation time. The protocol simply marks the reserved portion of the existing vault balance as locked and unavailable to other buyers.
 
-* The merchant no longer controls the escrowed funds.
+**When the merchant is buying stablecoins:** there is no pre-existing inventory to lock, because the merchant doesn't hold the asset yet. Instead, the counterparty selling stablecoins into the merchant's buy advertisement deposits the stablecoins into a newly-created Trade Escrow Vault at this point, immediately after their reservation is accepted.
+
+In both cases, once this step completes:
+
+* Neither party can unilaterally move the escrowed funds.
 * The buyer cannot yet receive them.
 * The protocol now governs their release.
 
-Escrow guarantees that the advertised liquidity genuinely exists before fiat payment begins.
+Escrow guarantees that the traded liquidity genuinely exists before fiat payment begins.
 
 This eliminates one of the most common fraud scenarios found in informal peer-to-peer trading.
 

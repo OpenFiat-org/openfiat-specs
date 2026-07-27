@@ -179,10 +179,10 @@ This prevents over-locking capital while guaranteeing settlement security.
 
 ## 7. Merchant Selling Flow
 
-When selling stablecoins:
+When selling stablecoins, the merchant must first deposit the advertised inventory into a **Liquidity Vault** — a persistent, program-owned escrow account defined in Chapter 8 and OFS-2300. A merchant can never advertise or sell more than they hold deposited in that vault; there is no path that sells directly from a personal, non-custodial wallet.
 
 ```text
-Merchant Wallet
+Liquidity Vault (program-owned)
 
 Available
 
@@ -214,6 +214,8 @@ Remaining Available
 ```
 
 Only the reserved amount is locked.
+
+No transfer occurs at reservation time — the deposit already happened before the advertisement went live. The reservation only marks a portion of the already-deposited vault balance as unavailable to other buyers.
 
 The remaining balance remains available for additional advertisements and trades.
 
@@ -261,39 +263,31 @@ Instead, the seller deposits the stablecoins into escrow after accepting the adv
 
 ## 9. Trade Lifecycle
 
-Every trade follows the same deterministic state machine.
+Every trade is the composition of two sub-protocols, each with its own canonical state machine:
 
 ```text
-Advertisement
+Advertisement (OFS-2100)
 
 ↓
 
-Reservation
+Reservation Protocol (OFS-2200)
+  Requested → Validated → Accepted → Escrow Locked
 
 ↓
 
-Escrow Created
+Settlement Protocol (OFS-2300)
+  Awaiting Payment → Payment Sent → Merchant Reviewing → Approved → Escrow Released → Completed
 
 ↓
 
-Fiat Payment
-
-↓
-
-Payment Confirmation
-
-↓
-
-Settlement
-
-↓
-
-Reputation Update
+Reputation Update (OFS-3000)
 
 ↓
 
 Trade Closed
 ```
+
+OFS-2200 owns every state up to and including `Escrow Locked`; OFS-2300 owns every state from `Escrow Locked` onward. This specification does not redefine either state machine — see OFS-2200 §18 and OFS-2300 §20 for the authoritative definitions.
 
 Every state transition generates a signed protocol event.
 
@@ -472,8 +466,9 @@ The protocol prevents:
 * Duplicate settlement.
 * Unauthorized releases.
 * Replay attacks.
+* Duplicate processing of an already-applied signed protocol event.
 
-All state transitions are cryptographically authenticated.
+All state transitions are cryptographically authenticated. Every signed event MUST carry a unique identifier so that a duplicated or replayed event is detected and discarded rather than reapplied.
 
 ---
 

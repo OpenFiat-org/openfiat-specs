@@ -180,7 +180,7 @@ Every advertisement publishes available liquidity.
 
 For Sell advertisements:
 
-Available liquidity equals immediately sellable stablecoins.
+Available liquidity equals the unreserved balance already deposited in the merchant's Liquidity Vault — never a promise or an off-chain wallet balance.
 
 For Buy advertisements:
 
@@ -196,7 +196,7 @@ Inventory management is handled entirely by the protocol.
 
 ### Selling Stablecoins
 
-Merchant Wallet
+Liquidity Vault (program-owned; see OFS-2300 §6)
 
 10,000 USDC
 
@@ -217,6 +217,8 @@ Program automatically locks
 Advertisement updates
 
 7,500 USDC available
+
+No new deposit occurs at reservation time — the inventory was already deposited into the vault before the advertisement became visible (§8). Reservation only marks a portion of the existing vault balance as unavailable.
 
 ---
 

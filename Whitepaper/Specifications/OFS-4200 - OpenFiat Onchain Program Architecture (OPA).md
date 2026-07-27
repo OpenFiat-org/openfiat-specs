@@ -38,7 +38,9 @@ Four devnet Anchor programs, plus the OPEN token itself as a plain SPL Token-202
 **Cross-program coupling — decoupled where risk-relevant, coupled where safe:**
 
 - `openfiat-governance`'s `cast_vote` reads `openfiat-staking`'s effective-stake **via CPI** (read-only, low risk).
-- `openfiat-staking`'s `slash` instruction is **not** called via direct CPI from `openfiat-escrow`'s dispute-resolution path. It is invoked as a **separate, off-chain-relayed instruction** signed by the same governance-controlled authority that resolved the dispute. This deliberately avoids tight on-chain coupling between escrow and staking before either has been audited — a bug in one program's CPI-calling code cannot directly corrupt the other's state.
+- `openfiat-staking`'s `slash` instruction is **not** called via direct CPI from `openfiat-escrow`'s dispute-resolution path. It is invoked as a **separate, off-chain-relayed instruction**, triggered when the deterministic outcome of a dispute's decentralized commit-reveal arbitrator vote (OFS-2400 §16, Chapter 11 §11.12-11.16) identifies an arbitrator whose revealed vote fell outside case consensus. This deliberately avoids tight on-chain coupling between escrow and staking before either has been audited — a bug in one program's CPI-calling code cannot directly corrupt the other's state.
+
+**Note on v1 arbitration model:** dispute resolution in OpenFiat v1 is decentralized from launch — any sufficiently staked, eligible participant may voluntarily join a case and vote via commit-reveal (OFS-2400 §16). It is not a small governance-appointed committee; the programs below are designed for many independent arbitrators per case, not a fixed authority list.
 
 ## 2. Shared Types (`programs/shared`)
 
@@ -95,7 +97,7 @@ pub enum DisputeOutcome { BuyerWins, MerchantWins, MutualSettlement, InvalidDisp
 
 ### Instructions
 
-`create_liquidity_vault`, `deposit_liquidity`, `reserve_liquidity` (atomic marking, no transfer), `withdraw_liquidity`, `create_trade_escrow`, `fund_trade_escrow`, `approve_settlement`, `release_escrow` (only instruction that moves settlement funds; computes and routes fee splits from `FeeConfig` atomically), `cancel_reservation`, `expire_reservation` (permissionless, callable once `timeout_at` has passed — default 20 minutes per OFS-2300's example, itself a `FeeConfig`-adjacent config value), `freeze_on_dispute` (settable only by the configured `dispute_authority`, a placeholder pubkey until Phase 5 wires the real arbitrator-set config), `execute_dispute_outcome(outcome: DisputeOutcome)`.
+`create_liquidity_vault`, `deposit_liquidity`, `reserve_liquidity` (atomic marking, no transfer), `withdraw_liquidity`, `create_trade_escrow`, `fund_trade_escrow`, `approve_settlement`, `release_escrow` (only instruction that moves settlement funds; computes and routes fee splits from `FeeConfig` atomically), `cancel_reservation`, `expire_reservation` (permissionless, callable once `timeout_at` has passed — default 30 minutes per OFS-2300 §8a's timeout matrix, itself a `FeeConfig`-adjacent config value), `freeze_on_dispute` (settable only by the configured `dispute_authority` — a PDA controlled by `openfiat-disputes`'s case-resolution logic, not a human-held key; Phase 5 wires this to the real commit-reveal consensus outcome per OFS-2400 §16), `execute_dispute_outcome(outcome: DisputeOutcome)` (callable only once a case's commit-reveal consensus has been reached and tallied).
 
 ### Non-negotiable invariant
 
@@ -115,7 +117,7 @@ Every instruction that moves vault funds signs via `invoke_signed` using the vau
 
 ### Instructions
 
-`initialize_stake_account(role)`, `stake(amount)`, `request_unstake(amount)` (immediately reduces the amount counted as "effective" for `get_effective_stake`, per OFS-4100 §4's timing decision, while the tokens themselves remain locked until `unbonding_release_at`), `withdraw_unstaked`, `slash(stake_account, misconduct_code)` (callable only by `slashing_authority` — v1: a governance-controlled multisig representing the trusted arbitrator committee, invoked via a separate signed instruction relayed by the off-chain `disputes`/`governance` crates, not a direct escrow→staking CPI), `get_effective_stake` (read-only, called via CPI by `openfiat-governance`).
+`initialize_stake_account(role)`, `stake(amount)`, `request_unstake(amount)` (immediately reduces the amount counted as "effective" for `get_effective_stake`, per OFS-4100 §4's timing decision, while the tokens themselves remain locked until `unbonding_release_at`), `withdraw_unstaked`, `slash(stake_account, misconduct_code)` (callable only by `slashing_authority`; for arbitrator misconduct specifically, this is invoked as a separate signed instruction relayed by the off-chain `disputes` crate once a case's commit-reveal vote has been tallied and an arbitrator's revealed vote is found outside consensus — a partial, moderate slash per Chapter 11 §11.16, not a discretionary committee decision, and not a direct escrow→staking CPI), `get_effective_stake` (read-only, called via CPI by `openfiat-governance`; also determines arbitrator eligibility to join a dispute case per OFS-2400 §16).
 
 ## 6. `openfiat-governance`
 

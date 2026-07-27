@@ -103,27 +103,23 @@ The protocol coordinates both worlds without requiring custody of either.
 ## 5. Settlement Lifecycle
 
 ```text id="settlement-lifecycle"
-Reservation Accepted
+Escrow Locked (handoff from Reservation Protocol, OFS-2200 §18)
 
 ↓
 
-Escrow Locked
+Awaiting Payment
 
 ↓
 
-Buyer Pays Fiat
+Payment Sent
 
 ↓
 
-Buyer Marks "I Paid"
+Merchant Reviewing
 
 ↓
 
-Merchant Reviews
-
-↓
-
-Settlement Approved
+Approved
 
 ↓
 
@@ -131,8 +127,10 @@ Escrow Released
 
 ↓
 
-Trade Completed
+Completed
 ```
+
+This is the same state machine as §20's Settlement State Machine, restated here as a lifecycle narrative. `Escrow Locked` is where authority passes from the Reservation Protocol to this specification; this specification does not re-define what happens before that point.
 
 Every transition produces a signed protocol event.
 
@@ -179,13 +177,13 @@ Each settlement defines a payment deadline.
 Example:
 
 ```text id="payment-deadline"
-Reservation
+Escrow Locked
 
 ↓
 
 Payment Window
 
-20 Minutes
+30 Minutes
 
 ↓
 
@@ -193,10 +191,20 @@ Expired
 
 ↓
 
-Reservation Cancelled
+Settlement Cancelled
 ```
 
 Timeout values are configurable through governance.
+
+## 8a. Timeout Matrix
+
+| Timeout | Phase | Default | Governance-Configurable | On Expiry |
+|---|---|---|---|---|
+| Payment window | Escrow Locked → Payment Sent | 30 minutes | Yes | Settlement cancelled (§19); escrow returned to seller/vault |
+| Merchant review window | Payment Sent → Approved/Rejected | 30 minutes | Yes | Buyer may open a dispute (OFS-2400 §5) |
+| Additional-verification window | Merchant requests more info (§13) | 30 minutes from request | Yes | Treated as merchant non-response; buyer may open a dispute |
+
+See OFS-2200 §12a for the reservation-phase timeout matrix and OFS-2400 for dispute-phase timeouts (arbitrator commit/reveal windows).
 
 ---
 
@@ -385,6 +393,12 @@ No completed work is lost.
 
 ## 19. Settlement Cancellation
 
+The governing rule for settlement cancellation is:
+
+**Before payment: either party may cancel, subject to protocol rules. After payment is marked sent: cancellation is restricted to prevent abuse.**
+
+"Payment marked sent" refers to the buyer's signed "I Paid" / `PaymentSubmitted` event (§9). Before that event, cancellation is comparatively permissive, since no fiat has yet changed hands and no counterparty can be harmed by unwinding the trade. After that event, an uncontrolled cancellation would let a payer falsely claim payment, cancel, and force the counterparty to chase a fiat reversal — so cancellation authority narrows sharply.
+
 Settlement MAY terminate before completion when:
 
 * Reservation expires.
@@ -393,11 +407,24 @@ Settlement MAY terminate before completion when:
 * User withdraws before payment.
 * Merchant rejects payment.
 
+## 19a. Cancellation Matrix
+
+| Trigger | Before "I Paid" | After "I Paid" (Payment Sent) |
+|---|---|---|
+| Buyer-initiated cancellation | Allowed — escrow returned, reservation released | Not allowed unilaterally; buyer may withdraw "I Paid" per §10 if it was submitted in error, but cannot cancel the settlement outright once the merchant has begun reviewing |
+| Merchant-initiated cancellation | Allowed where permitted (e.g. cannot fulfil) — escrow returned | Not allowed unilaterally; merchant must either approve, reject (with reason, §12-§13), or the case proceeds to dispute (OFS-2400) |
+| Payment window timeout | Allowed (no payment ever marked sent) — automatic settlement cancellation | Not applicable — timeout only applies pre-"I Paid" |
+| Merchant review timeout | Not applicable | Buyer may escalate to dispute rather than cancel (OFS-2400 §5) |
+| Escrow creation failure | Allowed — automatic cancellation, no reservation was ever fully secured | Not applicable — escrow already existed by this point |
+| Mutual agreement | Allowed | Allowed only as a Mutual Settlement dispute outcome (OFS-2400 §17), not a plain cancellation, to keep the record auditable |
+
 Cancellation returns the trade to a deterministic terminal state.
 
 ---
 
 ## 20. Settlement State Machine
+
+This is the authoritative trade state machine from `Escrow Locked` onward. The Reservation Protocol (OFS-2200 §18) owns every state before this point and its own state machine terminates at `Escrow Locked`; no other document should define settlement-phase states independently.
 
 ```text id="settlement-state-machine"
 Escrow Locked
@@ -508,8 +535,13 @@ Implementations MUST prevent:
 * Forged payment confirmations
 * Invalid settlement approvals
 * Tampered payment evidence
+* Duplicate processing of an already-applied settlement event
 
 All settlement events MUST be digitally signed.
+
+## Idempotency
+
+Every settlement event (`PaymentSubmitted`, `PaymentReversed`, `VerificationRequested`, `SettlementApproved`, `SettlementRejected`, `EscrowReleased`, `SettlementCompleted`) carries a unique nonce. Implementations MUST detect a duplicate nonce and discard the redundant event — for example, a resent `SettlementApproved` for an already-released escrow MUST NOT trigger a second release of funds, and a duplicated `PaymentSubmitted` MUST NOT be treated as two independent payment claims.
 
 ---
 

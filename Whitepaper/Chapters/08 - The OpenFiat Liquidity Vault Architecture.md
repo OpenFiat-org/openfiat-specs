@@ -341,6 +341,8 @@ Each transition is validated by the Escrow Program.
 
 No implementation may skip intermediate states.
 
+This vault-balance state machine is distinct from — and runs orthogonal to — the Reservation state machine (OFS-2200 §18) and Settlement state machine (OFS-2300 §20). A single vault's balance moves through `Available → Reserved → ...` once per reservation, while a single reservation moves through its own, separately-tracked lifecycle referencing that vault. Do not conflate the two.
+
 ---
 
 ## 8.13 Timeouts
@@ -356,6 +358,8 @@ The protocol defines deterministic timeout rules for situations such as:
 * Arbitration delays.
 
 When a timeout occurs, reserved liquidity is either released to the buyer, returned to the available balance, or held pending dispute resolution according to the protocol rules.
+
+Default timeout values (e.g. the 30-minute reservation and payment windows) and the full timeout matrix are specified in OFS-2200 §12a and OFS-2300 §8a; every default is a governance-configurable protocol parameter, not a hard-coded constant.
 
 ---
 

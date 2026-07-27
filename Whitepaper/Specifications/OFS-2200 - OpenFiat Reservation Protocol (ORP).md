@@ -110,15 +110,11 @@ Accepted
 
 ↓
 
-Escrow Created
+Escrow Locked
 
 ↓
 
-Fiat Settlement
-
-↓
-
-Completed
+(handoff to Settlement Protocol, OFS-2300)
 
 or
 
@@ -128,6 +124,8 @@ or
 
 Expired
 ```
+
+This specification's authority over a reservation ends at `Escrow Locked`. Everything from that point forward — fiat payment, payment confirmation, merchant review, escrow release — belongs to the Settlement Protocol (OFS-2300 §20), not to this reservation state machine. See §18 for the full Reservation State Machine.
 
 Every transition generates a signed protocol event.
 
@@ -235,7 +233,7 @@ Users never manually initiate escrow creation.
 ### Selling Stablecoins
 
 ```text id="escrow-seller"
-Merchant Wallet
+Liquidity Vault (program-owned)
 
 10,000 USDC
 
@@ -257,6 +255,8 @@ Available
 
 7,500 USDC
 ```
+
+The 10,000 USDC was already deposited into the merchant's Liquidity Vault before the advertisement could go live (OFS-2100 §10, OFS-2300 §6). "Program Locks" here means marking a portion of that existing vault balance as reserved — no new transfer occurs. A merchant can never have more reserved against an advertisement than they hold deposited in the vault.
 
 ---
 
@@ -309,7 +309,7 @@ Reservation
 
 ↓
 
-20 Minutes
+30 Minutes
 
 ↓
 
@@ -323,6 +323,19 @@ Reservation Expired
 
 Liquidity Returned
 ```
+
+The 30-minute default applies to the reservation-validation window specifically (time to reach `Escrow Locked`). It is a protocol default, not a hard-coded constant — see §12a for the full timeout matrix, and OFS-2300 §8 for the separate payment-window timeout that begins once escrow is locked.
+
+## 12a. Timeout Matrix
+
+| Timeout | Phase | Default | Governance-Configurable | On Expiry |
+|---|---|---|---|---|
+| Reservation validation window | Requested → Escrow Locked | 30 minutes | Yes | Reservation expires; liquidity returned to available |
+| Reservation extension | Accepted, awaiting escrow/payment delay | Merchant-approved, no fixed cap | Yes (max extension length) | Extension request denied or original deadline applies |
+| Payment window | Escrow Locked → Payment Sent (OFS-2300 §8) | 30 minutes | Yes | Settlement cancelled; escrow returned |
+| Merchant review window | Payment Sent → Approved/Rejected (OFS-2300 §12) | 30 minutes | Yes | Buyer may escalate to dispute (OFS-2400 §5) |
+
+All defaults above are protocol parameters, not constants, and may be changed by a governance parameter-category proposal (OFS-4000).
 
 ---
 
@@ -342,7 +355,7 @@ Extensions generate signed protocol events.
 
 ## 14. Reservation Cancellation
 
-Reservations may be cancelled due to:
+Before escrow is locked, cancellation is governed entirely by this specification. Reservations may be cancelled due to:
 
 * User cancellation
 * Merchant cancellation (where permitted)
@@ -352,6 +365,8 @@ Reservations may be cancelled due to:
 * Governance intervention (future emergency mechanisms)
 
 Cancellation immediately releases reserved liquidity.
+
+**Before payment: either party may cancel, subject to protocol rules.** This applies for the whole reservation phase, up to and including the moment escrow is locked. Once escrow is locked and the trade moves into the Settlement Protocol (OFS-2300), cancellation rules change — after payment is marked sent, cancellation is restricted to prevent abuse. See OFS-2300 §19 for the full post-escrow cancellation rules and matrix.
 
 ---
 
@@ -440,22 +455,6 @@ Accepted
 
 Escrow Locked
 
-↓
-
-Payment Pending
-
-↓
-
-Payment Sent
-
-↓
-
-Settlement Pending
-
-↓
-
-Completed
-
 or
 
 Cancelled
@@ -464,6 +463,8 @@ or
 
 Expired
 ```
+
+`Escrow Locked` is a terminal state **for this specification** — it is the handoff point to the Settlement Protocol (OFS-2300 §20), which owns every subsequent state (Awaiting Payment, Payment Sent, Merchant Reviewing, Approved, Escrow Released, Completed). This specification's scope (§2) explicitly excludes settlement, so its own state machine must not include settlement-phase states; earlier drafts of this document incorrectly extended the reservation state machine through payment and settlement states, which duplicated and could drift from OFS-2300's authoritative definitions. That has been corrected here.
 
 Illegal state transitions MUST be rejected.
 
@@ -517,8 +518,13 @@ Implementations MUST reject:
 * Negative reservation amounts
 * Replay attacks
 * Unauthorized reservation updates
+* Duplicate processing of an already-applied reservation event
 
 Escrow creation MUST remain fully deterministic.
+
+## Idempotency
+
+Every reservation event (`ReservationCreated`, `ReservationExtended`, `ReservationCancelled`, `ReservationExpired`) carries a unique nonce. Implementations MUST detect a duplicate nonce and discard the redundant event rather than reapplying it — for example, a resent `ReservationCreated` for an already-accepted reservation MUST NOT create a second escrow lock against the same liquidity.
 
 ---
 
