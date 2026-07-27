@@ -75,7 +75,7 @@ Seven buckets, named in Chapter 14, with no percentages given there. Proposed sp
 | Hard cap | 30,000,000 USDC-equivalent (sized to match the Presale bucket, §2) | [PROPOSED — NEEDS SIGN-OFF] |
 | Soft cap | 5,000,000 USDC-equivalent; contributions are refundable if unmet by end time | [PROPOSED — NEEDS SIGN-OFF] |
 | Minimum contribution per wallet | 50 USDC-equivalent | [PROPOSED — NEEDS SIGN-OFF] |
-| Maximum contribution per wallet | 250,000 USDC-equivalent | [PROPOSED — NEEDS SIGN-OFF] |
+| Maximum contribution per wallet | 1,000,000 USDC-equivalent | [CONFIRMED] |
 | Vesting on presale tokens | None — immediate unlock at claim | [PROPOSED — NEEDS SIGN-OFF] |
 | Max swap slippage tolerance | 1% | [PROPOSED — NEEDS SIGN-OFF] |
 | Stablecoin whitelist | USDC, USDT, PYUSD (devnet equivalents/test mints during the devnet phase of this build) | [PROPOSED — NEEDS SIGN-OFF, and structurally must remain a governance-updatable list, never an open "any SPL token claiming to be a stablecoin"] |
