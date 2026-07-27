@@ -18,7 +18,7 @@ Every governance action follows publicly documented procedures that any particip
 
 ---
 
-# 12.2 Design Objectives
+## 12.2 Design Objectives
 
 The Governance Protocol was designed around several fundamental principles.
 
@@ -48,7 +48,7 @@ Every governance decision should be permanently recorded.
 
 ---
 
-# 12.3 Governance Philosophy
+## 12.3 Governance Philosophy
 
 OpenFiat recognizes two distinct stages of protocol development.
 
@@ -82,7 +82,7 @@ The transition occurs gradually through governance milestones defined by the com
 
 ---
 
-# 12.4 Governance Scope
+## 12.4 Governance Scope
 
 Governance may influence numerous aspects of the protocol.
 
@@ -135,7 +135,7 @@ Examples include:
 
 ---
 
-# 12.5 What Governance Cannot Do
+## 12.5 What Governance Cannot Do
 
 Certain protocol guarantees should remain immutable.
 
@@ -152,7 +152,7 @@ These restrictions preserve user confidence and protect the integrity of the pro
 
 ---
 
-# 12.6 OpenFiat Improvement Proposals (OFIPs)
+## 12.6 OpenFiat Improvement Proposals (OFIPs)
 
 Every protocol change begins as an **OpenFiat Improvement Proposal (OFIP).**
 
@@ -186,7 +186,7 @@ Using a common format simplifies review and encourages high-quality proposals.
 
 ---
 
-# 12.7 Proposal Lifecycle
+## 12.7 Proposal Lifecycle
 
 Every OFIP follows the same progression.
 
@@ -230,7 +230,7 @@ Implementation converts approved ideas into protocol changes.
 
 ---
 
-# 12.8 Proposal Submission
+## 12.8 Proposal Submission
 
 Submitting a governance proposal requires a minimum OPEN stake.
 
@@ -242,7 +242,7 @@ Frivolous or abandoned proposals may forfeit part of the submission stake accord
 
 ---
 
-# 12.9 Voting Power
+## 12.9 Voting Power
 
 Voting power is derived from OPEN tokens that have been committed to governance.
 
@@ -252,7 +252,7 @@ The exact lock durations and voting calculations are defined in the Protocol Spe
 
 ---
 
-# 12.10 Voting Process
+## 12.10 Voting Process
 
 Every governance vote follows a deterministic sequence.
 
@@ -284,7 +284,7 @@ Once finalized, the outcome becomes part of the permanent governance history.
 
 ---
 
-# 12.11 Quorum
+## 12.11 Quorum
 
 Governance decisions should represent meaningful community participation.
 
@@ -296,7 +296,7 @@ This prevents a very small group of token holders from making significant protoc
 
 ---
 
-# 12.12 Proposal Categories
+## 12.12 Proposal Categories
 
 Different proposal types may require different approval thresholds.
 
@@ -330,7 +330,7 @@ Higher-impact proposals should require stronger community consensus.
 
 ---
 
-# 12.13 Treasury Governance
+## 12.13 Treasury Governance
 
 The OpenFiat Treasury exists to support the long-term growth of the ecosystem.
 
@@ -351,7 +351,7 @@ Every expenditure remains publicly auditable.
 
 ---
 
-# 12.14 Emergency Governance
+## 12.14 Emergency Governance
 
 Exceptional situations may require rapid coordination.
 
@@ -370,7 +370,7 @@ Every emergency action should be publicly documented and subject to later commun
 
 ---
 
-# 12.15 Governance Transparency
+## 12.15 Governance Transparency
 
 Every governance event should remain permanently accessible.
 
@@ -387,7 +387,7 @@ This historical record enables future contributors to understand why decisions w
 
 ---
 
-# 12.16 Governance and Protocol Standards
+## 12.16 Governance and Protocol Standards
 
 OpenFiat distinguishes between governance decisions and technical specifications.
 
@@ -399,7 +399,7 @@ This separation prevents governance discussions from becoming overly technical w
 
 ---
 
-# 12.17 Progressive Decentralization
+## 12.17 Progressive Decentralization
 
 OpenFiat embraces progressive decentralization rather than immediate decentralization.
 
@@ -417,7 +417,7 @@ Success is measured not by how quickly AllenHark steps away, but by how effectiv
 
 ---
 
-# 12.18 Why Governance Matters
+## 12.18 Why Governance Matters
 
 A protocol intended to serve a global marketplace must be capable of evolving.
 
@@ -435,7 +435,7 @@ Rather than relying on trust in a company, participants rely on documented proce
 
 ---
 
-# 12.19 Future Governance Extensions
+## 12.19 Future Governance Extensions
 
 The governance framework has been designed to support future enhancements, including:
 
@@ -451,7 +451,7 @@ These features may be introduced through future OFIPs without altering the core 
 
 ---
 
-# 12.20 Looking Ahead
+## 12.20 Looking Ahead
 
 Governance determines how OpenFiat evolves, but sustainable growth also requires a healthy economic system.
 

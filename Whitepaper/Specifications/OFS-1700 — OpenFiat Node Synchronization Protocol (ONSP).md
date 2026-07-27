@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Node Synchronization Protocol (ONSP) defines how OpenFiat nodes establish, maintain, verify, recover, and converge on a consistent view of the global marketplace state.
 
@@ -24,7 +24,7 @@ The Node Synchronization Protocol ensures that independently operated nodes even
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 The OpenFiat network is a decentralized marketplace composed of independently operated nodes distributed across the world.
 
@@ -41,7 +41,7 @@ The protocol therefore requires a deterministic synchronization mechanism that g
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -67,7 +67,7 @@ This specification does **not** define:
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 The Node Synchronization Protocol SHALL:
 
@@ -81,7 +81,7 @@ The Node Synchronization Protocol SHALL:
 
 ---
 
-# 4. Design Philosophy
+## 4. Design Philosophy
 
 Synchronization is **state-driven**, not block-driven.
 
@@ -91,7 +91,7 @@ Every compliant node that processes the same ordered event stream SHALL converge
 
 ---
 
-# 5. Node States
+## 5. Node States
 
 Every node progresses through the following synchronization lifecycle.
 
@@ -127,7 +127,7 @@ A node MUST NOT advertise itself as fully synchronized until it reaches the **Sy
 
 ---
 
-# 6. Synchronization Sources
+## 6. Synchronization Sources
 
 A node MAY synchronize from one or more peers simultaneously.
 
@@ -144,7 +144,7 @@ Nodes SHOULD periodically rotate synchronization peers to improve resilience.
 
 ---
 
-# 7. Bootstrap Synchronization
+## 7. Bootstrap Synchronization
 
 A newly started node performs the following sequence:
 
@@ -161,7 +161,7 @@ Bootstrap synchronization SHOULD complete before serving client requests wheneve
 
 ---
 
-# 8. Synchronization Modes
+## 8. Synchronization Modes
 
 The protocol defines four synchronization modes.
 
@@ -196,7 +196,7 @@ Periodically validates that local state matches the network.
 
 ---
 
-# 9. Snapshot Coordination
+## 9. Snapshot Coordination
 
 Snapshot transfer is defined by OFS-1300.
 
@@ -208,7 +208,7 @@ Applications SHOULD avoid replaying excessively old event histories.
 
 ---
 
-# 10. Incremental Synchronization
+## 10. Incremental Synchronization
 
 After snapshot installation, nodes request only missing events.
 
@@ -240,7 +240,7 @@ Incremental synchronization minimizes bandwidth and startup time.
 
 ---
 
-# 11. Event Replay
+## 11. Event Replay
 
 Every replayed event MUST preserve its original ordering.
 
@@ -261,7 +261,7 @@ Reordered events MUST be rejected.
 
 ---
 
-# 12. State Verification
+## 12. State Verification
 
 Nodes SHALL verify synchronization correctness using deterministic state validation.
 
@@ -277,7 +277,7 @@ Verification failures trigger re-synchronization.
 
 ---
 
-# 13. Checkpoints
+## 13. Checkpoints
 
 Nodes MAY publish signed synchronization checkpoints.
 
@@ -296,7 +296,7 @@ Checkpoints accelerate synchronization while improving verification.
 
 ---
 
-# 14. Event Gaps
+## 14. Event Gaps
 
 Nodes detect missing events through sequence validation.
 
@@ -334,7 +334,7 @@ Nodes MUST request missing events before processing later dependent events.
 
 ---
 
-# 15. Conflict Detection
+## 15. Conflict Detection
 
 If two synchronization sources provide conflicting state information:
 
@@ -347,7 +347,7 @@ Persistent conflicts SHOULD reduce peer reputation.
 
 ---
 
-# 16. Recovery After Failure
+## 16. Recovery After Failure
 
 Unexpected interruptions include:
 
@@ -366,7 +366,7 @@ Recovery process:
 
 ---
 
-# 17. Version Compatibility
+## 17. Version Compatibility
 
 Synchronization peers MUST negotiate supported protocol versions.
 
@@ -382,7 +382,7 @@ Version negotiation includes:
 
 ---
 
-# 18. Synchronization Performance
+## 18. Synchronization Performance
 
 Implementations SHOULD optimize:
 
@@ -398,7 +398,7 @@ Synchronization MUST remain deterministic regardless of optimization strategy.
 
 ---
 
-# 19. Security Considerations
+## 19. Security Considerations
 
 Nodes MUST protect against:
 
@@ -414,7 +414,7 @@ Every synchronization artifact MUST be cryptographically verified before accepta
 
 ---
 
-# 20. Failure Handling
+## 20. Failure Handling
 
 Synchronization failures include:
 
@@ -429,7 +429,7 @@ Nodes SHOULD automatically retry synchronization using alternate peers whenever 
 
 ---
 
-# 21. Conformance
+## 21. Conformance
 
 A compliant implementation MUST:
 
@@ -445,7 +445,7 @@ A compliant implementation MUST:
 
 ---
 
-# 22. Relationship to Other Specifications
+## 22. Relationship to Other Specifications
 
 The Node Synchronization Protocol coordinates the complete state convergence process.
 
@@ -475,7 +475,7 @@ The Node Synchronization Protocol coordinates the complete state convergence pro
 
 ---
 
-# 23. Future Extensions
+## 23. Future Extensions
 
 Future protocol versions may introduce:
 
@@ -490,7 +490,7 @@ Future protocol versions may introduce:
 
 ---
 
-# 24. Summary
+## 24. Summary
 
 The OpenFiat Node Synchronization Protocol ensures that every compliant node converges on the same deterministic marketplace state regardless of when it joins the network, how long it has been offline, or which peers it synchronizes from.
 

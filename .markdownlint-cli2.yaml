@@ -1,0 +1,51 @@
+# markdownlint configuration for the whitepaper and specification corpus.
+#
+# Read by both CI (.github/workflows/ci.yml) and the local markdownlint
+# pre-commit hook. Keeping the ruleset in a file rather than as flags in two
+# places is the point: the hook already passed `--disable MD013 MD033` while CI
+# passed nothing, so CI failed on rules the project had already decided against
+# and had never passed since the initial scaffold.
+#
+# Rules are disabled here only where the rule is wrong for a prose corpus, not
+# to silence real defects. Everything else was fixed at source.
+
+config:
+  # Line length. The corpus is ~69,000 words of soft-wrapped prose; a hard
+  # wrap at 80 would reflow on every edit and produce diffs that hide the
+  # actual change. The workflow already disables yamllint's equivalent, and the
+  # pre-commit hook already disabled this one.
+  MD013: false
+
+  # Inline HTML. README.md centres its header with a <div>, which is the normal
+  # way to do that on GitHub and has no markdown equivalent. Also already
+  # disabled in the pre-commit hook.
+  MD033: false
+
+  # "Emphasis used instead of a heading". The specifications use a bold lead-in
+  # for inline asides — "**Note on Ch.13 vs. Ch.23:** ..." — which is a
+  # sentence opener, not a heading. Promoting those to real headings would put
+  # 23 spurious entries in every table of contents.
+  MD036: false
+
+  # Table pipe style. Purely cosmetic, and the corpus mixes the two forms
+  # across 54 tables with no effect on how any of them render.
+  MD060: false
+
+  # "First line should be a top-level heading". README.md does have exactly one
+  # H1 in the right place — it is on line 3, inside the <div align="center">
+  # that MD033 above already accommodates. The rule only inspects line 1.
+  MD041: false
+
+  # Duplicate headings are only a problem between siblings, where they would
+  # produce colliding anchors. The same sub-heading under two different
+  # sections ("Non-Custodial" under two vault properties) is legitimate.
+  MD024:
+    siblings_only: true
+
+ignores:
+  # Superseded draft, kept for provenance rather than maintained.
+  - "Whitepaper/Archive/**"
+  # GitHub templates are fragments injected into a form, not documents; a
+  # top-level heading requirement does not apply to them.
+  - ".github/**"
+  - "node_modules/**"

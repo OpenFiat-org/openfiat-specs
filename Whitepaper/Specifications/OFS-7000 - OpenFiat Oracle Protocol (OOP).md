@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Oracle Protocol (OOP) defines how trusted external information is introduced into the OpenFiat ecosystem without compromising decentralization.
 
@@ -26,7 +26,7 @@ Importantly, oracles provide **information**, not **authority**. Oracle data may
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 OpenFiat operates across hundreds of countries and payment systems.
 
@@ -46,7 +46,7 @@ Without a standard oracle protocol, every implementation would integrate these s
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -68,7 +68,7 @@ This specification does **not** define:
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 The Oracle Protocol SHALL:
 
@@ -81,7 +81,7 @@ The Oracle Protocol SHALL:
 
 ---
 
-# 4. Design Philosophy
+## 4. Design Philosophy
 
 Oracles provide observations.
 
@@ -101,7 +101,7 @@ Oracle information never forces a trade price.
 
 ---
 
-# 5. Oracle Providers
+## 5. Oracle Providers
 
 Anyone may operate an Oracle Provider.
 
@@ -118,7 +118,7 @@ Providers register through OFS-1500.
 
 ---
 
-# 6. Oracle Categories
+## 6. Oracle Categories
 
 The initial protocol defines the following categories:
 
@@ -167,7 +167,7 @@ Examples:
 
 ---
 
-# 7. Oracle Record
+## 7. Oracle Record
 
 Every published record contains:
 
@@ -182,7 +182,7 @@ Every published record contains:
 
 ---
 
-# 8. Oracle Publication
+## 8. Oracle Publication
 
 Updates follow this lifecycle:
 
@@ -214,7 +214,7 @@ Unsigned oracle updates MUST be rejected.
 
 ---
 
-# 9. Exchange Rate Example
+## 9. Exchange Rate Example
 
 ```text
 Oracle
@@ -240,7 +240,7 @@ Applications SHOULD display update timestamps alongside exchange rates.
 
 ---
 
-# 10. Stablecoin Metadata
+## 10. Stablecoin Metadata
 
 Metadata MAY include:
 
@@ -256,7 +256,7 @@ Metadata allows applications to present assets consistently.
 
 ---
 
-# 11. Redundancy
+## 11. Redundancy
 
 Applications SHOULD consult multiple providers.
 
@@ -288,7 +288,7 @@ No single provider should become a mandatory dependency.
 
 ---
 
-# 12. Oracle Expiration
+## 12. Oracle Expiration
 
 Oracle records expire.
 
@@ -298,7 +298,7 @@ Applications SHOULD indicate stale information to users.
 
 ---
 
-# 13. Synchronization
+## 13. Synchronization
 
 Oracle updates generate protocol events.
 
@@ -308,7 +308,7 @@ Applications eventually converge on identical oracle datasets.
 
 ---
 
-# 14. Failure Handling
+## 14. Failure Handling
 
 If a provider becomes unavailable:
 
@@ -320,7 +320,7 @@ Marketplace operation continues even without oracle availability.
 
 ---
 
-# 15. Security Considerations
+## 15. Security Considerations
 
 Implementations MUST reject:
 
@@ -333,7 +333,7 @@ Implementations MUST reject:
 
 ---
 
-# 16. Performance Considerations
+## 16. Performance Considerations
 
 Oracle updates are relatively infrequent.
 
@@ -346,7 +346,7 @@ Implementations SHOULD optimize:
 
 ---
 
-# 17. Conformance
+## 17. Conformance
 
 A compliant implementation MUST:
 
@@ -359,7 +359,7 @@ A compliant implementation MUST:
 
 ---
 
-# 18. Relationship to Other Specifications
+## 18. Relationship to Other Specifications
 
 ```text
 External Data Sources
@@ -389,7 +389,7 @@ Wallet UI Trading Analytics
 
 ---
 
-# 19. Summary
+## 19. Summary
 
 The OpenFiat Oracle Protocol provides a standardized, decentralized mechanism for introducing external information into the OpenFiat ecosystem.
 

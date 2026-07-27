@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Error Code Registry (OECR) defines the canonical set of protocol error codes used throughout the OpenFiat ecosystem.
 
@@ -37,7 +37,7 @@ This specification guarantees consistent behavior across:
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 OpenFiat consists of many independent implementations.
 
@@ -52,7 +52,7 @@ This specification defines one canonical error registry for the entire protocol.
 
 ---
 
-# 2. Design Goals
+## 2. Design Goals
 
 The error system SHALL be:
 
@@ -66,7 +66,7 @@ The error system SHALL be:
 
 ---
 
-# 3. Error Object
+## 3. Error Object
 
 Every protocol API SHALL expose the following logical structure.
 
@@ -84,7 +84,7 @@ Every protocol API SHALL expose the following logical structure.
 
 ---
 
-# 4. Error Fields
+## 4. Error Fields
 
 | Field     | Description                               |
 | --------- | ----------------------------------------- |
@@ -98,7 +98,7 @@ Implementations MAY add additional fields but SHALL NOT alter the meaning of the
 
 ---
 
-# 5. Error Code Ranges
+## 5. Error Code Ranges
 
 | Range     | Category                   |
 | --------- | -------------------------- |
@@ -117,7 +117,7 @@ Future specifications SHALL allocate codes only within their assigned range.
 
 ---
 
-# 6. General Errors (0000)
+## 6. General Errors (0000)
 
 | Code | Name                    |
 | ---- | ----------------------- |
@@ -134,7 +134,7 @@ Future specifications SHALL allocate codes only within their assigned range.
 
 ---
 
-# 7. Network Errors (1000)
+## 7. Network Errors (1000)
 
 | Code | Name                         |
 | ---- | ---------------------------- |
@@ -151,7 +151,7 @@ Future specifications SHALL allocate codes only within their assigned range.
 
 ---
 
-# 8. Identity Errors (2000)
+## 8. Identity Errors (2000)
 
 | Code | Name                      |
 | ---- | ------------------------- |
@@ -164,7 +164,7 @@ Future specifications SHALL allocate codes only within their assigned range.
 
 ---
 
-# 9. Advertisement Errors (3000)
+## 9. Advertisement Errors (3000)
 
 | Code | Name                       |
 | ---- | -------------------------- |
@@ -177,7 +177,7 @@ Future specifications SHALL allocate codes only within their assigned range.
 
 ---
 
-# 10. Reservation Errors (4000)
+## 10. Reservation Errors (4000)
 
 | Code | Name                             |
 | ---- | -------------------------------- |
@@ -191,7 +191,7 @@ Future specifications SHALL allocate codes only within their assigned range.
 
 ---
 
-# 11. Settlement Errors (5000)
+## 11. Settlement Errors (5000)
 
 | Code | Name                            |
 | ---- | ------------------------------- |
@@ -206,7 +206,7 @@ Future specifications SHALL allocate codes only within their assigned range.
 
 ---
 
-# 12. Dispute Errors (6000)
+## 12. Dispute Errors (6000)
 
 | Code | Name                 |
 | ---- | -------------------- |
@@ -218,7 +218,7 @@ Future specifications SHALL allocate codes only within their assigned range.
 
 ---
 
-# 13. Governance Errors (7000)
+## 13. Governance Errors (7000)
 
 | Code | Name                      |
 | ---- | ------------------------- |
@@ -230,7 +230,7 @@ Future specifications SHALL allocate codes only within their assigned range.
 
 ---
 
-# 14. Notification Errors (8000)
+## 14. Notification Errors (8000)
 
 | Code | Name                              |
 | ---- | --------------------------------- |
@@ -242,7 +242,7 @@ Future specifications SHALL allocate codes only within their assigned range.
 
 ---
 
-# 15. Internal Errors (9000)
+## 15. Internal Errors (9000)
 
 These errors SHALL NOT expose sensitive implementation details.
 
@@ -257,7 +257,7 @@ These errors SHALL NOT expose sensitive implementation details.
 
 ---
 
-# 16. Retry Semantics
+## 16. Retry Semantics
 
 Errors fall into two categories:
 
@@ -285,7 +285,7 @@ Clients SHOULD NOT retry without changing the request.
 
 ---
 
-# 17. Transport Mapping
+## 17. Transport Mapping
 
 Implementations SHALL preserve the protocol error code regardless of transport.
 
@@ -298,7 +298,7 @@ Examples:
 
 ---
 
-# 18. Extensibility
+## 18. Extensibility
 
 Future protocol specifications MAY reserve additional codes within their allocated ranges.
 
@@ -308,7 +308,7 @@ Deprecated codes SHOULD remain reserved permanently to preserve compatibility.
 
 ---
 
-# 19. Conformance
+## 19. Conformance
 
 A compliant implementation MUST:
 
@@ -320,7 +320,7 @@ A compliant implementation MUST:
 
 ---
 
-# 20. Summary
+## 20. Summary
 
 The OpenFiat Error Code Registry provides a single, protocol-wide error vocabulary for every implementation.
 

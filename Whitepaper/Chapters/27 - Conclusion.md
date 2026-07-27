@@ -42,7 +42,7 @@ Instead of acting as a centralized exchange, it provides the protocol that enabl
 
 ---
 
-# 27.2 Building on Proven Foundations
+## 27.2 Building on Proven Foundations
 
 OpenFiat does not attempt to reinvent technologies that already work well.
 
@@ -61,7 +61,7 @@ Creating a decentralized marketplace for exchanging fiat currencies and stableco
 
 ---
 
-# 27.3 A Marketplace, Not an Exchange
+## 27.3 A Marketplace, Not an Exchange
 
 One of the most important design principles of OpenFiat is that it is **not** a centralized exchange.
 
@@ -91,7 +91,7 @@ The protocol simply provides the rules that make these interactions safe.
 
 ---
 
-# 27.4 Decentralization by Design
+## 27.4 Decentralization by Design
 
 Every major architectural decision has been guided by a single question:
 
@@ -117,7 +117,7 @@ The community builds the future.
 
 ---
 
-# 27.5 Security Through Incentives
+## 27.5 Security Through Incentives
 
 Technology alone cannot secure a decentralized marketplace.
 
@@ -139,7 +139,7 @@ Every participant benefits when the marketplace succeeds.
 
 ---
 
-# 27.6 The Importance of Open Standards
+## 27.6 The Importance of Open Standards
 
 History repeatedly demonstrates that open standards outlast proprietary platforms.
 
@@ -159,7 +159,7 @@ This ensures that OpenFiat can continue evolving regardless of which organizatio
 
 ---
 
-# 27.7 The Role of AllenHark
+## 27.7 The Role of AllenHark
 
 AllenHark is the creator of the initial OpenFiat implementation.
 
@@ -182,7 +182,7 @@ The ultimate goal is a protocol that continues operating successfully regardless
 
 ---
 
-# 27.8 A Global Marketplace
+## 27.8 A Global Marketplace
 
 OpenFiat is designed for every region of the world.
 
@@ -203,7 +203,7 @@ Open participation enables local innovation while preserving global interoperabi
 
 ---
 
-# 27.9 More Than Software
+## 27.9 More Than Software
 
 OpenFiat is not merely a collection of smart contracts or applications.
 
@@ -225,7 +225,7 @@ The protocol becomes more valuable as its ecosystem expands.
 
 ---
 
-# 27.10 Looking Forward
+## 27.10 Looking Forward
 
 The future of OpenFiat will not be determined by technology alone.
 
@@ -251,7 +251,7 @@ Every participant helps build a more open financial ecosystem.
 
 ---
 
-# 27.11 The Vision
+## 27.11 The Vision
 
 The Internet transformed how humanity communicates.
 
@@ -281,7 +281,7 @@ Success will be measured by the number of independent participants who no longer
 
 ---
 
-# 27.12 Final Words
+## 27.12 Final Words
 
 OpenFiat began with a simple question:
 
@@ -303,7 +303,7 @@ Together, we can build a marketplace that belongs to everyone.
 
 ---
 
-## End of Whitepaper
+### End of Whitepaper
 
 This concludes the OpenFiat Whitepaper.
 

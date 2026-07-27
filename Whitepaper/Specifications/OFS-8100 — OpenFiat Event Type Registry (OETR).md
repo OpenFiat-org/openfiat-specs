@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Event Type Registry (OETR) defines the canonical set of protocol events exchanged, persisted, indexed, and consumed throughout the OpenFiat ecosystem.
 
@@ -37,7 +37,7 @@ These events provide the foundation for:
 
 ---
 
-# 1. Event Model
+## 1. Event Model
 
 Every event SHALL contain a common envelope.
 
@@ -58,7 +58,7 @@ Every implementation SHALL preserve the event type exactly as defined in this re
 
 ---
 
-# 2. Event Naming Rules
+## 2. Event Naming Rules
 
 Events SHALL use PascalCase.
 
@@ -86,7 +86,7 @@ RiskAssessmentCompleted
 
 ---
 
-# 3. Event Categories
+## 3. Event Categories
 
 The registry defines the following namespaces.
 
@@ -111,7 +111,7 @@ The registry defines the following namespaces.
 
 ---
 
-# 4. Network Events (NET)
+## 4. Network Events (NET)
 
 PeerDiscovered
 
@@ -179,7 +179,7 @@ CheckpointRejected
 
 ---
 
-# 5. Storage Events (STO)
+## 5. Storage Events (STO)
 
 StorageInitialized
 
@@ -215,7 +215,7 @@ DatabaseIntegrityVerified
 
 ---
 
-# 6. Identity Events (ID)
+## 6. Identity Events (ID)
 
 IdentityCreated
 
@@ -241,7 +241,7 @@ IdentitySplit
 
 ---
 
-# 7. Marketplace Events (MKT)
+## 7. Marketplace Events (MKT)
 
 MarketplaceInitialized
 
@@ -261,7 +261,7 @@ MarketplaceHealthUpdated
 
 ---
 
-# 8. Advertisement Events (ADV)
+## 8. Advertisement Events (ADV)
 
 AdvertisementCreated
 
@@ -299,7 +299,7 @@ AdvertisementValidationFailed
 
 ---
 
-# 9. Reservation Events (RSV)
+## 9. Reservation Events (RSV)
 
 ReservationRequested
 
@@ -327,7 +327,7 @@ ReservationFailed
 
 ---
 
-# 10. Settlement Events (SET)
+## 10. Settlement Events (SET)
 
 SettlementInitiated
 
@@ -359,7 +359,7 @@ SettlementReversed
 
 ---
 
-# 11. Liquidity Vault Events (VLT)
+## 11. Liquidity Vault Events (VLT)
 
 VaultCreated
 
@@ -389,7 +389,7 @@ VaultClosed
 
 ---
 
-# 12. Reputation Events (REP)
+## 12. Reputation Events (REP)
 
 ReputationCreated
 
@@ -411,7 +411,7 @@ TrustScoreCalculated
 
 ---
 
-# 13. Governance Events (GOV)
+## 13. Governance Events (GOV)
 
 ProposalCreated
 
@@ -445,7 +445,7 @@ TreasuryPaymentExecuted
 
 ---
 
-# 14. Oracle Events (ORA)
+## 14. Oracle Events (ORA)
 
 OracleProviderRegistered
 
@@ -469,7 +469,7 @@ StablecoinStatusChanged
 
 ---
 
-# 15. Risk Events (RSK)
+## 15. Risk Events (RSK)
 
 RiskProviderRegistered
 
@@ -495,7 +495,7 @@ RiskScoreUpdated
 
 ---
 
-# 16. Notification Events (NOT)
+## 16. Notification Events (NOT)
 
 NotificationQueued
 
@@ -519,7 +519,7 @@ SubscriptionRemoved
 
 ---
 
-# 17. Wallet Events (WAL)
+## 17. Wallet Events (WAL)
 
 WalletConnected
 
@@ -541,7 +541,7 @@ WalletRestored
 
 ---
 
-# 18. SDK Events (SDK)
+## 18. SDK Events (SDK)
 
 SDKConnected
 
@@ -561,7 +561,7 @@ RPCDisconnected
 
 ---
 
-# 19. System Events (SYS)
+## 19. System Events (SYS)
 
 ConfigurationLoaded
 
@@ -587,7 +587,7 @@ NodeHealthChanged
 
 ---
 
-# 20. Event Versioning
+## 20. Event Versioning
 
 Every event SHALL include a schema version.
 
@@ -597,7 +597,7 @@ Breaking changes SHALL require a new event version.
 
 ---
 
-# 21. Event Ordering
+## 21. Event Ordering
 
 Events SHALL be processed in deterministic sequence order.
 
@@ -607,7 +607,7 @@ Replay protection SHALL follow OFS-1800.
 
 ---
 
-# 22. Extensibility
+## 22. Extensibility
 
 Future specifications MAY register additional event types.
 
@@ -617,7 +617,7 @@ Deprecated event types SHALL remain reserved permanently.
 
 ---
 
-# 23. Conformance
+## 23. Conformance
 
 A compliant implementation MUST:
 
@@ -630,7 +630,7 @@ A compliant implementation MUST:
 
 ---
 
-# 24. Summary
+## 24. Summary
 
 The OpenFiat Event Type Registry defines the canonical event vocabulary for the OpenFiat ecosystem.
 

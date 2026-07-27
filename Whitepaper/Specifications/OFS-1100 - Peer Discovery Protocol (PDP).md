@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Peer Discovery Protocol (PDP) defines how OpenFiat nodes locate, authenticate, evaluate, and maintain connections with peers.
 
@@ -28,7 +28,7 @@ Those responsibilities are delegated to other OFS specifications.
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 A decentralized network cannot depend upon static server lists.
 
@@ -45,7 +45,7 @@ The protocol is designed around four principles:
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -69,7 +69,7 @@ It does not define:
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 Peer Discovery SHALL:
 
@@ -82,7 +82,7 @@ Peer Discovery SHALL:
 
 ---
 
-# 4. Peer Identity
+## 4. Peer Identity
 
 Every peer is uniquely identified by:
 
@@ -95,7 +95,7 @@ Peer IDs MUST remain stable across restarts unless intentionally regenerated.
 
 ---
 
-# 5. Bootstrap Nodes
+## 5. Bootstrap Nodes
 
 New nodes require an initial point of contact.
 
@@ -128,7 +128,7 @@ Once discovery completes, bootstrap nodes become optional.
 
 ---
 
-# 6. Bootstrap Process
+## 6. Bootstrap Process
 
 Initial network entry proceeds as follows.
 
@@ -168,7 +168,7 @@ Whenever a local cache already exists, bootstrap nodes SHOULD only be contacted 
 
 ---
 
-# 7. Local Peer Cache
+## 7. Local Peer Cache
 
 Every node maintains a persistent peer database.
 
@@ -188,7 +188,7 @@ The reference implementation stores this information inside RocksDB.
 
 ---
 
-# 8. Peer Advertisement
+## 8. Peer Advertisement
 
 Every node periodically advertises itself.
 
@@ -207,7 +207,7 @@ Unsigned advertisements MUST be rejected.
 
 ---
 
-# 9. Peer Exchange
+## 9. Peer Exchange
 
 Connected peers exchange known peer information.
 
@@ -235,7 +235,7 @@ Peer exchange enables rapid network expansion without overloading bootstrap infr
 
 ---
 
-# 10. Peer Verification
+## 10. Peer Verification
 
 Discovered peers MUST be verified before becoming trusted neighbors.
 
@@ -251,7 +251,7 @@ Peers failing verification SHALL be discarded.
 
 ---
 
-# 11. Peer Selection
+## 11. Peer Selection
 
 Nodes SHOULD avoid connecting only to nearby peers.
 
@@ -270,7 +270,7 @@ A geographically diverse peer set increases network resilience.
 
 ---
 
-# 12. Connection Limits
+## 12. Connection Limits
 
 Implementations SHOULD define:
 
@@ -300,7 +300,7 @@ Exact values are implementation configurable.
 
 ---
 
-# 13. Connection Replacement
+## 13. Connection Replacement
 
 Nodes periodically evaluate peer quality.
 
@@ -318,7 +318,7 @@ Connection replacement SHOULD occur gradually.
 
 ---
 
-# 14. Peer Liveness
+## 14. Peer Liveness
 
 Healthy peers periodically exchange:
 
@@ -354,7 +354,7 @@ Peer Removed
 
 ---
 
-# 15. Reconnection Strategy
+## 15. Reconnection Strategy
 
 Unexpected disconnects SHOULD trigger exponential backoff.
 
@@ -380,7 +380,7 @@ Randomized jitter SHOULD be added to reduce synchronized reconnect storms.
 
 ---
 
-# 16. Network Diversity
+## 16. Network Diversity
 
 Nodes SHOULD avoid concentrating connections within:
 
@@ -393,7 +393,7 @@ Diverse connectivity reduces correlated failures.
 
 ---
 
-# 17. Bootstrap Independence
+## 17. Bootstrap Independence
 
 After joining the network, normal operation SHALL rely exclusively on peer-to-peer discovery.
 
@@ -403,7 +403,7 @@ This property is fundamental to OpenFiat's decentralization goals.
 
 ---
 
-# 18. Peer Metadata
+## 18. Peer Metadata
 
 Nodes MAY maintain additional metadata.
 
@@ -420,7 +420,7 @@ Metadata assists future peer selection.
 
 ---
 
-# 19. Service Awareness
+## 19. Service Awareness
 
 Peer discovery includes service discovery.
 
@@ -448,7 +448,7 @@ Applications may later choose peers based upon required services.
 
 ---
 
-# 20. Peer Reputation Integration
+## 20. Peer Reputation Integration
 
 Peer Discovery itself does not calculate reputation.
 
@@ -462,7 +462,7 @@ No reputation provider can force connection decisions.
 
 ---
 
-# 21. Handling Malicious Peers
+## 21. Handling Malicious Peers
 
 Nodes SHOULD reject peers exhibiting:
 
@@ -478,7 +478,7 @@ Permanent bans SHOULD require repeated malicious behavior.
 
 ---
 
-# 22. Network Partition Recovery
+## 22. Network Partition Recovery
 
 Temporary Internet failures may partition the network.
 
@@ -508,7 +508,7 @@ No manual coordination is required.
 
 ---
 
-# 23. Peer Expiration
+## 23. Peer Expiration
 
 Peers not observed for extended periods SHOULD expire from the local cache.
 
@@ -518,7 +518,7 @@ Expired peers MAY be rediscovered through normal peer exchange.
 
 ---
 
-# 24. Privacy Considerations
+## 24. Privacy Considerations
 
 Peer Discovery intentionally exposes only information required for network operation.
 
@@ -528,7 +528,7 @@ Private operator information SHOULD NEVER be advertised through Peer Discovery.
 
 ---
 
-# 25. Security Considerations
+## 25. Security Considerations
 
 Implementations MUST defend against:
 
@@ -550,7 +550,7 @@ Mitigations include:
 
 ---
 
-# 26. Conformance
+## 26. Conformance
 
 A compliant implementation MUST:
 
@@ -567,7 +567,7 @@ A compliant implementation MUST:
 
 ---
 
-# 27. Relationship to Other Specifications
+## 27. Relationship to Other Specifications
 
 Peer Discovery establishes the network topology upon which every other OpenFiat protocol operates.
 

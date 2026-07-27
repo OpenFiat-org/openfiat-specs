@@ -30,7 +30,7 @@ This separation allows governance to modify one component without unintentionall
 
 ---
 
-# 16.2 Design Objectives
+## 16.2 Design Objectives
 
 The revenue model follows several fundamental principles.
 
@@ -56,7 +56,7 @@ Participants who strengthen the protocol should receive an appropriate share of 
 
 ---
 
-# 16.3 The Three Economic Loops
+## 16.3 The Three Economic Loops
 
 The OpenFiat economy consists of three distinct financial systems.
 
@@ -78,7 +78,7 @@ Although interconnected, each loop serves a different purpose.
 
 ---
 
-# 16.4 The Security Loop
+## 16.4 The Security Loop
 
 The Security Loop protects the protocol through economic commitment.
 
@@ -105,7 +105,7 @@ It remains owned by the participant unless protocol-defined penalties apply.
 
 ---
 
-# 16.5 The Utility Loop
+## 16.5 The Utility Loop
 
 The Utility Loop creates continuous demand for OPEN.
 
@@ -125,7 +125,7 @@ This aligns token demand with genuine ecosystem usage.
 
 ---
 
-# 16.6 The Treasury Loop
+## 16.6 The Treasury Loop
 
 The Treasury Loop converts protocol revenue into long-term ecosystem investment.
 
@@ -146,7 +146,7 @@ The Treasury Loop ensures that OpenFiat continues improving long after launch.
 
 ---
 
-# 16.7 Revenue Sources
+## 16.7 Revenue Sources
 
 Protocol revenue originates from multiple independent sources.
 
@@ -191,7 +191,7 @@ Such services create additional protocol revenue without affecting the openness 
 
 ---
 
-# 16.8 Revenue Collection
+## 16.8 Revenue Collection
 
 Protocol fees are collected automatically during the associated protocol operation.
 
@@ -229,7 +229,7 @@ Every fee is processed by the protocol itself.
 
 ---
 
-# 16.9 Automatic Distribution
+## 16.9 Automatic Distribution
 
 Once protocol revenue has been collected, the OpenFiat programs distribute funds according to governance-defined allocation percentages.
 
@@ -261,7 +261,7 @@ Every compliant implementation observing the same transaction reaches the same d
 
 ---
 
-# 16.10 Service Provider Compensation
+## 16.10 Service Provider Compensation
 
 Certain protocol services incur direct operational costs.
 
@@ -282,7 +282,7 @@ AllenHark-operated services compete under the same protocol rules as every other
 
 ---
 
-# 16.11 Node Rewards
+## 16.11 Node Rewards
 
 Node operators perform several critical functions.
 
@@ -308,7 +308,7 @@ Governance defines the precise reward formulas within the Tokenomics Specificati
 
 ---
 
-# 16.12 Treasury Architecture
+## 16.12 Treasury Architecture
 
 Rather than maintaining one treasury, OpenFiat separates financial responsibilities.
 
@@ -334,7 +334,7 @@ Separating treasury responsibilities improves transparency and governance accoun
 
 ---
 
-# 16.13 Governance Control
+## 16.13 Governance Control
 
 Treasury resources belong to the protocol rather than AllenHark.
 
@@ -350,7 +350,7 @@ No treasury expenditure occurs privately.
 
 ---
 
-# 16.14 Revenue Transparency
+## 16.14 Revenue Transparency
 
 Every protocol participant should be able to verify:
 
@@ -367,7 +367,7 @@ Participants do not need to trust accounting reports because they can independen
 
 ---
 
-# 16.15 Long-Term Sustainability
+## 16.15 Long-Term Sustainability
 
 OpenFiat is designed to transition through three economic phases.
 
@@ -397,7 +397,7 @@ This progression allows OpenFiat to evolve from a founder-funded project into se
 
 ---
 
-# 16.16 Economic Stability
+## 16.16 Economic Stability
 
 Because OpenFiat operates on Solana, it does not require perpetual token inflation to maintain consensus security.
 
@@ -415,7 +415,7 @@ The protocol's financial health therefore becomes increasingly tied to marketpla
 
 ---
 
-# 16.17 The Revenue Router
+## 16.17 The Revenue Router
 
 Every protocol fee passes through a deterministic **Revenue Router**.
 
@@ -435,7 +435,7 @@ Because the Revenue Router follows deterministic rules, every compliant implemen
 
 ---
 
-# 16.18 Why Three Loops Matter
+## 16.18 Why Three Loops Matter
 
 Separating Security, Utility, and Treasury creates a modular economic architecture.
 
@@ -451,7 +451,7 @@ This separation also simplifies governance, allowing operational parameters to e
 
 ---
 
-# 16.19 Looking Ahead
+## 16.19 Looking Ahead
 
 A sustainable economy depends not only on sound financial incentives but also on a resilient decentralized network capable of distributing marketplace information around the world.
 

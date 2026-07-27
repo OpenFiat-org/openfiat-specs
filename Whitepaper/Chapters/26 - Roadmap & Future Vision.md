@@ -22,7 +22,7 @@ This roadmap outlines the major areas of planned development while recognizing t
 
 ---
 
-# 26.2 Roadmap Philosophy
+## 26.2 Roadmap Philosophy
 
 The OpenFiat roadmap follows several guiding principles.
 
@@ -48,7 +48,7 @@ Whenever practical, new capabilities should preserve compatibility with existing
 
 ---
 
-# 26.3 Phase One — Foundation
+## 26.3 Phase One — Foundation
 
 The first phase establishes a fully functional decentralized marketplace.
 
@@ -78,7 +78,7 @@ The objective of Phase One is to prove that a decentralized peer-to-peer stablec
 
 ---
 
-# 26.4 Phase Two — Ecosystem Growth
+## 26.4 Phase Two — Ecosystem Growth
 
 Following the initial launch, development will focus on ecosystem expansion.
 
@@ -99,7 +99,7 @@ The objective is to reduce dependence on AllenHark while increasing geographic d
 
 ---
 
-# 26.5 Phase Three — Advanced Marketplace Features
+## 26.5 Phase Three — Advanced Marketplace Features
 
 As adoption grows, the marketplace itself will continue to evolve.
 
@@ -120,7 +120,7 @@ All new capabilities will remain optional and backwards compatible wherever poss
 
 ---
 
-# 26.6 Wallet Delegation
+## 26.6 Wallet Delegation
 
 One of the most anticipated future capabilities is **Wallet Delegation**.
 
@@ -142,7 +142,7 @@ No delegated authority will ever permit unrestricted access to participant asset
 
 ---
 
-# 26.7 Merchant APIs
+## 26.7 Merchant APIs
 
 Future releases will expand merchant integration capabilities.
 
@@ -161,7 +161,7 @@ These APIs will allow businesses to integrate OpenFiat directly into their exist
 
 ---
 
-# 26.8 Enterprise Infrastructure
+## 26.8 Enterprise Infrastructure
 
 Larger organizations may require specialized infrastructure.
 
@@ -180,7 +180,7 @@ These capabilities will build upon the existing protocol rather than replacing i
 
 ---
 
-# 26.9 Artificial Intelligence
+## 26.9 Artificial Intelligence
 
 Artificial Intelligence may improve marketplace safety and efficiency.
 
@@ -200,7 +200,7 @@ Final protocol decisions will always remain transparent and verifiable.
 
 ---
 
-# 26.10 Advanced Risk Intelligence
+## 26.10 Advanced Risk Intelligence
 
 Future versions may expand the Risk Intelligence ecosystem.
 
@@ -218,7 +218,7 @@ Risk Intelligence Providers will remain independent infrastructure participants 
 
 ---
 
-# 26.11 Additional Stablecoins
+## 26.11 Additional Stablecoins
 
 OpenFiat is designed to support multiple stablecoins.
 
@@ -235,7 +235,7 @@ Support for additional assets will follow governance approval and technical revi
 
 ---
 
-# 26.12 Cross-Chain Expansion
+## 26.12 Cross-Chain Expansion
 
 Although OpenFiat is initially built on Solana, the protocol architecture does not permanently restrict future expansion.
 
@@ -252,7 +252,7 @@ Any expansion beyond Solana will prioritize security, simplicity, and user exper
 
 ---
 
-# 26.13 Decentralized Identity
+## 26.13 Decentralized Identity
 
 While OpenFiat intentionally minimizes identity requirements, optional decentralized identity standards may become valuable.
 
@@ -269,7 +269,7 @@ Identity should always remain optional unless required by jurisdiction-specific 
 
 ---
 
-# 26.14 Zero-Knowledge Technologies
+## 26.14 Zero-Knowledge Technologies
 
 Privacy technologies continue to evolve rapidly.
 
@@ -285,7 +285,7 @@ These technologies could improve user privacy while preserving marketplace trust
 
 ---
 
-# 26.15 Governance Evolution
+## 26.15 Governance Evolution
 
 Governance itself will evolve over time.
 
@@ -302,7 +302,7 @@ Every governance improvement will itself require governance approval.
 
 ---
 
-# 26.16 Protocol Performance
+## 26.16 Protocol Performance
 
 Performance improvements will continue throughout the life of the project.
 
@@ -320,7 +320,7 @@ Performance improvements should never compromise protocol correctness.
 
 ---
 
-# 26.17 Research Initiatives
+## 26.17 Research Initiatives
 
 OpenFiat encourages independent research.
 
@@ -339,7 +339,7 @@ Academic collaboration is encouraged.
 
 ---
 
-# 26.18 Community Growth
+## 26.18 Community Growth
 
 Technology alone cannot build a successful protocol.
 
@@ -361,7 +361,7 @@ A strong community increases decentralization and accelerates innovation.
 
 ---
 
-# 26.19 Success Metrics
+## 26.19 Success Metrics
 
 The success of OpenFiat should not be measured solely by token price.
 
@@ -382,7 +382,7 @@ These indicators better reflect the health of a decentralized ecosystem.
 
 ---
 
-# 26.20 The Long-Term Vision
+## 26.20 The Long-Term Vision
 
 The long-term objective is ambitious.
 
@@ -402,7 +402,7 @@ In this future, OpenFiat becomes public financial infrastructure rather than a c
 
 ---
 
-# 26.21 AllenHark's Vision
+## 26.21 AllenHark's Vision
 
 AllenHark's role is to build the initial foundation.
 
@@ -414,7 +414,7 @@ AllenHark intends to remain a contributor, infrastructure provider, and particip
 
 ---
 
-# 26.22 Why the Roadmap Matters
+## 26.22 Why the Roadmap Matters
 
 Every decentralized protocol must balance immediate execution with long-term vision.
 
@@ -426,7 +426,7 @@ The future of OpenFiat will be shaped not only by its creators, but by every dev
 
 ---
 
-# 26.23 Looking Ahead
+## 26.23 Looking Ahead
 
 The OpenFiat Whitepaper has described the protocol, architecture, governance, security, economics, infrastructure, and long-term vision.
 

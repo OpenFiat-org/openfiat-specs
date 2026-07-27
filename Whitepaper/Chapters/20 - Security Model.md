@@ -20,7 +20,7 @@ Rather than attempting to eliminate malicious behavior entirely, OpenFiat is des
 
 ---
 
-# 20.2 Security Principles
+## 20.2 Security Principles
 
 Every security decision within OpenFiat follows several core principles.
 
@@ -54,7 +54,7 @@ Participants always retain control of their own assets and private keys.
 
 ---
 
-# 20.3 Security Layers
+## 20.3 Security Layers
 
 OpenFiat security is built from several independent layers.
 
@@ -89,7 +89,7 @@ Each layer independently contributes to participant safety.
 
 ---
 
-# 20.4 Wallet Security
+## 20.4 Wallet Security
 
 Users always maintain custody of their wallets.
 
@@ -119,7 +119,7 @@ Wallet ownership remains entirely under user control.
 
 ---
 
-# 20.5 Smart Contract Security
+## 20.5 Smart Contract Security
 
 All financial custody is performed exclusively by Solana smart contracts.
 
@@ -137,7 +137,7 @@ Every smart contract is deterministic, publicly auditable, and fully open source
 
 ---
 
-# 20.6 Escrow Security
+## 20.6 Escrow Security
 
 Escrow is the foundation of marketplace trust.
 
@@ -154,7 +154,7 @@ This removes the need for trusted custodians.
 
 ---
 
-# 20.7 Identity Security
+## 20.7 Identity Security
 
 OpenFiat intentionally minimizes mandatory identity collection.
 
@@ -173,7 +173,7 @@ This provides accountability while preserving user privacy.
 
 ---
 
-# 20.8 Session Security
+## 20.8 Session Security
 
 Every active trade establishes a cryptographically signed session.
 
@@ -198,7 +198,7 @@ Signed sessions provide:
 
 ---
 
-# 20.9 Marketplace Risk Engine
+## 20.9 Marketplace Risk Engine
 
 The Marketplace Risk Engine continuously evaluates marketplace activity.
 
@@ -219,7 +219,7 @@ Instead, it produces objective risk indicators that applications, merchants, arb
 
 ---
 
-# 20.10 Reputation Security
+## 20.10 Reputation Security
 
 Reputation serves as a long-term economic security mechanism.
 
@@ -244,7 +244,7 @@ Dishonest behavior gradually reduces marketplace visibility and earning opportun
 
 ---
 
-# 20.11 Infrastructure Security
+## 20.11 Infrastructure Security
 
 OpenFiat relies upon multiple classes of infrastructure providers.
 
@@ -262,7 +262,7 @@ Staking creates financial accountability and discourages malicious behavior.
 
 ---
 
-# 20.12 Sybil Resistance
+## 20.12 Sybil Resistance
 
 Sybil attacks attempt to gain influence by creating many identities.
 
@@ -281,7 +281,7 @@ Creating thousands of identities becomes economically expensive while providing 
 
 ---
 
-# 20.13 Spam Resistance
+## 20.13 Spam Resistance
 
 Marketplace spam reduces usability and increases infrastructure costs.
 
@@ -299,7 +299,7 @@ The protocol makes large-scale abuse financially unattractive.
 
 ---
 
-# 20.14 Bribery Resistance
+## 20.14 Bribery Resistance
 
 OpenFiat's dispute process minimizes opportunities for bribery.
 
@@ -318,7 +318,7 @@ These mechanisms substantially increase the cost and complexity of coordinated b
 
 ---
 
-# 20.15 Oracle Security
+## 20.15 Oracle Security
 
 Floating-price advertisements depend upon external exchange rates.
 
@@ -337,7 +337,7 @@ Future governance may approve oracle aggregation strategies without modifying th
 
 ---
 
-# 20.16 Risk Intelligence Providers
+## 20.16 Risk Intelligence Providers
 
 Not every blockchain wallet carries the same level of risk.
 
@@ -376,7 +376,7 @@ Instead, providers publish signed intelligence that merchants may choose to trus
 
 ---
 
-# 20.17 Wallet Risk Classifications
+## 20.17 Wallet Risk Classifications
 
 Risk Intelligence Providers may classify wallets using standardized categories.
 
@@ -407,7 +407,7 @@ Every assessment is cryptographically signed before distribution.
 
 ---
 
-# 20.18 Merchant Risk Policies
+## 20.18 Merchant Risk Policies
 
 Every merchant defines their own wallet acceptance policy.
 
@@ -430,7 +430,7 @@ This protects merchants from unintentionally accepting assets that violate their
 
 ---
 
-# 20.19 Multiple Risk Providers
+## 20.19 Multiple Risk Providers
 
 To avoid dependence on any single organization, OpenFiat supports multiple Risk Intelligence Providers simultaneously.
 
@@ -464,7 +464,7 @@ No provider has universal authority.
 
 ---
 
-# 20.20 Network Security
+## 20.20 Network Security
 
 The OpenFiat peer-to-peer network protects marketplace communication using authenticated, encrypted connections.
 
@@ -482,7 +482,7 @@ Compromising a single node does not compromise the network.
 
 ---
 
-# 20.21 Governance Security
+## 20.21 Governance Security
 
 Governance itself serves as a security mechanism.
 
@@ -501,7 +501,7 @@ This prevents centralized control while ensuring transparent protocol evolution.
 
 ---
 
-# 20.22 Open Source Security
+## 20.22 Open Source Security
 
 Every major OpenFiat component is open source.
 
@@ -521,7 +521,7 @@ Security through transparency is preferred over security through obscurity.
 
 ---
 
-# 20.23 Independent Security Audits
+## 20.23 Independent Security Audits
 
 Before each major protocol release, OpenFiat intends to undergo independent security audits.
 
@@ -538,7 +538,7 @@ Whenever possible, audit reports will be published publicly.
 
 ---
 
-# 20.24 Incident Response
+## 20.24 Incident Response
 
 Despite careful engineering, vulnerabilities may still emerge.
 
@@ -550,7 +550,7 @@ Where necessary, governance may authorize emergency protocol actions to protect 
 
 ---
 
-# 20.25 Long-Term Security Philosophy
+## 20.25 Long-Term Security Philosophy
 
 Security is not a feature that is completed once.
 
@@ -564,7 +564,7 @@ The protocol is designed to evolve without compromising its core principles of d
 
 ---
 
-# 20.26 Why This Security Model Matters
+## 20.26 Why This Security Model Matters
 
 OpenFiat deliberately avoids relying upon any single security mechanism.
 
@@ -586,7 +586,7 @@ Together, these layers create a marketplace where trust emerges from transparent
 
 ---
 
-# 20.27 Looking Ahead
+## 20.27 Looking Ahead
 
 Security enables confidence, but confidence alone does not build an ecosystem.
 

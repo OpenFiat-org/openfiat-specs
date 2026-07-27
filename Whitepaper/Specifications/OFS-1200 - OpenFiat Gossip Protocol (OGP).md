@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Gossip Protocol (OGP) defines how information propagates throughout the OpenFiat network.
 
@@ -35,7 +35,7 @@ Individual OFS specifications define their respective message schemas.
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 The OpenFiat network is fundamentally event-driven.
 
@@ -57,7 +57,7 @@ Rather than every node querying every other node continuously, information sprea
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -81,7 +81,7 @@ This specification does **not** define:
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 The Gossip Protocol SHALL:
 
@@ -94,7 +94,7 @@ The Gossip Protocol SHALL:
 
 ---
 
-# 4. Event Model
+## 4. Event Model
 
 Everything propagated by the network is an **Event**.
 
@@ -119,7 +119,7 @@ If state changes, a **new event** is generated.
 
 ---
 
-# 5. Event Identity
+## 5. Event Identity
 
 Every event MUST possess a globally unique Event ID.
 
@@ -135,7 +135,7 @@ Duplicate Event IDs MUST represent identical events.
 
 ---
 
-# 6. Event Envelope
+## 6. Event Envelope
 
 Every gossip event SHALL be transported inside a common envelope.
 
@@ -160,7 +160,7 @@ The payload format is defined by the originating OFS specification.
 
 ---
 
-# 7. Event Origination
+## 7. Event Origination
 
 Any authenticated node MAY originate events for services it legitimately provides.
 
@@ -187,7 +187,7 @@ Node implementations MUST reject unauthorized event types.
 
 ---
 
-# 8. Gossip Lifecycle
+## 8. Gossip Lifecycle
 
 Every event follows the same lifecycle.
 
@@ -227,7 +227,7 @@ No event is forwarded before successful validation.
 
 ---
 
-# 9. Local Validation
+## 9. Local Validation
 
 Before broadcasting an event, the originating node SHALL verify:
 
@@ -241,7 +241,7 @@ Invalid events MUST NOT enter the gossip network.
 
 ---
 
-# 10. Event Storage
+## 10. Event Storage
 
 Every received event SHALL be temporarily stored.
 
@@ -258,7 +258,7 @@ Retention policies are implementation configurable.
 
 ---
 
-# 11. Duplicate Suppression
+## 11. Duplicate Suppression
 
 Duplicate suppression is mandatory.
 
@@ -300,7 +300,7 @@ Duplicate suppression prevents exponential network growth.
 
 ---
 
-# 12. Time-To-Live (TTL)
+## 12. Time-To-Live (TTL)
 
 Every event includes a TTL.
 
@@ -340,7 +340,7 @@ Events reaching zero SHALL NOT be forwarded further.
 
 ---
 
-# 13. Forwarding Strategy
+## 13. Forwarding Strategy
 
 Nodes SHOULD forward events to all eligible peers except:
 
@@ -352,7 +352,7 @@ Implementations MAY batch multiple events into a single transmission.
 
 ---
 
-# 14. Event Priorities
+## 14. Event Priorities
 
 Not all events are equally important.
 
@@ -390,7 +390,7 @@ Higher-priority events SHOULD be transmitted first.
 
 ---
 
-# 15. Event Ordering
+## 15. Event Ordering
 
 The Gossip Protocol does not guarantee global ordering.
 
@@ -404,7 +404,7 @@ Higher-level specifications determine how conflicting events are resolved.
 
 ---
 
-# 16. Eventual Consistency
+## 16. Eventual Consistency
 
 OGP guarantees eventual consistency rather than immediate consistency.
 
@@ -418,7 +418,7 @@ Permanent divergence is not.
 
 ---
 
-# 17. Network Partitions
+## 17. Network Partitions
 
 If the network partitions:
 
@@ -446,7 +446,7 @@ No manual intervention is required.
 
 ---
 
-# 18. Selective Gossip
+## 18. Selective Gossip
 
 Nodes MAY selectively subscribe to event categories.
 
@@ -469,7 +469,7 @@ This reduces unnecessary bandwidth.
 
 ---
 
-# 19. Gossip Channels
+## 19. Gossip Channels
 
 Events are logically separated into channels.
 
@@ -495,7 +495,7 @@ Nodes subscribe only to channels relevant to their services.
 
 ---
 
-# 20. Bandwidth Optimization
+## 20. Bandwidth Optimization
 
 Implementations SHOULD minimize bandwidth by:
 
@@ -509,7 +509,7 @@ Bandwidth efficiency becomes increasingly important as the network grows.
 
 ---
 
-# 21. Reliability
+## 21. Reliability
 
 A forwarded event is considered delivered only after local transmission succeeds.
 
@@ -519,7 +519,7 @@ Persistent delivery failures SHOULD reduce peer quality scores.
 
 ---
 
-# 22. Recovery
+## 22. Recovery
 
 Nodes recovering after downtime SHALL request missing events.
 
@@ -529,7 +529,7 @@ This minimizes unnecessary snapshot downloads.
 
 ---
 
-# 23. Security Considerations
+## 23. Security Considerations
 
 Nodes MUST reject:
 
@@ -544,7 +544,7 @@ Rate limiting SHOULD prevent malicious event flooding.
 
 ---
 
-# 24. Performance Considerations
+## 24. Performance Considerations
 
 The Gossip Protocol is expected to distribute:
 
@@ -563,7 +563,7 @@ Implementations SHOULD prioritize:
 
 ---
 
-# 25. Relationship to SWQoS
+## 25. Relationship to SWQoS
 
 Certain OpenFiat event categories—particularly reservation, escrow, settlement, and dispute events—are latency-sensitive.
 
@@ -587,7 +587,7 @@ The rules governing SWQoS participation, staking requirements, penalties, and no
 
 ---
 
-# 26. Conformance
+## 26. Conformance
 
 A compliant implementation MUST:
 
@@ -604,7 +604,7 @@ A compliant implementation MUST:
 
 ---
 
-# 27. Relationship to Other Specifications
+## 27. Relationship to Other Specifications
 
 The Gossip Protocol is the event distribution layer of OpenFiat.
 

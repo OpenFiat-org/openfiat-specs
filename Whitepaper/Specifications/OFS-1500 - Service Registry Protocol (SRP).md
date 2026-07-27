@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Service Registry Protocol (SRP) defines how infrastructure providers advertise, discover, verify, and update services available across the OpenFiat network.
 
@@ -26,7 +26,7 @@ The registry itself is decentralized and replicated across every OpenFiat node t
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 OpenFiat is more than a marketplace.
 
@@ -51,7 +51,7 @@ The Service Registry provides that mechanism.
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -76,7 +76,7 @@ Those are defined by their respective OFS specifications.
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 The Service Registry SHALL:
 
@@ -89,7 +89,7 @@ The Service Registry SHALL:
 
 ---
 
-# 4. Registry Philosophy
+## 4. Registry Philosophy
 
 The Service Registry is **a directory**, not a marketplace.
 
@@ -107,7 +107,7 @@ Selection remains the responsibility of the client.
 
 ---
 
-# 5. Service Provider Identity
+## 5. Service Provider Identity
 
 Every service provider SHALL possess:
 
@@ -124,7 +124,7 @@ Each service receives its own Service ID.
 
 ---
 
-# 6. Service Types
+## 6. Service Types
 
 Initial service types include:
 
@@ -161,7 +161,7 @@ Future service types MAY be introduced through governance.
 
 ---
 
-# 7. Service Registration
+## 7. Service Registration
 
 To register a service, a provider submits a signed registration event.
 
@@ -182,7 +182,7 @@ Registration events are propagated through the Gossip Protocol.
 
 ---
 
-# 8. Service Identifier
+## 8. Service Identifier
 
 Every registered service SHALL possess a globally unique Service ID.
 
@@ -192,7 +192,7 @@ Changing endpoints or metadata SHALL NOT change the Service ID.
 
 ---
 
-# 9. Service Metadata
+## 9. Service Metadata
 
 Every service advertises metadata describing its capabilities.
 
@@ -227,7 +227,7 @@ Metadata enables intelligent client selection.
 
 ---
 
-# 10. Geographic Coverage
+## 10. Geographic Coverage
 
 Providers MAY advertise regions served.
 
@@ -253,7 +253,7 @@ Regional information assists clients in selecting nearby or jurisdiction-specifi
 
 ---
 
-# 11. Service Health
+## 11. Service Health
 
 Providers periodically publish health updates.
 
@@ -268,7 +268,7 @@ Health advertisements allow applications to avoid unavailable infrastructure.
 
 ---
 
-# 12. Service Discovery
+## 12. Service Discovery
 
 Clients discover services by querying their local registry.
 
@@ -284,7 +284,7 @@ No centralized lookup server is required.
 
 ---
 
-# 13. Multiple Providers
+## 13. Multiple Providers
 
 Clients SHOULD support multiple providers for every service category.
 
@@ -308,7 +308,7 @@ Multiple providers improve resilience and competition.
 
 ---
 
-# 14. Provider Selection
+## 14. Provider Selection
 
 Selection policies are implementation specific.
 
@@ -326,7 +326,7 @@ The protocol intentionally does not mandate provider selection algorithms.
 
 ---
 
-# 15. Provider Pricing
+## 15. Provider Pricing
 
 Some infrastructure providers charge fees.
 
@@ -342,7 +342,7 @@ Actual payment mechanisms are defined by the individual service specifications.
 
 ---
 
-# 16. Service Updates
+## 16. Service Updates
 
 Providers MAY update:
 
@@ -359,7 +359,7 @@ Every update MUST be digitally signed.
 
 ---
 
-# 17. Service Withdrawal
+## 17. Service Withdrawal
 
 Providers may voluntarily remove services.
 
@@ -389,7 +389,7 @@ Withdrawn services SHALL no longer be returned during discovery.
 
 ---
 
-# 18. Automatic Expiration
+## 18. Automatic Expiration
 
 If a provider stops publishing health updates for an extended period, its registration SHALL automatically expire.
 
@@ -399,7 +399,7 @@ This prevents stale entries from accumulating.
 
 ---
 
-# 19. Registry Replication
+## 19. Registry Replication
 
 The registry is fully decentralized.
 
@@ -411,7 +411,7 @@ The registry therefore remains available even if individual providers become unr
 
 ---
 
-# 20. Service Categories and Future Expansion
+## 20. Service Categories and Future Expansion
 
 The Service Registry is intentionally extensible.
 
@@ -430,7 +430,7 @@ Only new Service Types need to be defined.
 
 ---
 
-# 21. Security Considerations
+## 21. Security Considerations
 
 Nodes MUST reject:
 
@@ -445,7 +445,7 @@ Nodes SHOULD rate-limit excessive registration attempts to reduce spam.
 
 ---
 
-# 22. Privacy Considerations
+## 22. Privacy Considerations
 
 Providers SHOULD advertise only operational metadata.
 
@@ -455,7 +455,7 @@ The registry is intended for service discovery, not infrastructure inventory.
 
 ---
 
-# 23. Performance Considerations
+## 23. Performance Considerations
 
 The registry is expected to scale to hundreds of thousands of infrastructure providers.
 
@@ -470,7 +470,7 @@ The reference implementation stores registry entries in RocksDB for efficient lo
 
 ---
 
-# 24. Conformance
+## 24. Conformance
 
 A compliant implementation MUST:
 
@@ -486,7 +486,7 @@ A compliant implementation MUST:
 
 ---
 
-# 25. Relationship to Other Specifications
+## 25. Relationship to Other Specifications
 
 The Service Registry is the discovery layer for infrastructure services across the OpenFiat ecosystem.
 

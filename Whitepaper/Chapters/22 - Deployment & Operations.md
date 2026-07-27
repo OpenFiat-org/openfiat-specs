@@ -16,7 +16,7 @@ This chapter describes how OpenFiat is deployed, operated, monitored, upgraded, 
 
 ---
 
-# 22.2 Operational Philosophy
+## 22.2 Operational Philosophy
 
 OpenFiat follows several operational principles.
 
@@ -42,7 +42,7 @@ Operators should be able to monitor node health using standardized metrics.
 
 ---
 
-# 22.3 Production Architecture
+## 22.3 Production Architecture
 
 A typical production deployment consists of several independent components.
 
@@ -70,7 +70,7 @@ No infrastructure provider has authority over protocol operation.
 
 ---
 
-# 22.4 Bootstrap Infrastructure
+## 22.4 Bootstrap Infrastructure
 
 Every new node requires an initial point of contact.
 
@@ -98,7 +98,7 @@ Once peer discovery completes, nodes communicate directly with one another.
 
 ---
 
-# 22.5 Official Bootstrap Phase
+## 22.5 Official Bootstrap Phase
 
 During the initial network launch, AllenHark will operate core infrastructure including:
 
@@ -114,7 +114,7 @@ As community infrastructure grows, the protocol becomes progressively independen
 
 ---
 
-# 22.6 Node Deployment
+## 22.6 Node Deployment
 
 Deploying an OpenFiat node should require minimal configuration.
 
@@ -152,7 +152,7 @@ The official reference node automatically initializes its local RocksDB database
 
 ---
 
-# 22.7 Containerization
+## 22.7 Containerization
 
 The reference implementation is designed to support containerized deployments.
 
@@ -176,7 +176,7 @@ Operators remain free to deploy nodes directly on bare-metal systems if preferre
 
 ---
 
-# 22.8 Hardware Recommendations
+## 22.8 Hardware Recommendations
 
 Minimum hardware recommendations:
 
@@ -200,7 +200,7 @@ Unlike Solana validators, specialized servers are not required.
 
 ---
 
-# 22.9 Geographic Distribution
+## 22.9 Geographic Distribution
 
 A decentralized marketplace benefits from global infrastructure.
 
@@ -226,7 +226,7 @@ No region should become critical to protocol operation.
 
 ---
 
-# 22.10 Monitoring
+## 22.10 Monitoring
 
 Every node should expose operational metrics.
 
@@ -259,7 +259,7 @@ Monitoring enables operators to detect issues before they affect users.
 
 ---
 
-# 22.11 Logging
+## 22.11 Logging
 
 The reference node produces structured logs.
 
@@ -278,7 +278,7 @@ Logs should support both human troubleshooting and automated analysis.
 
 ---
 
-# 22.12 Health Checks
+## 22.12 Health Checks
 
 Every node exposes standardized health endpoints.
 
@@ -296,7 +296,7 @@ Applications may use health information when selecting preferred nodes.
 
 ---
 
-# 22.13 Automatic Recovery
+## 22.13 Automatic Recovery
 
 Nodes should recover automatically whenever possible.
 
@@ -330,7 +330,7 @@ Manual intervention should rarely be required.
 
 ---
 
-# 22.14 Rolling Upgrades
+## 22.14 Rolling Upgrades
 
 The protocol supports rolling infrastructure upgrades.
 
@@ -370,7 +370,7 @@ This allows the network to evolve continuously.
 
 ---
 
-# 22.15 Version Compatibility
+## 22.15 Version Compatibility
 
 Nodes advertise their supported protocol version during peer discovery.
 
@@ -392,7 +392,7 @@ Deprecation schedules are announced well before incompatible versions are retire
 
 ---
 
-# 22.16 Backup Strategy
+## 22.16 Backup Strategy
 
 Although marketplace state is replicated throughout the network, operators should maintain local backups.
 
@@ -408,7 +408,7 @@ Authoritative financial state remains secured on Solana.
 
 ---
 
-# 22.17 Disaster Recovery
+## 22.17 Disaster Recovery
 
 Infrastructure failures are expected.
 
@@ -442,7 +442,7 @@ No centralized recovery procedure is required.
 
 ---
 
-# 22.18 Network Scaling
+## 22.18 Network Scaling
 
 OpenFiat scales horizontally.
 
@@ -458,7 +458,7 @@ Capacity therefore grows alongside demand.
 
 ---
 
-# 22.19 Operational Security
+## 22.19 Operational Security
 
 Operators should follow standard infrastructure security practices.
 
@@ -479,7 +479,7 @@ Operators remain responsible for securing their own infrastructure.
 
 ---
 
-# 22.20 Service Level Expectations
+## 22.20 Service Level Expectations
 
 While the protocol does not mandate uptime guarantees, infrastructure providers seeking high reputation should target:
 
@@ -493,7 +493,7 @@ These operational characteristics contribute directly to marketplace quality and
 
 ---
 
-# 22.21 AllenHark Operations
+## 22.21 AllenHark Operations
 
 During the bootstrap period, AllenHark intends to operate:
 
@@ -510,7 +510,7 @@ As independent providers expand, AllenHark expects to reduce its relative share 
 
 ---
 
-# 22.22 Operational Transparency
+## 22.22 Operational Transparency
 
 Infrastructure operators are encouraged to publish:
 
@@ -524,7 +524,7 @@ Transparent operations improve participant confidence and encourage healthy comp
 
 ---
 
-# 22.23 Why Operations Matter
+## 22.23 Why Operations Matter
 
 A decentralized protocol succeeds only if it remains reliably available.
 
@@ -540,7 +540,7 @@ Strong operations transform protocol design into dependable real-world infrastru
 
 ---
 
-# 22.24 Looking Ahead
+## 22.24 Looking Ahead
 
 With the operational model established, the final major component of the OpenFiat ecosystem is its economic engine.
 

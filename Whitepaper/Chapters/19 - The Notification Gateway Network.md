@@ -32,7 +32,7 @@ Notifications are therefore an optional infrastructure layer built on top of Ope
 
 ---
 
-# 19.2 Design Objectives
+## 19.2 Design Objectives
 
 The Notification Gateway Network is designed around several principles.
 
@@ -68,7 +68,7 @@ AllenHark competes alongside every other gateway operator under identical protoc
 
 ---
 
-# 19.3 Why Notification Gateways?
+## 19.3 Why Notification Gateways?
 
 Traditional exchanges operate centralized notification infrastructure.
 
@@ -96,7 +96,7 @@ Participants remain free to:
 
 ---
 
-# 19.4 Gateway Abstraction
+## 19.4 Gateway Abstraction
 
 The OpenFiat protocol intentionally separates **notification events** from **notification transport**.
 
@@ -127,7 +127,7 @@ This abstraction ensures that OpenFiat remains compatible with future communicat
 
 ---
 
-# 19.5 Supported Communication Channels
+## 19.5 Supported Communication Channels
 
 The following channels illustrate the flexibility of the gateway network.
 
@@ -179,7 +179,7 @@ The protocol itself remains transport-agnostic.
 
 ---
 
-# 19.6 Gateway Registration
+## 19.6 Gateway Registration
 
 Notification Gateway Operators announce themselves to the OpenFiat network.
 
@@ -200,7 +200,7 @@ Applications may present available gateways to users during wallet setup.
 
 ---
 
-# 19.7 User Registration
+## 19.7 User Registration
 
 Participants choosing notifications register one or more communication endpoints.
 
@@ -228,7 +228,7 @@ This prevents unauthorized registration of communication channels.
 
 ---
 
-# 19.8 Selecting Notification Gateways
+## 19.8 Selecting Notification Gateways
 
 Every wallet may choose one or more gateway operators.
 
@@ -262,7 +262,7 @@ Gateway selection remains entirely under user control.
 
 ---
 
-# 19.9 Standard Notification Gateway Interface
+## 19.9 Standard Notification Gateway Interface
 
 Every Notification Gateway implements the same standardized protocol interface.
 
@@ -307,7 +307,7 @@ This standardization allows gateways to compete while remaining completely inter
 
 ---
 
-# 19.10 Multiple Gateway Configuration
+## 19.10 Multiple Gateway Configuration
 
 Participants may configure multiple gateways for redundancy.
 
@@ -339,7 +339,7 @@ This improves reliability without introducing centralized infrastructure.
 
 ---
 
-# 19.11 Notification Workflow
+## 19.11 Notification Workflow
 
 Notification delivery follows a deterministic process.
 
@@ -373,7 +373,7 @@ They only deliver events already created by the protocol.
 
 ---
 
-# 19.12 Notification Events
+## 19.12 Notification Events
 
 Examples include:
 
@@ -413,7 +413,7 @@ Future protocol upgrades may introduce additional notification events.
 
 ---
 
-# 19.13 Privacy Model
+## 19.13 Privacy Model
 
 Gateway operators receive only the minimum information necessary to perform delivery.
 
@@ -438,7 +438,7 @@ This minimizes privacy exposure while maintaining reliable delivery.
 
 ---
 
-# 19.14 End-to-End Encryption
+## 19.14 End-to-End Encryption
 
 Where technically possible, notification payloads should be encrypted.
 
@@ -453,7 +453,7 @@ Applications should clearly indicate the privacy guarantees offered by each gate
 
 ---
 
-# 19.15 Gateway Reputation
+## 19.15 Gateway Reputation
 
 Every gateway accumulates a public reputation based upon objective protocol metrics.
 
@@ -470,7 +470,7 @@ Gateway reputation influences marketplace visibility and future reward eligibili
 
 ---
 
-# 19.16 Gateway Staking
+## 19.16 Gateway Staking
 
 Notification Gateway Operators stake OPEN before becoming eligible to receive protocol notification traffic.
 
@@ -485,7 +485,7 @@ Repeated protocol violations or persistent service failures may reduce reward el
 
 ---
 
-# 19.17 Gateway Rewards
+## 19.17 Gateway Rewards
 
 Notification delivery is an optional premium service.
 
@@ -511,7 +511,7 @@ This naturally encourages:
 
 ---
 
-# 19.18 Gateway Diversity
+## 19.18 Gateway Diversity
 
 One of the strengths of the Notification Gateway Network is that providers may specialize.
 
@@ -533,7 +533,7 @@ The protocol neither favors nor distinguishes between implementations.
 
 ---
 
-# 19.19 AllenHark's Initial Role
+## 19.19 AllenHark's Initial Role
 
 During the bootstrap phase, AllenHark will operate several public Notification Gateways to ensure reliable service from the first day of network operation.
 
@@ -552,7 +552,7 @@ As the ecosystem matures, AllenHark expects independent gateway operators to ass
 
 ---
 
-# 19.20 Failure Handling
+## 19.20 Failure Handling
 
 Notification failures never affect protocol execution.
 
@@ -574,7 +574,7 @@ Client applications should therefore always synchronize directly with the OpenFi
 
 ---
 
-# 19.21 Open Implementation
+## 19.21 Open Implementation
 
 The Notification Gateway Specification is fully open.
 
@@ -594,7 +594,7 @@ Innovation occurs at the gateway layer without requiring modifications to the Op
 
 ---
 
-# 19.22 Why the Notification Gateway Network Matters
+## 19.22 Why the Notification Gateway Network Matters
 
 The Notification Gateway Network embodies one of OpenFiat's core architectural principles.
 
@@ -608,7 +608,7 @@ This creates a competitive ecosystem where reliability, innovation, privacy, and
 
 ---
 
-# 19.23 Looking Ahead
+## 19.23 Looking Ahead
 
 The OpenFiat marketplace now consists of decentralized trading, escrow, governance, infrastructure, and communication layers.
 

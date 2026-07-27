@@ -12,7 +12,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Protocol Suite (OFS) defines the complete collection of open technical specifications that together form the OpenFiat decentralized fiat marketplace.
 
@@ -22,7 +22,7 @@ This modular approach allows the protocol to evolve incrementally while maintain
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 OpenFiat is an open protocol for decentralized peer-to-peer fiat exchange.
 
@@ -46,11 +46,11 @@ Every compliant implementation follows these specifications.
 
 ---
 
-# 2. Design Principles
+## 2. Design Principles
 
 The OpenFiat ecosystem is built upon several fundamental principles.
 
-## Open Standards
+### Open Standards
 
 All protocol specifications are publicly documented.
 
@@ -58,7 +58,7 @@ Anyone may implement them.
 
 ---
 
-## Permissionless Participation
+### Permissionless Participation
 
 Users do not require approval to:
 
@@ -70,7 +70,7 @@ Users do not require approval to:
 
 ---
 
-## Self Custody
+### Self Custody
 
 Users always control their own wallets.
 
@@ -78,7 +78,7 @@ Neither OpenFiat nor any infrastructure provider has custody of user assets.
 
 ---
 
-## Deterministic Behavior
+### Deterministic Behavior
 
 Identical protocol inputs must produce identical protocol outputs.
 
@@ -86,7 +86,7 @@ This guarantees interoperability between implementations.
 
 ---
 
-## Modular Architecture
+### Modular Architecture
 
 Each subsystem is independently specified.
 
@@ -94,7 +94,7 @@ New protocol versions can improve one layer without affecting unrelated componen
 
 ---
 
-## Progressive Decentralization
+### Progressive Decentralization
 
 OpenFiat initially launches with AllenHark leading development and ecosystem funding.
 
@@ -102,7 +102,7 @@ Governance progressively transitions protocol stewardship to the wider community
 
 ---
 
-# 3. Protocol Layer Architecture
+## 3. Protocol Layer Architecture
 
 The protocol suite is organized into layers.
 
@@ -124,7 +124,7 @@ Each layer depends only on the layers beneath it.
 
 ---
 
-# 4. Protocol Numbering
+## 4. Protocol Numbering
 
 Every specification belongs to a protocol family.
 
@@ -145,15 +145,15 @@ Additional specifications may be introduced through governance.
 
 ---
 
-# 5. Current Specifications
+## 5. Current Specifications
 
-## Core
+### Core
 
 * OFS-0000 — OpenFiat Protocol Suite
 
 ---
 
-## Network Layer
+### Network Layer
 
 * OFS-1000 — OpenFiat Network Protocol (OFNP)
 * OFS-1100 — Peer Discovery
@@ -168,7 +168,7 @@ Additional specifications may be introduced through governance.
 
 ---
 
-## Marketplace Layer
+### Marketplace Layer
 
 * OFS-2000 — OpenFiat Trade Protocol
 * OFS-2100 — Advertisement Protocol
@@ -178,13 +178,13 @@ Additional specifications may be introduced through governance.
 
 ---
 
-## Trust Layer
+### Trust Layer
 
 * OFS-3000 — Reputation Engine
 
 ---
 
-## Governance Layer
+### Governance Layer
 
 * OFS-4000 — Governance Protocol
 * OFS-4100 — Tokenomics Specification
@@ -192,26 +192,26 @@ Additional specifications may be introduced through governance.
 
 ---
 
-## Identity Layer
+### Identity Layer
 
 * OFS-5000 — Identity Claims Protocol
 
 ---
 
-## Infrastructure Layer
+### Infrastructure Layer
 
 * OFS-6000 — Notification Protocol
 
 ---
 
-## External Services
+### External Services
 
 * OFS-7000 — Oracle Protocol
 * OFS-7100 — Risk Intelligence Protocol
 
 ---
 
-# 6. Protocol Dependencies
+## 6. Protocol Dependencies
 
 The specifications intentionally build upon one another.
 
@@ -263,7 +263,7 @@ The specifications intentionally build upon one another.
 
 ---
 
-# 7. Reference Implementations
+## 7. Reference Implementations
 
 The OpenFiat Foundation intends to maintain official reference implementations for educational and interoperability purposes.
 
@@ -275,7 +275,7 @@ Independent implementations are encouraged.
 
 ---
 
-# 8. Versioning
+## 8. Versioning
 
 Each specification includes:
 
@@ -294,7 +294,7 @@ Possible statuses include:
 
 ---
 
-# 9. Backward Compatibility
+## 9. Backward Compatibility
 
 Protocol changes SHOULD preserve backward compatibility whenever practical.
 
@@ -307,7 +307,7 @@ Breaking changes SHOULD:
 
 ---
 
-# 10. Governance
+## 10. Governance
 
 All protocol specifications evolve through the OpenFiat Governance Protocol (OFS-4000).
 
@@ -322,7 +322,7 @@ Historical specifications remain permanently accessible.
 
 ---
 
-# 11. Licensing
+## 11. Licensing
 
 The OpenFiat Protocol Suite is intended to be published under a permissive open specification license, allowing anyone to:
 
@@ -335,7 +335,7 @@ Reference implementations may use separate open-source software licenses.
 
 ---
 
-# 12. Future Protocol Families
+## 12. Future Protocol Families
 
 Future protocol groups may include:
 
@@ -352,7 +352,7 @@ These ranges are reserved for future governance.
 
 ---
 
-# 13. Summary
+## 13. Summary
 
 The OpenFiat Protocol Suite is the architectural foundation of the OpenFiat ecosystem.
 

@@ -12,7 +12,7 @@ Throughout this document, the term "protocol" refers to the collection of rules 
 
 ---
 
-# 1.2 The Problem
+## 1.2 The Problem
 
 Blockchain technology successfully solved one of the largest problems in digital finance: ownership.
 
@@ -44,7 +44,7 @@ This creates a contradiction between decentralized ownership and centralized coo
 
 ---
 
-# 1.3 Existing Solutions
+## 1.3 Existing Solutions
 
 Most existing peer-to-peer exchanges share a common architecture.
 
@@ -72,7 +72,7 @@ OpenFiat seeks to eliminate this dependency.
 
 ---
 
-# 1.4 The OpenFiat Solution
+## 1.4 The OpenFiat Solution
 
 OpenFiat separates responsibilities between two specialized layers.
 
@@ -118,7 +118,7 @@ This architecture minimizes on-chain cost while preserving decentralized ownersh
 
 ---
 
-# 1.5 OpenFiat Is Not Another Blockchain
+## 1.5 OpenFiat Is Not Another Blockchain
 
 One common misconception is that every decentralized protocol must introduce a new blockchain.
 
@@ -136,11 +136,11 @@ This distinction significantly reduces engineering complexity while allowing Ope
 
 ---
 
-# 1.6 Design Philosophy
+## 1.6 Design Philosophy
 
 Every architectural decision within OpenFiat follows several guiding principles.
 
-## User Ownership
+### User Ownership
 
 Users always maintain direct control over their digital assets.
 
@@ -148,13 +148,13 @@ OpenFiat never takes custody of user funds outside audited smart contract escrow
 
 ---
 
-## Permissionless Participation
+### Permissionless Participation
 
 Anyone may participate as a buyer, merchant, node operator, developer, arbitrator, service provider, or application developer without requesting permission from a central authority.
 
 ---
 
-## Open Standards
+### Open Standards
 
 Every protocol specification is publicly documented.
 
@@ -164,7 +164,7 @@ Compatibility is determined by adherence to the protocol rather than approval fr
 
 ---
 
-## Cryptographic Verification
+### Cryptographic Verification
 
 Every important protocol action is cryptographically signed.
 
@@ -172,7 +172,7 @@ Trust is established through mathematics rather than centralized databases.
 
 ---
 
-## Reputation Through Behavior
+### Reputation Through Behavior
 
 OpenFiat does not assign trust manually.
 
@@ -180,7 +180,7 @@ Reputation is earned through observable protocol activity including successful t
 
 ---
 
-## Progressive Decentralization
+### Progressive Decentralization
 
 AllenHark initiates the protocol but is not intended to permanently control it.
 
@@ -188,7 +188,7 @@ Over time, infrastructure, governance, development, and ecosystem growth transit
 
 ---
 
-# 1.7 OPEN Token
+## 1.7 OPEN Token
 
 OPEN is the native utility and governance token of the OpenFiat protocol.
 
@@ -218,7 +218,7 @@ These utilities align economic incentives with responsible network participation
 
 ---
 
-# 1.8 Progressive Decentralization
+## 1.8 Progressive Decentralization
 
 OpenFiat is expected to evolve through several stages.
 
@@ -232,7 +232,7 @@ Success is achieved when the protocol continues functioning regardless of whethe
 
 ---
 
-# 1.9 Long-Term Vision
+## 1.9 Long-Term Vision
 
 OpenFiat begins as a decentralized stablecoin peer-to-peer exchange.
 
@@ -246,7 +246,7 @@ Future applications may include digital goods marketplaces, freelance payments, 
 
 ---
 
-# 1.10 Conclusion
+## 1.10 Conclusion
 
 OpenFiat represents an alternative approach to decentralized commerce.
 

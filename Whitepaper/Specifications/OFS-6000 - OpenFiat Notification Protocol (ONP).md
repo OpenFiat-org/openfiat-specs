@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Notification Protocol (ONP) defines how applications, merchants, users, infrastructure providers, and third-party notification services deliver real-time protocol events across the OpenFiat ecosystem.
 
@@ -24,7 +24,7 @@ This architecture creates a permissionless, fault-tolerant notification network 
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 Trading cannot rely on users constantly watching their screens.
 
@@ -41,7 +41,7 @@ The Notification Protocol standardizes how these events are delivered while rema
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -65,7 +65,7 @@ This specification does **not** define:
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 The Notification Protocol SHALL:
 
@@ -79,7 +79,7 @@ The Notification Protocol SHALL:
 
 ---
 
-# 4. Design Philosophy
+## 4. Design Philosophy
 
 Notifications are infrastructure.
 
@@ -95,7 +95,7 @@ They never determine protocol correctness.
 
 ---
 
-# 5. Notification Providers
+## 5. Notification Providers
 
 Any organization or individual may operate a Notification Provider.
 
@@ -116,7 +116,7 @@ Providers register through OFS-1500.
 
 ---
 
-# 6. Decentralized Provider Model
+## 6. Decentralized Provider Model
 
 There is no official notification provider.
 
@@ -130,7 +130,7 @@ Competition improves reliability and reduces centralization.
 
 ---
 
-# 7. Provider Registration
+## 7. Provider Registration
 
 Notification Providers publish:
 
@@ -147,7 +147,7 @@ Registrations are digitally signed.
 
 ---
 
-# 8. Supported Delivery Channels
+## 8. Supported Delivery Channels
 
 Initial protocol channels include:
 
@@ -163,7 +163,7 @@ Future governance proposals may introduce additional delivery channels.
 
 ---
 
-# 9. Community Notification Providers
+## 9. Community Notification Providers
 
 OpenFiat intentionally allows community-operated notification services.
 
@@ -177,7 +177,7 @@ This encourages regional innovation while improving delivery quality in local ma
 
 ---
 
-# 10. Event Types
+## 10. Event Types
 
 Examples include:
 
@@ -214,7 +214,7 @@ Infrastructure
 
 ---
 
-# 11. Event Subscription
+## 11. Event Subscription
 
 Users subscribe to the notifications they wish to receive.
 
@@ -250,7 +250,7 @@ Subscriptions belong to the wallet and synchronize across compatible application
 
 ---
 
-# 12. Routing
+## 12. Routing
 
 Applications select an appropriate Notification Provider.
 
@@ -267,7 +267,7 @@ The protocol intentionally does not mandate routing algorithms.
 
 ---
 
-# 13. Redundant Delivery
+## 13. Redundant Delivery
 
 Critical notifications MAY be delivered through multiple providers.
 
@@ -293,7 +293,7 @@ Redundancy improves reliability during provider outages.
 
 ---
 
-# 14. Delivery Confirmation
+## 14. Delivery Confirmation
 
 Providers SHOULD return delivery status.
 
@@ -309,7 +309,7 @@ Delivery confirmations help applications determine whether retries are necessary
 
 ---
 
-# 15. Retry Policy
+## 15. Retry Policy
 
 Providers SHOULD retry transient failures.
 
@@ -324,7 +324,7 @@ Retry strategies remain implementation-specific.
 
 ---
 
-# 16. Offline Merchants
+## 16. Offline Merchants
 
 Notification Providers enable merchants to remain reachable even when their trading application is closed.
 
@@ -362,7 +362,7 @@ This significantly improves merchant availability without requiring permanent on
 
 ---
 
-# 17. Notification Authentication
+## 17. Notification Authentication
 
 Every notification originates from a signed protocol event.
 
@@ -379,7 +379,7 @@ They only deliver them.
 
 ---
 
-# 18. Provider Reputation
+## 18. Provider Reputation
 
 Notification Providers accumulate operational reputation.
 
@@ -395,7 +395,7 @@ These metrics may influence future provider selection.
 
 ---
 
-# 19. Privacy
+## 19. Privacy
 
 Notification Providers SHOULD receive only the minimum information required to perform delivery.
 
@@ -417,7 +417,7 @@ End-to-end encryption MAY be supported by compatible channels.
 
 ---
 
-# 20. Security Considerations
+## 20. Security Considerations
 
 Implementations MUST protect against:
 
@@ -432,7 +432,7 @@ All notification events MUST remain cryptographically verifiable.
 
 ---
 
-# 21. Performance Considerations
+## 21. Performance Considerations
 
 The Notification Protocol is expected to support millions of daily events.
 
@@ -448,7 +448,7 @@ Notification delivery SHOULD not block marketplace operations.
 
 ---
 
-# 22. Conformance
+## 22. Conformance
 
 A compliant implementation MUST:
 
@@ -463,7 +463,7 @@ A compliant implementation MUST:
 
 ---
 
-# 23. Relationship to Other Specifications
+## 23. Relationship to Other Specifications
 
 The Notification Protocol connects OpenFiat protocol events with real-world communication channels.
 
@@ -485,7 +485,7 @@ The Notification Protocol connects OpenFiat protocol events with real-world comm
 
 ---
 
-# 24. Summary
+## 24. Summary
 
 The OpenFiat Notification Protocol transforms protocol events into real-world communication without introducing centralized infrastructure.
 

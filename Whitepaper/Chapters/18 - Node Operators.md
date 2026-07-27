@@ -16,7 +16,7 @@ The objective is to create a globally distributed marketplace that does not depe
 
 ---
 
-# 18.2 Design Objectives
+## 18.2 Design Objectives
 
 The Node Operator Program has several goals.
 
@@ -46,7 +46,7 @@ Any participant meeting protocol requirements may become a node operator.
 
 ---
 
-# 18.3 Responsibilities
+## 18.3 Responsibilities
 
 Every node participates in maintaining the decentralized marketplace.
 
@@ -69,7 +69,7 @@ All financial operations remain under the control of Solana smart contracts.
 
 ---
 
-# 18.4 Node Lifecycle
+## 18.4 Node Lifecycle
 
 A new node follows a deterministic initialization process.
 
@@ -117,7 +117,7 @@ After synchronization completes, the node becomes a full participant in the Open
 
 ---
 
-# 18.5 Node Identity
+## 18.5 Node Identity
 
 Each node possesses a unique cryptographic identity.
 
@@ -140,7 +140,7 @@ Because node identities are cryptographically generated, no central authority as
 
 ---
 
-# 18.6 Node Registration
+## 18.6 Node Registration
 
 Nodes announce themselves to the network after satisfying minimum protocol requirements.
 
@@ -159,7 +159,7 @@ Nodes may update their metadata as necessary.
 
 ---
 
-# 18.7 Services Provided
+## 18.7 Services Provided
 
 Every OpenFiat node provides a standard collection of services.
 
@@ -195,7 +195,7 @@ Additional services may be introduced by future protocol upgrades.
 
 ---
 
-# 18.8 Peer Connectivity
+## 18.8 Peer Connectivity
 
 Nodes maintain multiple simultaneous peer connections.
 
@@ -213,7 +213,7 @@ Connection management is handled automatically by the reference implementation.
 
 ---
 
-# 18.9 Client Connections
+## 18.9 Client Connections
 
 Applications do not communicate directly with every node.
 
@@ -234,7 +234,7 @@ This architecture eliminates single points of failure while improving applicatio
 
 ---
 
-# 18.10 Storage Responsibilities
+## 18.10 Storage Responsibilities
 
 Every node maintains a local RocksDB database.
 
@@ -255,7 +255,7 @@ The RocksDB database stores replicated marketplace information necessary for eff
 
 ---
 
-# 18.11 Snapshot Participation
+## 18.11 Snapshot Participation
 
 Nodes may optionally become Snapshot Providers.
 
@@ -272,7 +272,7 @@ AllenHark will initially operate official snapshot servers during the bootstrap 
 
 ---
 
-# 18.12 Performance Metrics
+## 18.12 Performance Metrics
 
 Node quality is continuously evaluated using objective measurements.
 
@@ -306,7 +306,7 @@ These metrics contribute to Node Reputation and reward eligibility.
 
 ---
 
-# 18.13 SWQoS-Inspired Networking
+## 18.13 SWQoS-Inspired Networking
 
 OpenFiat adopts principles inspired by Solana's Stake-Weighted Quality of Service (SWQoS).
 
@@ -326,7 +326,7 @@ They do not grant authority over protocol decisions or financial settlement.
 
 ---
 
-# 18.14 Node Rewards
+## 18.14 Node Rewards
 
 Node operators are compensated from protocol revenue rather than token inflation.
 
@@ -346,7 +346,7 @@ This model encourages long-term investment in reliable infrastructure rather tha
 
 ---
 
-# 18.15 Misbehavior and Penalties
+## 18.15 Misbehavior and Penalties
 
 OpenFiat distinguishes between ordinary failures and malicious behavior.
 
@@ -373,7 +373,7 @@ Penalties are always deterministic and publicly documented.
 
 ---
 
-# 18.16 Hardware Recommendations
+## 18.16 Hardware Recommendations
 
 The OpenFiat reference node is designed to run on commodity server hardware.
 
@@ -400,7 +400,7 @@ Unlike Solana validators, OpenFiat nodes do not require specialized high-end har
 
 ---
 
-# 18.17 AllenHark's Initial Role
+## 18.17 AllenHark's Initial Role
 
 During the network bootstrap phase, AllenHark will operate several public infrastructure services, including:
 
@@ -416,7 +416,7 @@ As independent operators join the ecosystem, the network becomes progressively d
 
 ---
 
-# 18.18 Open Infrastructure
+## 18.18 Open Infrastructure
 
 The OpenFiat network welcomes independent infrastructure providers.
 
@@ -433,7 +433,7 @@ Provided they follow the published protocol specification, all compatible implem
 
 ---
 
-# 18.19 Why Node Operators Matter
+## 18.19 Why Node Operators Matter
 
 Node operators transform OpenFiat from a collection of smart contracts into a living global marketplace.
 
@@ -443,7 +443,7 @@ The health of the OpenFiat ecosystem therefore depends not only upon secure smar
 
 ---
 
-# 18.20 Looking Ahead
+## 18.20 Looking Ahead
 
 Not every participant wishes to operate infrastructure.
 

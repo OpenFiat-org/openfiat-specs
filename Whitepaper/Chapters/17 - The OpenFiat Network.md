@@ -31,7 +31,7 @@ This architecture combines the scalability of peer-to-peer networking with the s
 
 ---
 
-# 17.2 Design Objectives
+## 17.2 Design Objectives
 
 The OpenFiat Network was designed around several principles.
 
@@ -61,7 +61,7 @@ The protocol should support implementations written in multiple programming lang
 
 ---
 
-# 17.3 Network Architecture
+## 17.3 Network Architecture
 
 Every OpenFiat node participates equally within the peer-to-peer network.
 
@@ -91,7 +91,7 @@ Applications communicate with nearby OpenFiat nodes rather than depending upon c
 
 ---
 
-# 17.4 Why libp2p?
+## 17.4 Why libp2p?
 
 OpenFiat adopts **libp2p** as its networking foundation.
 
@@ -110,7 +110,7 @@ Because libp2p is widely adopted, developers can build compatible implementation
 
 ---
 
-# 17.5 Gossip Protocol
+## 17.5 Gossip Protocol
 
 Most marketplace information propagates using gossip.
 
@@ -134,7 +134,7 @@ This model is similar to Solana's own gossip protocol and provides efficient dec
 
 ---
 
-# 17.6 Peer Discovery
+## 17.6 Peer Discovery
 
 New nodes must discover existing peers before joining the network.
 
@@ -158,7 +158,7 @@ Governance may approve additional community-operated bootstrap nodes over time.
 
 ---
 
-# 17.7 Bootstrap Philosophy
+## 17.7 Bootstrap Philosophy
 
 Bootstrap nodes are not authorities.
 
@@ -178,7 +178,7 @@ If AllenHark's bootstrap infrastructure becomes unavailable, the network continu
 
 ---
 
-# 17.8 Node Identity
+## 17.8 Node Identity
 
 Each node possesses a unique cryptographic identity.
 
@@ -199,7 +199,7 @@ Node identities are used for:
 
 ---
 
-# 17.9 RocksDB Storage
+## 17.9 RocksDB Storage
 
 Every OpenFiat node embeds **RocksDB** as its primary local storage engine.
 
@@ -222,7 +222,7 @@ Applications can therefore respond quickly even during periods of high marketpla
 
 ---
 
-# 17.10 Marketplace State
+## 17.10 Marketplace State
 
 OpenFiat distinguishes between **authoritative state** and **replicated state**.
 
@@ -256,7 +256,7 @@ This separation allows the protocol to scale efficiently while preserving crypto
 
 ---
 
-# 17.11 Snapshot Synchronization
+## 17.11 Snapshot Synchronization
 
 Synchronizing a new node entirely from gossip may require considerable time.
 
@@ -296,7 +296,7 @@ Snapshots dramatically reduce the time required for new infrastructure providers
 
 ---
 
-# 17.12 Snapshot Providers
+## 17.12 Snapshot Providers
 
 Snapshot hosting is itself a protocol service.
 
@@ -315,7 +315,7 @@ AllenHark will initially operate official snapshot servers during the bootstrap 
 
 ---
 
-# 17.13 SWQoS-Inspired Peer Scoring
+## 17.13 SWQoS-Inspired Peer Scoring
 
 OpenFiat adopts a networking philosophy inspired by Solana's **Stake-Weighted Quality of Service (SWQoS)**.
 
@@ -336,7 +336,7 @@ Unlike Solana consensus, OpenFiat uses these scores only to improve network effi
 
 ---
 
-# 17.14 Node Reputation
+## 17.14 Node Reputation
 
 The network continuously evaluates infrastructure quality.
 
@@ -353,7 +353,7 @@ Node reputation affects reward eligibility but never grants special protocol pri
 
 ---
 
-# 17.15 Version Compatibility
+## 17.15 Version Compatibility
 
 Every node advertises its supported protocol version.
 
@@ -367,7 +367,7 @@ Governance determines protocol deprecation schedules, ensuring upgrades occur in
 
 ---
 
-# 17.16 Failure Recovery
+## 17.16 Failure Recovery
 
 OpenFiat is designed to tolerate infrastructure failures.
 
@@ -385,7 +385,7 @@ Applications automatically reconnect to alternative peers whenever possible.
 
 ---
 
-# 17.17 Network Security
+## 17.17 Network Security
 
 All communication between peers is authenticated and encrypted.
 
@@ -404,7 +404,7 @@ These measures help maintain network stability while preserving decentralization
 
 ---
 
-# 17.18 Open Source by Design
+## 17.18 Open Source by Design
 
 Every component of the OpenFiat networking layer is intended to be open source.
 
@@ -420,7 +420,7 @@ Open specifications encourage interoperability while reducing dependence on any 
 
 ---
 
-# 17.19 Why This Architecture Matters
+## 17.19 Why This Architecture Matters
 
 Many peer-to-peer marketplaces rely on centralized APIs even when settlement occurs on-chain.
 
@@ -434,7 +434,7 @@ This separation provides scalability without compromising the security guarantee
 
 ---
 
-# 17.20 Looking Ahead
+## 17.20 Looking Ahead
 
 A decentralized network is only as strong as the participants who maintain it.
 

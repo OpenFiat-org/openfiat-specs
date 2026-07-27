@@ -16,7 +16,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Persistent State Storage Specification (PSSS) defines the canonical persistent data model for OpenFiat nodes.
 
@@ -28,7 +28,7 @@ The OpenFiat Reference Node uses **RocksDB** as its storage engine due to its pe
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 Every OpenFiat node maintains a persistent local copy of protocol state.
 
@@ -49,7 +49,7 @@ Network synchronization occurs exclusively through the OpenFiat Network Protocol
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -75,7 +75,7 @@ This specification does **not** define:
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 The storage layer SHALL:
 
@@ -89,7 +89,7 @@ The storage layer SHALL:
 
 ---
 
-# 4. Design Philosophy
+## 4. Design Philosophy
 
 Persistent storage represents **current protocol state**, not an append-only blockchain.
 
@@ -101,7 +101,7 @@ This significantly reduces storage requirements and improves query performance w
 
 ---
 
-# 5. Reference Storage Engine
+## 5. Reference Storage Engine
 
 The OpenFiat Reference Implementation uses RocksDB.
 
@@ -121,7 +121,7 @@ Implementations MAY use alternative storage engines provided protocol behavior r
 
 ---
 
-# 6. Persistent State Categories
+## 6. Persistent State Categories
 
 The following categories SHALL be persisted.
 
@@ -179,7 +179,7 @@ The following categories SHALL be persisted.
 
 ---
 
-# 7. Logical Storage Model
+## 7. Logical Storage Model
 
 The protocol organizes persistent state into logical collections.
 
@@ -204,7 +204,7 @@ The physical implementation is left to the storage engine.
 
 ---
 
-# 8. Object Identity
+## 8. Object Identity
 
 Every persisted object SHALL possess a globally unique identifier.
 
@@ -220,7 +220,7 @@ Object identifiers MUST remain immutable.
 
 ---
 
-# 9. Object Versioning
+## 9. Object Versioning
 
 Updates create new object versions.
 
@@ -235,7 +235,7 @@ Version history enables deterministic replay and audit.
 
 ---
 
-# 10. Atomic State Transitions
+## 10. Atomic State Transitions
 
 A protocol event MAY update multiple objects.
 
@@ -257,7 +257,7 @@ Partial writes MUST never become visible.
 
 ---
 
-# 11. Indexes
+## 11. Indexes
 
 Implementations SHOULD maintain indexes for frequently queried objects.
 
@@ -292,7 +292,7 @@ Indexes are implementation-specific but MUST remain deterministic.
 
 ---
 
-# 12. Audit Log
+## 12. Audit Log
 
 The audit log records immutable protocol events.
 
@@ -309,7 +309,7 @@ The audit log SHALL support replay for verification and recovery.
 
 ---
 
-# 13. Snapshots
+## 13. Snapshots
 
 Snapshots capture the complete protocol state at a specific synchronization point.
 
@@ -325,7 +325,7 @@ Snapshot transfer is specified by OFS-1300.
 
 ---
 
-# 14. State Integrity
+## 14. State Integrity
 
 Nodes SHALL continuously verify storage integrity.
 
@@ -341,7 +341,7 @@ Integrity failures SHALL trigger recovery.
 
 ---
 
-# 15. Crash Recovery
+## 15. Crash Recovery
 
 Nodes MUST recover safely after:
 
@@ -356,7 +356,7 @@ Incomplete writes MUST be discarded.
 
 ---
 
-# 16. Pruning
+## 16. Pruning
 
 Historical protocol data may become unnecessary for normal operation.
 
@@ -373,7 +373,7 @@ Governance MAY define minimum retention periods.
 
 ---
 
-# 17. Backup and Restore
+## 17. Backup and Restore
 
 Nodes SHOULD support offline backups.
 
@@ -388,7 +388,7 @@ Backups SHOULD be verifiable before restoration.
 
 ---
 
-# 18. Storage Performance
+## 18. Storage Performance
 
 Implementations SHOULD optimize:
 
@@ -403,7 +403,7 @@ Performance optimizations MUST NOT alter deterministic behavior.
 
 ---
 
-# 19. Storage Migration
+## 19. Storage Migration
 
 Future protocol versions may evolve the storage schema.
 
@@ -418,7 +418,7 @@ Migration MUST preserve protocol semantics.
 
 ---
 
-# 20. Security Considerations
+## 20. Security Considerations
 
 Persistent storage MUST protect against:
 
@@ -435,7 +435,7 @@ Future protocol versions MAY define encrypted local storage profiles.
 
 ---
 
-# 21. Conformance
+## 21. Conformance
 
 A compliant implementation MUST:
 
@@ -450,7 +450,7 @@ A compliant implementation MUST:
 
 ---
 
-# 22. Relationship to Other Specifications
+## 22. Relationship to Other Specifications
 
 The Persistent State Storage Specification underpins every OpenFiat protocol.
 
@@ -474,7 +474,7 @@ The Persistent State Storage Specification underpins every OpenFiat protocol.
 
 ---
 
-# 23. Future Extensions
+## 23. Future Extensions
 
 Future versions may introduce:
 
@@ -490,7 +490,7 @@ Future versions may introduce:
 
 ---
 
-# 24. Summary
+## 24. Summary
 
 The OpenFiat Persistent State Storage Specification defines the canonical persistent data model required by every OpenFiat node.
 

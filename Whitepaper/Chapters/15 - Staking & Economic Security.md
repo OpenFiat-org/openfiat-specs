@@ -26,7 +26,7 @@ Staking therefore transforms economic commitment into protocol security.
 
 ---
 
-# 15.2 Design Objectives
+## 15.2 Design Objectives
 
 The staking system was designed around several guiding principles.
 
@@ -52,7 +52,7 @@ New protocol roles may introduce additional staking requirements without redesig
 
 ---
 
-# 15.3 Why Staking?
+## 15.3 Why Staking?
 
 OpenFiat operates without centralized administrators.
 
@@ -66,7 +66,7 @@ The greater the responsibility assigned to a participant, the greater the econom
 
 ---
 
-# 15.4 Staking Lifecycle
+## 15.4 Staking Lifecycle
 
 Every staking relationship follows the same high-level lifecycle.
 
@@ -106,7 +106,7 @@ The unlock period protects the protocol from participants who attempt to avoid a
 
 ---
 
-# 15.5 Merchant Staking
+## 15.5 Merchant Staking
 
 Merchants are the primary liquidity providers within OpenFiat.
 
@@ -141,7 +141,7 @@ Likewise, excellent reputation alone does not eliminate staking requirements.
 
 ---
 
-# 15.6 Arbitrator Staking
+## 15.6 Arbitrator Staking
 
 Arbitrators occupy one of the most sensitive roles within the protocol.
 
@@ -158,7 +158,7 @@ The objective is to align every arbitration decision with careful evidence revie
 
 ---
 
-# 15.7 Node Operator Staking
+## 15.7 Node Operator Staking
 
 Node operators maintain the decentralized OpenFiat network.
 
@@ -179,7 +179,7 @@ Nodes that consistently fail to satisfy minimum protocol standards may temporari
 
 ---
 
-# 15.8 Notification Provider Staking
+## 15.8 Notification Provider Staking
 
 Notification providers deliver optional communication services such as:
 
@@ -196,7 +196,7 @@ Repeated service failures may reduce reward eligibility or result in governance-
 
 ---
 
-# 15.9 Oracle Provider Staking
+## 15.9 Oracle Provider Staking
 
 Floating-price advertisements depend upon reliable exchange-rate data.
 
@@ -208,7 +208,7 @@ Oracle providers consistently publishing incorrect or unavailable pricing may lo
 
 ---
 
-# 15.10 Snapshot Provider Staking
+## 15.10 Snapshot Provider Staking
 
 Snapshot providers accelerate node synchronization by distributing verified RocksDB snapshots.
 
@@ -223,7 +223,7 @@ Staking ensures that providers remain committed to delivering accurate and relia
 
 ---
 
-# 15.11 Future Staking Roles
+## 15.11 Future Staking Roles
 
 The staking framework is intentionally extensible.
 
@@ -239,7 +239,7 @@ Every new role inherits the same fundamental staking principles.
 
 ---
 
-# 15.12 Reward Eligibility
+## 15.12 Reward Eligibility
 
 Staking alone does not guarantee rewards.
 
@@ -274,7 +274,7 @@ Rewards therefore reflect both commitment and performance.
 
 ---
 
-# 15.13 Slashing
+## 15.13 Slashing
 
 Slashing is designed as a corrective mechanism rather than a punishment.
 
@@ -294,7 +294,7 @@ Instead, penalties should remain proportionate to the severity and frequency of 
 
 ---
 
-# 15.14 Unlock Periods
+## 15.14 Unlock Periods
 
 Participants cannot immediately withdraw their stake after requesting to unstake.
 
@@ -309,7 +309,7 @@ The exact duration is governed by protocol parameters and may differ between par
 
 ---
 
-# 15.15 Restaking
+## 15.15 Restaking
 
 Participants may increase their existing stake at any time.
 
@@ -325,7 +325,7 @@ Reductions in stake become effective only after the unlock period concludes.
 
 ---
 
-# 15.16 Staking Transparency
+## 15.16 Staking Transparency
 
 Every staking position is publicly verifiable.
 
@@ -342,7 +342,7 @@ Transparency promotes confidence and enables independent verification by every O
 
 ---
 
-# 15.17 Staking and Governance
+## 15.17 Staking and Governance
 
 Although governance determines many staking parameters, it cannot arbitrarily confiscate participant stake.
 
@@ -359,7 +359,7 @@ This distinction preserves participant confidence while allowing governance to e
 
 ---
 
-# 15.18 Relationship to the Three Economic Loops
+## 15.18 Relationship to the Three Economic Loops
 
 Staking forms the foundation of OpenFiat's **Security Loop**.
 
@@ -373,7 +373,7 @@ Together, these three loops create a self-reinforcing economic system in which h
 
 ---
 
-# 15.19 Why Staking Matters
+## 15.19 Why Staking Matters
 
 OpenFiat replaces centralized trust with measurable economic commitment.
 
@@ -383,7 +383,7 @@ Every major participant has something meaningful at stake, ensuring that the lon
 
 ---
 
-# 15.20 Looking Ahead
+## 15.20 Looking Ahead
 
 Staking secures the protocol by aligning incentives and accountability.
 

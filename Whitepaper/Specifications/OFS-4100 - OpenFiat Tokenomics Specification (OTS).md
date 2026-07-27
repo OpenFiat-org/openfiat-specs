@@ -14,7 +14,7 @@
 
 ---
 
-# Status Banner
+## Status Banner
 
 **This document is a DRAFT.** Every numeric parameter below is either a value the protocol steward has explicitly confirmed, or a proposed default awaiting sign-off. Each parameter is tagged:
 
@@ -25,7 +25,7 @@ Chapters 13, 14, 15, 16, and 23 of the whitepaper repeatedly defer exact figures
 
 ---
 
-# 1. Supply and Denomination
+## 1. Supply and Denomination
 
 | Parameter | Value | Status |
 |---|---|---|
@@ -36,7 +36,7 @@ Chapters 13, 14, 15, 16, and 23 of the whitepaper repeatedly defer exact figures
 
 **Note on Ch.13 vs. Ch.23:** Chapter 13 states supply is fixed absolutely; Chapter 23 allows a governance-authorized minting exception. This specification resolves the inconsistency: **supply is strictly fixed for v1** (mint authority is revoked, not merely restricted). Any future mint event would require a new token (or a wrapped/bridged mechanism) rather than a code path that exists in v1 — this is a deliberate simplification to remove an entire class of governance-can-inflate-supply risk from the initial system.
 
-# 2. Genesis Allocation
+## 2. Genesis Allocation
 
 Seven buckets, named in Chapter 14, with no percentages given there. Proposed split:
 
@@ -65,7 +65,7 @@ Seven buckets, named in Chapter 14, with no percentages given there. Proposed sp
 | Liquidity Programs | 3 months | 24 months linear | [PROPOSED — NEEDS SIGN-OFF] |
 | Strategic Reserve | 12 months | 48 months linear | [PROPOSED — NEEDS SIGN-OFF] |
 
-# 3. Presale Terms
+## 3. Presale Terms
 
 | Parameter | Value | Status |
 |---|---|---|
@@ -84,7 +84,7 @@ Seven buckets, named in Chapter 14, with no percentages given there. Proposed sp
 
 **Refund semantics:** if the soft cap is unmet, refunds are paid in **USDC** (the post-swap asset), not in whatever the contributor originally sent (SOL or another stablecoin). The presale UI must state this plainly before a contributor confirms a non-USDC contribution.
 
-# 4. Staking
+## 4. Staking
 
 Seven staked roles per Chapter 15/23: Merchant, Arbitrator, Node Operator, Notification Provider, Oracle Provider, Risk Intelligence Provider, Snapshot Provider.
 
@@ -107,7 +107,7 @@ Seven staked roles per Chapter 15/23: Merchant, Arbitrator, Node Operator, Notif
 
 Triggers 1 and 3 depend on future amendments to OFS-2400 and OFS-1600 respectively to define concrete deadlines/thresholds; until those exist, only triggers 2 and 4 are enforceable in v1.
 
-# 5. Governance
+## 5. Governance
 
 | Parameter | Value | Status |
 |---|---|---|
@@ -122,7 +122,7 @@ Triggers 1 and 3 depend on future amendments to OFS-2400 and OFS-1600 respective
 | Approval threshold — Treasury | 60% supermajority | [PROPOSED — NEEDS SIGN-OFF] |
 | Approval threshold — Protocol-Upgrade, Constitutional | 66% supermajority + 20% quorum (higher than the standard 10%) | [PROPOSED — NEEDS SIGN-OFF] |
 
-# 6. Treasury / Revenue Router
+## 6. Treasury / Revenue Router
 
 Fee amounts are deliberately **not** fixed here — Chapter 23 explicitly wants fees adjustable as OPEN's price moves, and this specification respects that: every fee is a governance-updatable parameter, never a constant.
 
@@ -133,7 +133,7 @@ Fee amounts are deliberately **not** fixed here — Chapter 23 explicitly wants 
 | Default ad-listing fee | 1 OPEN | [PROPOSED — NEEDS SIGN-OFF] |
 | Default dispute-filing fee | 20 OPEN | [PROPOSED — NEEDS SIGN-OFF] |
 
-# 7. Explicitly Out of Scope for v1
+## 7. Explicitly Out of Scope for v1
 
 The following are real parts of the whitepaper's long-term vision but are **not** built in the phase of work this specification supports:
 
@@ -142,7 +142,7 @@ The following are real parts of the whitepaper's long-term vision but are **not*
 - Partial Settlement as a dispute resolution outcome (OFS-2400 marks this "Future").
 - Per-role-differentiated staking minimums (v1 ships flat + one arbitrator-specific minimum; further differentiation is a future governance parameter change, not new code).
 
-# 8. Decision Log
+## 8. Decision Log
 
 Every place this specification made a call rather than citing a whitepaper number:
 

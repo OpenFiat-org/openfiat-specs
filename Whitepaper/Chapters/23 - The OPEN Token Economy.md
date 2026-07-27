@@ -18,7 +18,7 @@ As the marketplace grows, demand for protocol services naturally increases deman
 
 ---
 
-# 23.2 Design Goals
+## 23.2 Design Goals
 
 The OPEN economy has been designed around several guiding principles.
 
@@ -44,7 +44,7 @@ Economic rules should be transparent and governed by the protocol.
 
 ---
 
-# 23.3 The Role of OPEN
+## 23.3 The Role of OPEN
 
 OPEN is the native utility token of the OpenFiat protocol.
 
@@ -73,7 +73,7 @@ OPEN powers the network itself.
 
 ---
 
-# 23.4 Utility Creates Demand
+## 23.4 Utility Creates Demand
 
 Every important participant in the OpenFiat ecosystem interacts with OPEN.
 
@@ -113,7 +113,7 @@ Demand therefore grows alongside protocol adoption rather than speculative activ
 
 ---
 
-# 23.5 Fixed Supply
+## 23.5 Fixed Supply
 
 OpenFiat adopts a **fixed maximum supply** of OPEN.
 
@@ -132,7 +132,7 @@ The exact maximum supply and initial allocation are defined in the Tokenomics Pa
 
 ---
 
-# 23.6 Why a Fixed Supply?
+## 23.6 Why a Fixed Supply?
 
 A common concern with fixed-supply assets is that they may appreciate significantly as adoption grows.
 
@@ -156,7 +156,7 @@ This allows protocol participation to remain accessible even if OPEN appreciates
 
 ---
 
-# 23.7 Staking
+## 23.7 Staking
 
 Staking is the primary security mechanism of the OpenFiat economy.
 
@@ -177,7 +177,7 @@ Participants engaging in malicious behavior risk losing reputation, rewards, or 
 
 ---
 
-# 23.8 Merchant Staking
+## 23.8 Merchant Staking
 
 Merchants also stake OPEN.
 
@@ -195,7 +195,7 @@ Stake therefore represents a commitment to the marketplace rather than payment f
 
 ---
 
-# 23.9 Protocol Revenue
+## 23.9 Protocol Revenue
 
 OpenFiat generates protocol revenue through optional services and marketplace operations.
 
@@ -213,7 +213,7 @@ Instead, fees are designed to fund long-term ecosystem sustainability while rema
 
 ---
 
-# 23.10 Treasury
+## 23.10 Treasury
 
 Protocol revenue is distributed to the OpenFiat Treasury.
 
@@ -236,7 +236,7 @@ Neither AllenHark nor any individual participant has unilateral control over Tre
 
 ---
 
-# 23.11 Presale
+## 23.11 Presale
 
 OpenFiat is initially developed and funded by AllenHark.
 
@@ -258,7 +258,7 @@ The presale is intended to create a broad community of long-term stakeholders ra
 
 ---
 
-# 23.12 Bootstrap Funding
+## 23.12 Bootstrap Funding
 
 AllenHark intends to provide significant initial infrastructure during the network bootstrap phase.
 
@@ -276,7 +276,7 @@ As independent providers join the network, responsibility gradually transitions 
 
 ---
 
-# 23.13 Reward Distribution
+## 23.13 Reward Distribution
 
 OPEN rewards participants who contribute measurable value to the ecosystem.
 
@@ -296,7 +296,7 @@ Rewards should always encourage honest participation and high-quality service.
 
 ---
 
-# 23.14 Fee Distribution
+## 23.14 Fee Distribution
 
 Whenever protocol fees are collected, they are distributed according to governance-approved allocation rules.
 
@@ -313,7 +313,7 @@ This provides flexibility while maintaining transparency.
 
 ---
 
-# 23.15 Governance Power
+## 23.15 Governance Power
 
 OPEN enables participation in governance.
 
@@ -329,7 +329,7 @@ Governance participation may require locking OPEN for a defined period to encour
 
 ---
 
-# 23.16 Long-Term Sustainability
+## 23.16 Long-Term Sustainability
 
 The long-term objective is for OpenFiat to become financially self-sustaining.
 
@@ -347,7 +347,7 @@ Eventually, Treasury funding should become sufficient to sustain ongoing develop
 
 ---
 
-# 23.17 Future Economic Evolution
+## 23.17 Future Economic Evolution
 
 The token economy is intentionally designed to evolve.
 
@@ -363,7 +363,7 @@ Fundamental changes should always prioritize fairness, sustainability, and decen
 
 ---
 
-# 23.18 Economic Security
+## 23.18 Economic Security
 
 The OPEN economy protects the protocol through aligned incentives.
 
@@ -386,7 +386,7 @@ The protocol therefore encourages cooperation through economics rather than cent
 
 ---
 
-# 23.19 Beyond Speculation
+## 23.19 Beyond Speculation
 
 The success of OPEN should not depend solely upon exchange trading.
 
@@ -410,7 +410,7 @@ This creates an economy driven by network usage rather than speculation alone.
 
 ---
 
-# 23.20 Looking Ahead
+## 23.20 Looking Ahead
 
 This chapter introduces the economic principles of OPEN.
 
