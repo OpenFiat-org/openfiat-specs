@@ -187,6 +187,8 @@ Additional specifications may be introduced through governance.
 ## Governance Layer
 
 * OFS-4000 — Governance Protocol
+* OFS-4100 — Tokenomics Specification
+* OFS-4200 — On-Chain Program Architecture
 
 ---
 
