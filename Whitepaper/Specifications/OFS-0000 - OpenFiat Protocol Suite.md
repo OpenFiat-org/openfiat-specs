@@ -363,12 +363,3 @@ This modular architecture encourages innovation, simplifies protocol evolution, 
 The OpenFiat Protocol Suite answers one overarching question:
 
 **"How do all OpenFiat specifications work together to create a global, decentralized, self-custodial fiat marketplace?"**
-
-I would make one structural improvement before moving to the whitepaper: the network layer currently stops at **OFS-1900**, but several critical networking topics deserve their own specifications rather than being buried inside OFS-1000. Specifically:
-
-* **OFS-1600 — Service Quality Protocol (SWQoS)** (priority classes, bandwidth allocation, congestion control)
-* **OFS-1700 — Node Synchronization Protocol** (state convergence, checkpoints, recovery)
-* **OFS-1800 — Network Security Protocol** (peer authentication, DoS resistance, encryption, abuse prevention)
-* **OFS-1900 — Storage Engine Specification** (RocksDB layout, indexing, snapshots, pruning)
-
-These would make the network layer as comprehensive as the trading layer and give OpenFiat a protocol suite comparable in completeness to mature systems like Ethereum's networking stack or the IETF RFC series.
