@@ -347,8 +347,8 @@ OpenFiat operates as a decentralized mesh network.
 
 ```text
                 Bootstrap Nodes
-           entry01.openfiat.org
-         entry02.openfiat.org
+           entry01.openfiat.network
+         entry02.openfiat.network
       openfiat.allenhark.com
       openfiat.allenhark.network
 
