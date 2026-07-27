@@ -28,7 +28,7 @@ The objective of the OpenFiat Dispute Resolution Protocol is not merely to settl
 
 ---
 
-# 11.2 Design Objectives
+## 11.2 Design Objectives
 
 The dispute system was designed around several fundamental principles.
 
@@ -58,7 +58,7 @@ The protocol should support thousands of simultaneous disputes without centraliz
 
 ---
 
-# 11.3 When a Dispute May Be Opened
+## 11.3 When a Dispute May Be Opened
 
 Either participant may initiate a dispute when a trade cannot be completed normally.
 
@@ -78,7 +78,7 @@ Neither participant may unilaterally release or reclaim the assets.
 
 ---
 
-# 11.4 Filing a Dispute
+## 11.4 Filing a Dispute
 
 Opening a dispute is intentionally not free.
 
@@ -99,7 +99,7 @@ The exact allocation of forfeited fees is defined within the token economics cha
 
 ---
 
-# 11.5 Case Creation
+## 11.5 Case Creation
 
 When a dispute is submitted, the protocol creates a new dispute case.
 
@@ -123,7 +123,7 @@ This preserves participant privacy while enabling decentralized arbitration.
 
 ---
 
-# 11.6 Arbitrator Eligibility
+## 11.6 Arbitrator Eligibility
 
 Not every participant may immediately serve as an arbitrator.
 
@@ -141,7 +141,7 @@ Governance may adjust eligibility requirements over time.
 
 ---
 
-# 11.7 Voluntary Participation
+## 11.7 Voluntary Participation
 
 Unlike systems that randomly assign jurors, OpenFiat allows qualified arbitrators to voluntarily join cases.
 
@@ -177,7 +177,7 @@ Because evidence is unavailable before joining, opportunities for targeted bribe
 
 ---
 
-# 11.8 Privacy Before Participation
+## 11.8 Privacy Before Participation
 
 One of the most important security properties of the protocol is information isolation.
 
@@ -206,7 +206,7 @@ This significantly reduces opportunities for external influence before participa
 
 ---
 
-# 11.9 Dynamic Participation
+## 11.9 Dynamic Participation
 
 The number of arbitrators required for a dispute is intentionally **not publicly disclosed**.
 
@@ -225,7 +225,7 @@ No additional arbitrators may join.
 
 ---
 
-# 11.10 Case Locking
+## 11.10 Case Locking
 
 Case locking serves several important purposes.
 
@@ -240,7 +240,7 @@ Once locked, the case transitions to evidence review.
 
 ---
 
-# 11.11 Evidence
+## 11.11 Evidence
 
 Participants may submit evidence supporting their claims.
 
@@ -264,7 +264,7 @@ Future protocol versions may support additional evidence formats without alterin
 
 ---
 
-# 11.12 Commit–Reveal Voting
+## 11.12 Commit–Reveal Voting
 
 To prevent arbitrators from influencing one another, OpenFiat uses a commit–reveal voting process.
 
@@ -289,7 +289,7 @@ Because every arbitrator commits before any vote becomes visible, strategic vote
 
 ---
 
-# 11.13 Consensus
+## 11.13 Consensus
 
 After all valid reveal votes have been received—or after the reveal deadline expires—the protocol determines the final outcome.
 
@@ -303,7 +303,7 @@ The resulting decision becomes final.
 
 ---
 
-# 11.14 Settlement
+## 11.14 Settlement
 
 Once consensus has been reached, the Escrow Program executes the outcome automatically.
 
@@ -319,7 +319,7 @@ No human approval is required after consensus.
 
 ---
 
-# 11.15 Arbitrator Rewards
+## 11.15 Arbitrator Rewards
 
 Honest arbitration should be economically attractive.
 
@@ -335,7 +335,7 @@ No manual accounting is required.
 
 ---
 
-# 11.16 Minority Penalties
+## 11.16 Minority Penalties
 
 OpenFiat introduces measured economic accountability.
 
@@ -357,7 +357,7 @@ The objective is to discourage negligence and collusion rather than punish good-
 
 ---
 
-# 11.17 Reputation Updates
+## 11.17 Reputation Updates
 
 After every completed case, arbitrator reputation is updated.
 
@@ -373,7 +373,7 @@ Likewise, buyer and merchant reputation may also be updated to reflect dispute o
 
 ---
 
-# 11.18 Appeals
+## 11.18 Appeals
 
 The initial version of OpenFiat deliberately does **not** include an appeal process.
 
@@ -385,7 +385,7 @@ Governance may introduce optional appeal mechanisms in future protocol versions 
 
 ---
 
-# 11.19 Why This Protocol Is Different
+## 11.19 Why This Protocol Is Different
 
 Most peer-to-peer exchanges rely on centralized support teams.
 
@@ -411,7 +411,7 @@ This transforms dispute resolution from a customer support function into decentr
 
 ---
 
-# 11.20 Future Evolution
+## 11.20 Future Evolution
 
 The dispute framework has been designed for long-term growth.
 
@@ -427,7 +427,7 @@ These capabilities can be introduced without changing the fundamental dispute li
 
 ---
 
-# 11.21 Looking Ahead
+## 11.21 Looking Ahead
 
 Trustworthy dispute resolution strengthens confidence in individual trades.
 

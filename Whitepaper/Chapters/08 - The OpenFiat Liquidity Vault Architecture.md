@@ -26,7 +26,7 @@ This architecture reduces latency, eliminates fake liquidity, improves capital e
 
 ---
 
-# 8.2 Design Objectives
+## 8.2 Design Objectives
 
 The Liquidity Vault Architecture was designed around several primary objectives.
 
@@ -56,11 +56,11 @@ Every vault balance can be independently verified on Solana.
 
 ---
 
-# 8.3 Two Types of Vaults
+## 8.3 Two Types of Vaults
 
 OpenFiat intentionally uses two different vault models depending on the direction of the trade.
 
-## Liquidity Vault
+### Liquidity Vault
 
 Used when a merchant is **selling** stablecoins.
 
@@ -68,7 +68,7 @@ The merchant deposits inventory before advertisements become active.
 
 The deposited balance may be reserved across multiple trades.
 
-## Trade Escrow Vault
+### Trade Escrow Vault
 
 Used when a merchant is **buying** stablecoins.
 
@@ -78,7 +78,7 @@ This distinction minimizes unnecessary capital lock-up while guaranteeing that s
 
 ---
 
-# 8.4 Liquidity Vaults
+## 8.4 Liquidity Vaults
 
 A Liquidity Vault is a persistent smart contract account owned by the OpenFiat Escrow Program.
 
@@ -108,7 +108,7 @@ This allows multiple buyers to reserve liquidity simultaneously without conflict
 
 ---
 
-# 8.5 Publishing a Sell Advertisement
+## 8.5 Publishing a Sell Advertisement
 
 Before a merchant can publish a sell advertisement, sufficient stablecoins must already exist within the corresponding Liquidity Vault.
 
@@ -136,7 +136,7 @@ Advertisements can never exceed the vault's available balance.
 
 ---
 
-# 8.6 Reservation
+## 8.6 Reservation
 
 Suppose a buyer wishes to purchase:
 
@@ -168,7 +168,7 @@ This process occurs atomically through the OpenFiat Escrow Program.
 
 ---
 
-# 8.7 Settlement
+## 8.7 Settlement
 
 Once the buyer has completed fiat payment and the merchant confirms receipt, the Escrow Program transfers the reserved stablecoins directly from the Liquidity Vault to the buyer.
 
@@ -188,7 +188,7 @@ One deposit supports many independent trades.
 
 ---
 
-# 8.8 Adding Liquidity
+## 8.8 Adding Liquidity
 
 Merchants may increase available inventory at any time.
 
@@ -216,7 +216,7 @@ The additional liquidity becomes available immediately after confirmation.
 
 ---
 
-# 8.9 Withdrawing Liquidity
+## 8.9 Withdrawing Liquidity
 
 Merchants may withdraw **only unreserved funds**.
 
@@ -237,7 +237,7 @@ This guarantees that existing buyers are never affected by subsequent merchant w
 
 ---
 
-# 8.10 Buy Advertisements
+## 8.10 Buy Advertisements
 
 Buying advertisements operate differently.
 
@@ -291,7 +291,7 @@ This ensures that the digital asset is always secured before fiat settlement beg
 
 ---
 
-# 8.11 Program-Derived Authority
+## 8.11 Program-Derived Authority
 
 Every Liquidity Vault and Trade Escrow Vault is controlled by a Solana Program Derived Address (PDA).
 
@@ -309,7 +309,7 @@ Only the OpenFiat Escrow Program may authorize transfers according to the protoc
 
 ---
 
-# 8.12 Vault State Machine
+## 8.12 Vault State Machine
 
 Every reservation follows a deterministic lifecycle.
 
@@ -343,7 +343,7 @@ No implementation may skip intermediate states.
 
 ---
 
-# 8.13 Timeouts
+## 8.13 Timeouts
 
 Funds should never remain reserved indefinitely.
 
@@ -359,7 +359,7 @@ When a timeout occurs, reserved liquidity is either released to the buyer, retur
 
 ---
 
-# 8.14 Fee Distribution
+## 8.14 Fee Distribution
 
 Whenever settlement occurs, protocol fees are distributed automatically.
 
@@ -377,7 +377,7 @@ No manual accounting is required.
 
 ---
 
-# 8.15 Security Guarantees
+## 8.15 Security Guarantees
 
 The Liquidity Vault Architecture provides several important guarantees.
 
@@ -407,7 +407,7 @@ Every balance is publicly verifiable.
 
 ---
 
-# 8.16 Why This Architecture Is Different
+## 8.16 Why This Architecture Is Different
 
 Most existing peer-to-peer exchanges create escrow only after an order has been accepted.
 
@@ -430,7 +430,7 @@ By using two complementary vault models, the protocol achieves both efficiency a
 
 ---
 
-# 8.17 Looking Ahead
+## 8.17 Looking Ahead
 
 Guaranteeing the availability of funds is only one aspect of creating a trustworthy marketplace.
 

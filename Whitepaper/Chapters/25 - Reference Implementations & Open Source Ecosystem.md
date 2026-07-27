@@ -20,7 +20,7 @@ This approach ensures long-term interoperability while encouraging innovation th
 
 ---
 
-# 25.2 Design Philosophy
+## 25.2 Design Philosophy
 
 The OpenFiat ecosystem follows several guiding principles.
 
@@ -48,7 +48,7 @@ The protocol belongs to the ecosystem, not a particular repository.
 
 ---
 
-# 25.3 Repository Organization
+## 25.3 Repository Organization
 
 The OpenFiat project is organized into independent repositories.
 
@@ -86,7 +86,7 @@ Each repository evolves independently while remaining compatible through publish
 
 ---
 
-# 25.4 The Protocol Specification
+## 25.4 The Protocol Specification
 
 The Protocol Specification is the authoritative technical definition of OpenFiat.
 
@@ -110,7 +110,7 @@ An engineer should be able to build a fully compatible OpenFiat implementation u
 
 ---
 
-# 25.5 Whitepaper
+## 25.5 Whitepaper
 
 The Whitepaper explains:
 
@@ -127,7 +127,7 @@ It provides the conceptual understanding necessary before reading the Protocol S
 
 ---
 
-# 25.6 Tokenomics Paper
+## 25.6 Tokenomics Paper
 
 The Tokenomics Paper focuses exclusively on the OPEN economy.
 
@@ -146,7 +146,7 @@ Separating tokenomics from the Whitepaper allows both documents to evolve indepe
 
 ---
 
-# 25.7 Governance Documentation
+## 25.7 Governance Documentation
 
 Governance documentation defines:
 
@@ -161,7 +161,7 @@ These documents serve as operational references for governance participants.
 
 ---
 
-# 25.8 OpenFiat Programs
+## 25.8 OpenFiat Programs
 
 The OpenFiat Programs are Solana smart contracts that enforce protocol rules.
 
@@ -181,7 +181,7 @@ Business logic that does not require on-chain execution remains off-chain to red
 
 ---
 
-# 25.9 OpenFiat Node
+## 25.9 OpenFiat Node
 
 The OpenFiat Node is the official Rust implementation of the peer-to-peer network.
 
@@ -204,7 +204,7 @@ Its role is to replicate marketplace state and facilitate decentralized communic
 
 ---
 
-# 25.10 OpenFiat CLI
+## 25.10 OpenFiat CLI
 
 The Command Line Interface (CLI) provides administrative access to the protocol.
 
@@ -223,7 +223,7 @@ The CLI is intended for developers, node operators, and advanced users.
 
 ---
 
-# 25.11 Software Development Kits
+## 25.11 Software Development Kits
 
 Official SDKs simplify application development.
 
@@ -246,7 +246,7 @@ SDKs abstract protocol complexity while preserving deterministic behavior.
 
 ---
 
-# 25.12 Official Applications
+## 25.12 Official Applications
 
 The OpenFiat Foundation maintains several reference applications.
 
@@ -283,7 +283,7 @@ All official applications communicate with OpenFiat nodes through standardized A
 
 ---
 
-# 25.13 Developer Tools
+## 25.13 Developer Tools
 
 Developer tooling accelerates ecosystem growth.
 
@@ -302,7 +302,7 @@ These tools reduce the barrier to building on OpenFiat.
 
 ---
 
-# 25.14 Explorer
+## 25.14 Explorer
 
 OpenFiat includes an open-source Explorer.
 
@@ -321,7 +321,7 @@ The Explorer improves transparency across the ecosystem.
 
 ---
 
-# 25.15 Documentation Portal
+## 25.15 Documentation Portal
 
 Documentation is maintained alongside the software.
 
@@ -341,7 +341,7 @@ Documentation is versioned alongside protocol releases.
 
 ---
 
-# 25.16 Examples Repository
+## 25.16 Examples Repository
 
 A dedicated repository provides practical examples.
 
@@ -361,7 +361,7 @@ These examples serve as reference implementations for developers.
 
 ---
 
-# 25.17 Testing Infrastructure
+## 25.17 Testing Infrastructure
 
 Every repository participates in automated testing.
 
@@ -379,7 +379,7 @@ Every release should pass all automated validation before publication.
 
 ---
 
-# 25.18 Licensing
+## 25.18 Licensing
 
 The OpenFiat protocol is intended to encourage broad adoption while protecting the openness of the ecosystem.
 
@@ -396,7 +396,7 @@ The exact licenses for each repository will be documented within the respective 
 
 ---
 
-# 25.19 Community Contributions
+## 25.19 Community Contributions
 
 OpenFiat welcomes contributions from the global developer community.
 
@@ -415,7 +415,7 @@ All contributions should follow published contribution guidelines and code revie
 
 ---
 
-# 25.20 Release Process
+## 25.20 Release Process
 
 Every official release follows a structured lifecycle.
 
@@ -455,7 +455,7 @@ This process ensures consistency and reliability across all official software.
 
 ---
 
-# 25.21 Independent Implementations
+## 25.21 Independent Implementations
 
 OpenFiat encourages independent implementations.
 
@@ -474,7 +474,7 @@ Healthy competition between implementations strengthens the ecosystem.
 
 ---
 
-# 25.22 Long-Term Ecosystem Vision
+## 25.22 Long-Term Ecosystem Vision
 
 The long-term vision is an ecosystem where thousands of developers contribute software, infrastructure, documentation, research, and services.
 
@@ -486,7 +486,7 @@ An ecosystem owned by its participants is inherently more resilient than one con
 
 ---
 
-# 25.23 Why Reference Implementations Matter
+## 25.23 Why Reference Implementations Matter
 
 Protocols define standards.
 
@@ -500,7 +500,7 @@ This approach promotes interoperability, encourages experimentation, and protect
 
 ---
 
-# 25.24 Looking Ahead
+## 25.24 Looking Ahead
 
 With the protocol architecture, governance model, deployment strategy, token economy, and reference implementations now defined, the OpenFiat Whitepaper turns to the future.
 

@@ -20,7 +20,7 @@ OpenFiat therefore seeks to balance sustainability, decentralization, and transp
 
 ---
 
-# 14.2 Design Objectives
+## 14.2 Design Objectives
 
 The genesis distribution is guided by the following principles.
 
@@ -46,7 +46,7 @@ Founders, contributors, investors, and community members should all be incentivi
 
 ---
 
-# 14.3 Genesis Event
+## 14.3 Genesis Event
 
 The OPEN token is created once during the protocol's genesis.
 
@@ -61,7 +61,7 @@ This provides certainty regarding long-term ownership and eliminates inflation t
 
 ---
 
-# 14.4 Why a Presale?
+## 14.4 Why a Presale?
 
 OpenFiat is an ambitious public infrastructure project.
 
@@ -84,7 +84,7 @@ The objective is not simply to raise capital but to establish a financially sust
 
 ---
 
-# 14.5 AllenHark's Initial Commitment
+## 14.5 AllenHark's Initial Commitment
 
 Before the protocol becomes self-sustaining, AllenHark provides the initial leadership and investment necessary to bring OpenFiat to market.
 
@@ -103,7 +103,7 @@ AllenHark accepts significant early risk with the expectation that governance an
 
 ---
 
-# 14.6 Proposed Allocation Categories
+## 14.6 Proposed Allocation Categories
 
 The genesis supply is divided into distinct categories, each serving a specific purpose.
 
@@ -139,7 +139,7 @@ The precise allocation percentages will be finalized following community review 
 
 ---
 
-# 14.7 Vesting Philosophy
+## 14.7 Vesting Philosophy
 
 Not every allocation should become immediately liquid.
 
@@ -159,7 +159,7 @@ Community rewards and infrastructure incentives may follow different release sch
 
 ---
 
-# 14.8 Vesting Principles
+## 14.8 Vesting Principles
 
 The vesting model follows several guiding principles.
 
@@ -181,7 +181,7 @@ All vesting wallets should be publicly identifiable and auditable.
 
 ---
 
-# 14.9 Treasury Structure
+## 14.9 Treasury Structure
 
 Rather than maintaining a single treasury, OpenFiat separates long-term resources into multiple dedicated funds.
 
@@ -207,7 +207,7 @@ Separating these responsibilities improves governance transparency and reduces t
 
 ---
 
-# 14.10 Investor Protections
+## 14.10 Investor Protections
 
 The genesis distribution seeks to balance fundraising with long-term ecosystem health.
 
@@ -223,7 +223,7 @@ These protections reduce uncertainty and encourage informed participation.
 
 ---
 
-# 14.11 Governance Transition
+## 14.11 Governance Transition
 
 Genesis marks the beginning of the protocol, not its final governance model.
 
@@ -240,7 +240,7 @@ This gradual transition reflects OpenFiat's philosophy of progressive decentrali
 
 ---
 
-# 14.12 Transparency
+## 14.12 Transparency
 
 Every genesis allocation should be independently verifiable.
 
@@ -257,7 +257,7 @@ Transparency builds confidence and allows the community to hold all stakeholders
 
 ---
 
-# 14.13 Future Treasury Evolution
+## 14.13 Future Treasury Evolution
 
 As protocol revenue increases, treasury funding will rely less on the original genesis allocation and more on ongoing marketplace activity.
 
@@ -272,7 +272,7 @@ This transition represents the maturation of the OpenFiat economy.
 
 ---
 
-# 14.14 Why Genesis Matters
+## 14.14 Why Genesis Matters
 
 Genesis is more than a token launch.
 
@@ -282,7 +282,7 @@ A transparent and thoughtfully designed distribution aligns founders, developers
 
 ---
 
-# 14.15 Looking Ahead
+## 14.15 Looking Ahead
 
 Genesis defines how OPEN enters circulation.
 

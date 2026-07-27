@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Node Reputation & Stake-Weighted Quality of Service (SWQoS) Protocol defines how infrastructure nodes earn trust, how network performance is measured, how high-quality operators are rewarded, and how network resources are allocated during periods of congestion.
 
@@ -28,7 +28,7 @@ Every valid protocol message remains eligible for propagation regardless of node
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 A decentralized network depends upon infrastructure provided by independent operators.
 
@@ -48,7 +48,7 @@ The Node Reputation Protocol rewards operators who contribute reliable infrastru
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -70,7 +70,7 @@ This specification does not define:
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 The protocol SHALL:
 
@@ -83,7 +83,7 @@ The protocol SHALL:
 
 ---
 
-# 4. Design Philosophy
+## 4. Design Philosophy
 
 OpenFiat separates:
 
@@ -101,7 +101,7 @@ Node reputation influences only operational behavior.
 
 ---
 
-# 5. Node Reputation
+## 5. Node Reputation
 
 Every node possesses a continuously updated Reputation Score.
 
@@ -113,7 +113,7 @@ It cannot be purchased directly.
 
 ---
 
-# 6. Reputation Metrics
+## 6. Reputation Metrics
 
 The following metrics contribute to Node Reputation.
 
@@ -151,7 +151,7 @@ Long-term operational consistency.
 
 ---
 
-# 7. Stake Participation
+## 7. Stake Participation
 
 Operators MAY voluntarily stake OPEN tokens.
 
@@ -181,7 +181,7 @@ An operator with poor performance cannot compensate simply by staking more token
 
 ---
 
-# 8. Stake-Weighted Quality of Service (SWQoS)
+## 8. Stake-Weighted Quality of Service (SWQoS)
 
 During network congestion, nodes MAY prioritize traffic from infrastructure providers participating in SWQoS.
 
@@ -201,7 +201,7 @@ It MUST NOT alter protocol validity.
 
 ---
 
-# 9. What SWQoS Does NOT Do
+## 9. What SWQoS Does NOT Do
 
 SWQoS SHALL NEVER:
 
@@ -216,7 +216,7 @@ Its purpose is to improve network efficiency—not control the protocol.
 
 ---
 
-# 10. Priority Classes
+## 10. Priority Classes
 
 Recommended network priorities:
 
@@ -255,7 +255,7 @@ SWQoS applies within each class.
 
 ---
 
-# 11. Node Scoring
+## 11. Node Scoring
 
 Nodes periodically calculate peer quality.
 
@@ -273,7 +273,7 @@ Scores evolve continuously.
 
 ---
 
-# 12. Reputation Accumulation
+## 12. Reputation Accumulation
 
 Reputation grows slowly.
 
@@ -283,7 +283,7 @@ This discourages temporary infrastructure deployment solely to gain reputation.
 
 ---
 
-# 13. Reputation Decay
+## 13. Reputation Decay
 
 Inactive nodes gradually lose operational reputation.
 
@@ -295,7 +295,7 @@ Operational reputation reflects recent performance.
 
 ---
 
-# 14. Penalties
+## 14. Penalties
 
 Nodes may receive penalties for:
 
@@ -313,7 +313,7 @@ They do not automatically remove nodes from the network.
 
 ---
 
-# 15. Temporary Suspension
+## 15. Temporary Suspension
 
 Severe protocol abuse MAY result in temporary local suspension.
 
@@ -330,7 +330,7 @@ There is no global blacklist.
 
 ---
 
-# 16. Reward Eligibility
+## 16. Reward Eligibility
 
 Future protocol versions may distribute infrastructure rewards.
 
@@ -346,7 +346,7 @@ Reward calculations are defined separately within the Tokenomics specification.
 
 ---
 
-# 17. Independent Evaluation
+## 17. Independent Evaluation
 
 Every node independently evaluates peers.
 
@@ -358,7 +358,7 @@ Over time, healthy operators naturally converge toward higher reputation across 
 
 ---
 
-# 18. Geographic Diversity
+## 18. Geographic Diversity
 
 Reputation SHOULD reward infrastructure diversity.
 
@@ -373,7 +373,7 @@ This reduces systemic risk.
 
 ---
 
-# 19. Service Reliability
+## 19. Service Reliability
 
 Nodes advertising services through OFS-1500 are additionally evaluated on service quality.
 
@@ -403,7 +403,7 @@ Risk Providers
 
 ---
 
-# 20. Congestion Handling
+## 20. Congestion Handling
 
 During congestion:
 
@@ -431,7 +431,7 @@ Lower-priority traffic is delayed rather than discarded whenever practical.
 
 ---
 
-# 21. Local Autonomy
+## 21. Local Autonomy
 
 Every node retains complete autonomy over:
 
@@ -444,7 +444,7 @@ The protocol provides guidance, not centralized enforcement.
 
 ---
 
-# 22. Security Considerations
+## 22. Security Considerations
 
 Implementations MUST protect against:
 
@@ -459,7 +459,7 @@ Observed behavior SHOULD carry greater weight than self-reported metrics.
 
 ---
 
-# 23. Performance Considerations
+## 23. Performance Considerations
 
 The reputation system is designed to improve:
 
@@ -473,7 +473,7 @@ Implementations SHOULD compute reputation incrementally to minimize overhead.
 
 ---
 
-# 24. Conformance
+## 24. Conformance
 
 A compliant implementation MUST:
 
@@ -488,7 +488,7 @@ A compliant implementation MUST:
 
 ---
 
-# 25. Relationship to Other Specifications
+## 25. Relationship to Other Specifications
 
 Node Reputation enhances network quality without changing protocol behavior.
 

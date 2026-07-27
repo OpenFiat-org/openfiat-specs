@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Dispute Protocol (ODP) defines how disagreements arising from OpenFiat trades are initiated, managed, investigated, resolved, and permanently recorded.
 
@@ -24,7 +24,7 @@ The protocol guarantees that disputed escrow remains secure until a final resolu
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 Although the vast majority of trades are expected to complete successfully, disputes are inevitable.
 
@@ -43,7 +43,7 @@ The Dispute Protocol provides a standardized framework for resolving these situa
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -66,7 +66,7 @@ This specification does **not** define:
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 The protocol SHALL:
 
@@ -80,7 +80,7 @@ The protocol SHALL:
 
 ---
 
-# 4. Design Philosophy
+## 4. Design Philosophy
 
 A dispute is **not** evidence of fraud.
 
@@ -90,7 +90,7 @@ The protocol assumes neither party is correct until sufficient evidence has been
 
 ---
 
-# 5. When a Dispute May Be Opened
+## 5. When a Dispute May Be Opened
 
 A dispute MAY be initiated when:
 
@@ -106,7 +106,7 @@ Disputes may only be opened while a trade remains active.
 
 ---
 
-# 6. Automatic Escrow Freeze
+## 6. Automatic Escrow Freeze
 
 Immediately after a dispute begins:
 
@@ -132,7 +132,7 @@ Neither party can release or reclaim funds while the dispute is active.
 
 ---
 
-# 7. Dispute Identifier
+## 7. Dispute Identifier
 
 Every dispute receives a globally unique Dispute ID.
 
@@ -140,7 +140,7 @@ The identifier remains permanent for auditing purposes.
 
 ---
 
-# 8. Dispute Record
+## 8. Dispute Record
 
 Each dispute contains:
 
@@ -158,7 +158,7 @@ Each dispute contains:
 
 ---
 
-# 9. Evidence Submission
+## 9. Evidence Submission
 
 Either participant MAY submit evidence.
 
@@ -179,7 +179,7 @@ Additional evidence creates new evidence entries.
 
 ---
 
-# 10. Protocol Evidence
+## 10. Protocol Evidence
 
 The protocol itself automatically contributes evidence.
 
@@ -198,7 +198,7 @@ Protocol-generated evidence is generally considered highly trustworthy because i
 
 ---
 
-# 11. External Evidence
+## 11. External Evidence
 
 Future protocol versions MAY integrate external providers.
 
@@ -213,7 +213,7 @@ External evidence supplements—but never replaces—protocol evidence.
 
 ---
 
-# 12. Wallet Risk Intelligence
+## 12. Wallet Risk Intelligence
 
 Risk Intelligence Providers registered through OFS-1500 MAY contribute wallet intelligence.
 
@@ -231,7 +231,7 @@ Risk intelligence informs investigations but does not automatically determine th
 
 ---
 
-# 13. Evidence Synchronization
+## 13. Evidence Synchronization
 
 Evidence submissions generate immutable protocol events.
 
@@ -241,7 +241,7 @@ Large files MAY be stored externally with cryptographically verifiable hashes re
 
 ---
 
-# 14. Dispute Timeline
+## 14. Dispute Timeline
 
 ```text id="dispute-flow"
 Trade
@@ -281,7 +281,7 @@ Dispute Closed
 
 ---
 
-# 15. Investigation Phase
+## 15. Investigation Phase
 
 During investigation:
 
@@ -294,7 +294,7 @@ Every action is permanently recorded.
 
 ---
 
-# 16. Arbitration
+## 16. Arbitration
 
 The initial OpenFiat network may utilize trusted protocol arbitrators appointed through governance.
 
@@ -311,7 +311,7 @@ The arbitration mechanism itself is intentionally upgradeable.
 
 ---
 
-# 17. Resolution Outcomes
+## 17. Resolution Outcomes
 
 A dispute concludes with exactly one resolution.
 
@@ -339,7 +339,7 @@ Invalid Dispute
 
 ---
 
-# 18. Appeals
+## 18. Appeals
 
 Future protocol versions MAY introduce formal appeals.
 
@@ -353,7 +353,7 @@ Repeated appeals without new evidence SHOULD be discouraged.
 
 ---
 
-# 19. Reputation Impact
+## 19. Reputation Impact
 
 Every completed dispute affects reputation.
 
@@ -376,7 +376,7 @@ Dispute statistics contribute to OFS-3000.
 
 ---
 
-# 20. Abuse Prevention
+## 20. Abuse Prevention
 
 The protocol discourages abusive behavior.
 
@@ -392,7 +392,7 @@ Repeated abuse may reduce marketplace reputation.
 
 ---
 
-# 21. Dispute Synchronization
+## 21. Dispute Synchronization
 
 Dispute events include:
 
@@ -409,7 +409,7 @@ Events propagate through OFS-1200.
 
 ---
 
-# 22. Notifications
+## 22. Notifications
 
 Participants SHOULD receive notifications for:
 
@@ -431,7 +431,7 @@ Notification delivery is defined in OFS-6000.
 
 ---
 
-# 23. Privacy
+## 23. Privacy
 
 Only authorized participants and designated arbitrators SHOULD access dispute evidence.
 
@@ -441,7 +441,7 @@ Public network synchronization SHOULD replicate hashes and metadata rather than 
 
 ---
 
-# 24. Security Considerations
+## 24. Security Considerations
 
 Implementations MUST protect against:
 
@@ -457,7 +457,7 @@ Every dispute action MUST be digitally signed.
 
 ---
 
-# 25. Performance Considerations
+## 25. Performance Considerations
 
 Disputes are relatively rare but operationally significant.
 
@@ -471,7 +471,7 @@ Implementations SHOULD optimize:
 
 ---
 
-# 26. Conformance
+## 26. Conformance
 
 A compliant implementation MUST:
 
@@ -487,7 +487,7 @@ A compliant implementation MUST:
 
 ---
 
-# 27. Relationship to Other Specifications
+## 27. Relationship to Other Specifications
 
 The Dispute Protocol protects the integrity of the OpenFiat marketplace whenever settlement cannot be completed through normal procedures.
 

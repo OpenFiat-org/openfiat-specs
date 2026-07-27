@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Snapshot Synchronization Protocol (SSP) defines how nodes rapidly synchronize marketplace state after joining the network or recovering from extended downtime.
 
@@ -26,7 +26,7 @@ Snapshot Synchronization dramatically reduces bootstrap time, bandwidth consumpt
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 The OpenFiat network continuously produces events.
 
@@ -42,7 +42,7 @@ This approach enables synchronization in minutes rather than hours or days.
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -64,7 +64,7 @@ This specification does not define:
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 Snapshot Synchronization SHALL:
 
@@ -77,7 +77,7 @@ Snapshot Synchronization SHALL:
 
 ---
 
-# 4. Snapshot Philosophy
+## 4. Snapshot Philosophy
 
 Snapshots are **performance optimizations**.
 
@@ -94,7 +94,7 @@ A snapshot simply represents that state at a particular instant.
 
 ---
 
-# 5. Snapshot Providers
+## 5. Snapshot Providers
 
 Any node meeting protocol requirements MAY become a Snapshot Provider.
 
@@ -115,7 +115,7 @@ Clients choose providers independently.
 
 ---
 
-# 6. AllenHark Bootstrap Snapshots
+## 6. AllenHark Bootstrap Snapshots
 
 During the network bootstrap phase, AllenHark intends to publish **minute-level snapshots** of the marketplace.
 
@@ -129,7 +129,7 @@ As the network matures, additional community-operated snapshot providers are exp
 
 ---
 
-# 7. Snapshot Contents
+## 7. Snapshot Contents
 
 A snapshot represents the complete network state required to resume operation.
 
@@ -152,7 +152,7 @@ Expired and historical data SHOULD NOT be included unless required for protocol 
 
 ---
 
-# 8. Snapshot Metadata
+## 8. Snapshot Metadata
 
 Every snapshot SHALL contain metadata describing itself.
 
@@ -173,7 +173,7 @@ Metadata allows clients to evaluate and verify snapshots before downloading them
 
 ---
 
-# 9. Snapshot Height
+## 9. Snapshot Height
 
 Every snapshot is assigned a monotonically increasing Snapshot Height.
 
@@ -195,7 +195,7 @@ Snapshot Height enables nodes to determine whether newer snapshots are available
 
 ---
 
-# 10. State Root
+## 10. State Root
 
 Every snapshot SHALL include a deterministic State Root.
 
@@ -207,7 +207,7 @@ Any mismatch SHALL invalidate the snapshot.
 
 ---
 
-# 11. Snapshot Generation
+## 11. Snapshot Generation
 
 Snapshot generation occurs periodically.
 
@@ -245,7 +245,7 @@ Snapshot generation MUST NOT interrupt normal marketplace operation.
 
 ---
 
-# 12. Snapshot Publication
+## 12. Snapshot Publication
 
 Snapshot providers advertise newly available snapshots through the Gossip Protocol.
 
@@ -257,7 +257,7 @@ This minimizes network bandwidth.
 
 ---
 
-# 13. Snapshot Discovery
+## 13. Snapshot Discovery
 
 Nodes searching for snapshots query the Service Registry.
 
@@ -273,7 +273,7 @@ Clients choose which provider to use.
 
 ---
 
-# 14. Snapshot Download
+## 14. Snapshot Download
 
 Snapshots MAY be downloaded using one or more transport mechanisms.
 
@@ -290,7 +290,7 @@ Verification always occurs after download.
 
 ---
 
-# 15. Compression
+## 15. Compression
 
 Snapshots SHOULD be compressed.
 
@@ -306,7 +306,7 @@ The compression method MUST be recorded within snapshot metadata.
 
 ---
 
-# 16. Snapshot Verification
+## 16. Snapshot Verification
 
 After download, every snapshot MUST be verified.
 
@@ -323,7 +323,7 @@ Only verified snapshots MAY be imported.
 
 ---
 
-# 17. Snapshot Import
+## 17. Snapshot Import
 
 Import process:
 
@@ -359,7 +359,7 @@ Nodes SHALL NOT participate in the network until import completes successfully.
 
 ---
 
-# 18. Incremental Synchronization
+## 18. Incremental Synchronization
 
 A snapshot is only current until new events occur.
 
@@ -385,7 +385,7 @@ Missing events are obtained through the Gossip Protocol.
 
 ---
 
-# 19. Snapshot Retention
+## 19. Snapshot Retention
 
 Snapshot providers SHOULD retain multiple historical snapshots.
 
@@ -400,7 +400,7 @@ Retention policies remain implementation specific.
 
 ---
 
-# 20. Snapshot Replacement
+## 20. Snapshot Replacement
 
 Nodes periodically evaluate available snapshots.
 
@@ -410,7 +410,7 @@ Routine operation SHOULD continue using incremental synchronization.
 
 ---
 
-# 21. Partial Synchronization
+## 21. Partial Synchronization
 
 Future protocol versions MAY introduce partial snapshots.
 
@@ -425,7 +425,7 @@ Partial snapshots are optional extensions.
 
 ---
 
-# 22. Failure Recovery
+## 22. Failure Recovery
 
 If snapshot import fails:
 
@@ -449,7 +449,7 @@ Nodes MUST NOT activate partially imported snapshots.
 
 ---
 
-# 23. Multiple Providers
+## 23. Multiple Providers
 
 Nodes SHOULD support multiple snapshot providers.
 
@@ -466,7 +466,7 @@ Provider choice remains entirely local.
 
 ---
 
-# 24. Security Considerations
+## 24. Security Considerations
 
 Implementations MUST protect against:
 
@@ -482,7 +482,7 @@ Cryptographic verification is mandatory regardless of provider trust.
 
 ---
 
-# 25. Performance Considerations
+## 25. Performance Considerations
 
 Snapshot Synchronization is expected to reduce synchronization time from hours of event replay to minutes.
 
@@ -497,7 +497,7 @@ The protocol is designed to support very large marketplace datasets while mainta
 
 ---
 
-# 26. Conformance
+## 26. Conformance
 
 A compliant implementation MUST:
 
@@ -512,7 +512,7 @@ A compliant implementation MUST:
 
 ---
 
-# 27. Relationship to Other Specifications
+## 27. Relationship to Other Specifications
 
 Snapshot Synchronization accelerates network recovery without replacing normal protocol operation.
 

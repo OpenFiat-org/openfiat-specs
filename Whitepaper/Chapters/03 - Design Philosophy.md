@@ -32,7 +32,7 @@ The remaining chapters repeatedly reference them.
 
 ---
 
-# 3.2 Principle One — Users Own Their Assets
+## 3.2 Principle One — Users Own Their Assets
 
 The first and most important principle of OpenFiat is simple:
 
@@ -74,7 +74,7 @@ This dramatically reduces custodial risk.
 
 ---
 
-# 3.3 Principle Two — Decentralize Only What Benefits from Decentralization
+## 3.3 Principle Two — Decentralize Only What Benefits from Decentralization
 
 A common misconception within the blockchain industry is that every component must be placed on-chain.
 
@@ -110,7 +110,7 @@ By placing only security-critical operations on-chain, OpenFiat achieves signifi
 
 ---
 
-# 3.4 Principle Three — Protocol, Not Platform
+## 3.4 Principle Three — Protocol, Not Platform
 
 OpenFiat is not intended to become another company-operated exchange.
 
@@ -145,7 +145,7 @@ This approach encourages competition, innovation, and long-term resilience.
 
 ---
 
-# 3.5 Principle Four — Permissionless Participation
+## 3.5 Principle Four — Permissionless Participation
 
 Participation within OpenFiat should never require approval from AllenHark or any other organization.
 
@@ -166,7 +166,7 @@ Spam and abuse are addressed through staking, reputation, fees, and cryptographi
 
 ---
 
-# 3.6 Principle Five — Reputation Is Earned
+## 3.6 Principle Five — Reputation Is Earned
 
 Trust cannot be assigned.
 
@@ -196,7 +196,7 @@ Every participant continuously earns reputation through behavior rather than adm
 
 ---
 
-# 3.7 Principle Six — Verify Control, Not Identity
+## 3.7 Principle Six — Verify Control, Not Identity
 
 OpenFiat deliberately avoids becoming an identity platform.
 
@@ -218,7 +218,7 @@ This approach preserves privacy while still allowing users to establish trusted 
 
 ---
 
-# 3.8 Principle Seven — Everything Important Should Be Verifiable
+## 3.8 Principle Seven — Everything Important Should Be Verifiable
 
 Trust should be replaced wherever possible with mathematical verification.
 
@@ -242,7 +242,7 @@ This philosophy enables independent implementations while reducing reliance on c
 
 ---
 
-# 3.9 Principle Eight — Open Source by Default
+## 3.9 Principle Eight — Open Source by Default
 
 Every core component of OpenFiat should be openly available.
 
@@ -272,7 +272,7 @@ The protocol should never depend upon proprietary software for its continued ope
 
 ---
 
-# 3.10 Principle Nine — Economic Incentives Should Align with Good Behavior
+## 3.10 Principle Nine — Economic Incentives Should Align with Good Behavior
 
 Rules alone cannot secure a decentralized system.
 
@@ -298,7 +298,7 @@ This alignment reduces the need for centralized enforcement.
 
 ---
 
-# 3.11 Principle Ten — Progressive Decentralization
+## 3.11 Principle Ten — Progressive Decentralization
 
 OpenFiat recognizes that every decentralized protocol begins somewhere.
 
@@ -326,7 +326,7 @@ This philosophy is known as progressive decentralization.
 
 ---
 
-# 3.12 Principle Eleven — Simplicity Before Complexity
+## 3.12 Principle Eleven — Simplicity Before Complexity
 
 Many protocols become difficult to understand because they attempt to solve every possible problem simultaneously.
 
@@ -350,7 +350,7 @@ This principle makes the protocol easier to audit, implement, maintain, and expl
 
 ---
 
-# 3.13 Principle Twelve — The Protocol Must Outlive Its Creators
+## 3.13 Principle Twelve — The Protocol Must Outlive Its Creators
 
 Perhaps the most important principle of all is longevity.
 
@@ -372,7 +372,7 @@ This principle influences every major architectural decision within the protocol
 
 ---
 
-# 3.14 The OpenFiat Philosophy
+## 3.14 The OpenFiat Philosophy
 
 The twelve principles introduced in this chapter can be summarized as follows:
 
@@ -395,7 +395,7 @@ Whenever a technical decision appears throughout this whitepaper, it can ultimat
 
 ---
 
-# 3.15 Looking Ahead
+## 3.15 Looking Ahead
 
 With the guiding principles now established, the next chapter introduces the overall architecture of OpenFiat.
 

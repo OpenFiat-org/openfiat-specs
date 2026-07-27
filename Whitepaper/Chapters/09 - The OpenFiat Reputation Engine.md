@@ -24,7 +24,7 @@ Instead, it is calculated from protocol events that can be independently verifie
 
 ---
 
-# 9.2 Design Objectives
+## 9.2 Design Objectives
 
 The Reputation Engine was designed around several core principles.
 
@@ -54,7 +54,7 @@ The scoring methodology should be publicly documented.
 
 ---
 
-# 9.3 Reputation Is Earned
+## 9.3 Reputation Is Earned
 
 OpenFiat deliberately separates **identity** from **reputation**.
 
@@ -74,7 +74,7 @@ The protocol therefore rewards proven behavior rather than claimed identity.
 
 ---
 
-# 9.4 Participant Categories
+## 9.4 Participant Categories
 
 OpenFiat maintains independent reputation profiles for different participant roles.
 
@@ -98,7 +98,7 @@ Likewise, an outstanding node operator does not automatically receive marketplac
 
 ---
 
-# 9.5 Merchant Reputation
+## 9.5 Merchant Reputation
 
 Merchant reputation is the most visible reputation score within the marketplace.
 
@@ -146,7 +146,7 @@ The frequency with which payments are correctly acknowledged without dispute.
 
 ---
 
-# 9.6 Buyer Reputation
+## 9.6 Buyer Reputation
 
 Buyers also accumulate reputation.
 
@@ -164,7 +164,7 @@ Although buyer reputation does not influence advertisement publication, it helps
 
 ---
 
-# 9.7 Arbitrator Reputation
+## 9.7 Arbitrator Reputation
 
 Arbitration directly affects protocol trust.
 
@@ -185,7 +185,7 @@ High-performing arbitrators become preferred participants for future disputes.
 
 ---
 
-# 9.8 Node Reputation
+## 9.8 Node Reputation
 
 OpenFiat nodes provide the communication infrastructure that powers the protocol.
 
@@ -225,7 +225,7 @@ Nodes that repeatedly fall below acceptable performance thresholds may receive r
 
 ---
 
-# 9.9 Service Provider Reputation
+## 9.9 Service Provider Reputation
 
 Notification providers, oracle providers, and snapshot providers are evaluated independently.
 
@@ -256,7 +256,7 @@ Service providers compete on measurable quality rather than exclusive partnershi
 
 ---
 
-# 9.10 Reputation Decay
+## 9.10 Reputation Decay
 
 The marketplace changes over time.
 
@@ -272,7 +272,7 @@ This encourages ongoing participation while preventing abandoned accounts from r
 
 ---
 
-# 9.11 Reputation Recovery
+## 9.11 Reputation Recovery
 
 OpenFiat does not permanently punish participants for isolated mistakes.
 
@@ -288,7 +288,7 @@ The protocol rewards improvement rather than permanent exclusion.
 
 ---
 
-# 9.12 Anti-Manipulation Measures
+## 9.12 Anti-Manipulation Measures
 
 Reputation systems are valuable only if manipulation remains difficult.
 
@@ -318,7 +318,7 @@ The exact algorithms are deterministic and fully documented within the Protocol 
 
 ---
 
-# 9.13 Reputation and the Risk Engine
+## 9.13 Reputation and the Risk Engine
 
 The Reputation Engine and Marketplace Risk Engine complement one another.
 
@@ -336,7 +336,7 @@ This approach balances historical trust with real-time marketplace protection.
 
 ---
 
-# 9.14 Reputation Is Never Purchased
+## 9.14 Reputation Is Never Purchased
 
 OpenFiat deliberately prohibits purchasing reputation.
 
@@ -354,7 +354,7 @@ This distinction preserves the integrity of the marketplace.
 
 ---
 
-# 9.15 Reputation Transparency
+## 9.15 Reputation Transparency
 
 Every participant may inspect the components contributing to reputation.
 
@@ -374,7 +374,7 @@ Providing underlying metrics allows users to make informed decisions rather than
 
 ---
 
-# 9.16 Reputation Tiers
+## 9.16 Reputation Tiers
 
 To simplify the marketplace experience, OpenFiat groups participants into reputation tiers.
 
@@ -394,7 +394,7 @@ Governance may refine tier thresholds over time without changing the underlying 
 
 ---
 
-# 9.17 Reputation and Rewards
+## 9.17 Reputation and Rewards
 
 Although reputation is not directly tradable, it influences participation throughout the ecosystem.
 
@@ -412,7 +412,7 @@ Reputation therefore becomes a valuable protocol asset earned through consistent
 
 ---
 
-# 9.18 Why the Reputation Engine Matters
+## 9.18 Why the Reputation Engine Matters
 
 OpenFiat replaces institutional trust with measurable behavior.
 
@@ -422,7 +422,7 @@ This creates a marketplace where trust grows organically, manipulation becomes e
 
 ---
 
-# 9.19 Looking Ahead
+## 9.19 Looking Ahead
 
 Trust extends beyond trading behavior alone.
 

@@ -26,7 +26,7 @@ The result is a layered architecture where each layer performs the tasks it is b
 
 ---
 
-# 4.2 The Layered Architecture
+## 4.2 The Layered Architecture
 
 OpenFiat separates responsibilities into three primary layers.
 
@@ -62,7 +62,7 @@ This separation keeps the protocol efficient, modular, and easier to maintain.
 
 ---
 
-# 4.3 Why Build on Solana?
+## 4.3 Why Build on Solana?
 
 One of the earliest design decisions was whether OpenFiat should introduce its own blockchain.
 
@@ -86,7 +86,7 @@ This allows OpenFiat developers to spend their time improving the marketplace ra
 
 ---
 
-# 4.4 The Major Components
+## 4.4 The Major Components
 
 The OpenFiat ecosystem consists of several independent components working together.
 
@@ -107,7 +107,7 @@ Each component is described below.
 
 ---
 
-# 4.5 Users
+## 4.5 Users
 
 Users are the participants who ultimately benefit from the protocol.
 
@@ -138,7 +138,7 @@ The protocol does not restrict these combinations.
 
 ---
 
-# 4.6 Wallets
+## 4.6 Wallets
 
 Every interaction with OpenFiat begins with a cryptocurrency wallet.
 
@@ -161,7 +161,7 @@ Private keys remain under the user's exclusive control.
 
 ---
 
-# 4.7 Smart Contracts
+## 4.7 Smart Contracts
 
 Smart contracts represent the trust layer of OpenFiat.
 
@@ -187,7 +187,7 @@ This distinction significantly reduces transaction costs while preserving securi
 
 ---
 
-# 4.8 OpenFiat Nodes
+## 4.8 OpenFiat Nodes
 
 OpenFiat nodes form the decentralized coordination network.
 
@@ -214,7 +214,7 @@ Snapshots allow new nodes to synchronize quickly without rebuilding the entire n
 
 ---
 
-# 4.9 Service Providers
+## 4.9 Service Providers
 
 Certain protocol functions benefit from specialization.
 
@@ -245,7 +245,7 @@ All providers register through the protocol registry and satisfy staking require
 
 ---
 
-# 4.10 Client Applications
+## 4.10 Client Applications
 
 Client applications provide the user interface.
 
@@ -268,7 +268,7 @@ Applications communicate with OpenFiat nodes using the public protocol rather th
 
 ---
 
-# 4.11 OpenFiat Network (OFNP)
+## 4.11 OpenFiat Network (OFNP)
 
 OpenFiat nodes communicate through the OpenFiat Network Protocol (OFNP).
 
@@ -290,7 +290,7 @@ Once connected, nodes communicate directly with one another.
 
 ---
 
-# 4.12 Trade Protocol (OFTP)
+## 4.12 Trade Protocol (OFTP)
 
 Trading within OpenFiat follows the OpenFiat Trade Protocol (OFTP).
 
@@ -311,7 +311,7 @@ This guarantees interoperability across independently developed software.
 
 ---
 
-# 4.13 Trust Boundaries
+## 4.13 Trust Boundaries
 
 One of the most important concepts within OpenFiat is understanding which components require trust.
 
@@ -341,7 +341,7 @@ Each component performs only the responsibilities assigned to it.
 
 ---
 
-# 4.14 Network Topology
+## 4.14 Network Topology
 
 OpenFiat operates as a decentralized mesh network.
 
@@ -374,7 +374,7 @@ This architecture eliminates single points of failure while simplifying initial 
 
 ---
 
-# 4.15 Data Flow
+## 4.15 Data Flow
 
 A simplified trade demonstrates how the architecture operates.
 
@@ -400,7 +400,7 @@ Marketplace coordination occurs efficiently through the OpenFiat network.
 
 ---
 
-# 4.16 Security Model
+## 4.16 Security Model
 
 OpenFiat deliberately separates security into two independent layers.
 
@@ -432,7 +432,7 @@ Separating these responsibilities improves scalability while reducing unnecessar
 
 ---
 
-# 4.17 Failure Tolerance
+## 4.17 Failure Tolerance
 
 The protocol is designed to continue operating despite partial failures.
 
@@ -458,7 +458,7 @@ This resilience results directly from the protocol's decentralized architecture.
 
 ---
 
-# 4.18 Progressive Infrastructure Decentralization
+## 4.18 Progressive Infrastructure Decentralization
 
 OpenFiat begins with reference infrastructure operated by AllenHark.
 
@@ -478,7 +478,7 @@ Success is measured by decreasing dependence upon any single operator.
 
 ---
 
-# 4.19 Why This Architecture Matters
+## 4.19 Why This Architecture Matters
 
 The architecture presented in this chapter reflects a deliberate engineering philosophy.
 
@@ -498,7 +498,7 @@ The result is a decentralized marketplace that remains secure without sacrificin
 
 ---
 
-# 4.20 Looking Ahead
+## 4.20 Looking Ahead
 
 The architecture described in this chapter provides a high-level view of the OpenFiat ecosystem.
 

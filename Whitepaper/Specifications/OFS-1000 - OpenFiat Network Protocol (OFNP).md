@@ -16,7 +16,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Network Protocol (OFNP) defines the foundational networking layer of the OpenFiat ecosystem.
 
@@ -28,7 +28,7 @@ This separation allows individual protocol components to evolve independently wh
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 OpenFiat is a decentralized protocol composed of independent nodes operating without centralized coordination.
 
@@ -54,7 +54,7 @@ Its sole responsibility is transporting authenticated protocol messages between 
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -84,7 +84,7 @@ This specification does **not** define:
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 OFNP is designed to satisfy the following requirements.
 
@@ -124,7 +124,7 @@ OFNP SHALL define protocol semantics independently of transport implementation.
 
 ---
 
-# 4. Underlying Transport
+## 4. Underlying Transport
 
 OpenFiat adopts **libp2p** as its standard networking stack.
 
@@ -144,7 +144,7 @@ provided they fully conform to this specification.
 
 ---
 
-# 5. Transport Protocols
+## 5. Transport Protocols
 
 The reference transport stack is:
 
@@ -166,7 +166,7 @@ Alternative libp2p transports MAY be introduced through future governance.
 
 ---
 
-# 6. Node Identity
+## 6. Node Identity
 
 Every node possesses a permanent cryptographic identity.
 
@@ -182,7 +182,7 @@ Private keys MUST remain under the exclusive control of the node operator.
 
 ---
 
-# 7. Node Types
+## 7. Node Types
 
 OFNP recognizes multiple logical node roles.
 
@@ -203,7 +203,7 @@ Roles are advertised during peer negotiation.
 
 ---
 
-# 8. Connection Lifecycle
+## 8. Connection Lifecycle
 
 Every connection progresses through the following states.
 
@@ -243,7 +243,7 @@ Connections SHALL NOT exchange application messages before negotiation completes
 
 ---
 
-# 9. Secure Handshake
+## 9. Secure Handshake
 
 The secure handshake MUST establish:
 
@@ -258,7 +258,7 @@ Unauthenticated connections MUST be rejected.
 
 ---
 
-# 10. Protocol Negotiation
+## 10. Protocol Negotiation
 
 Immediately following authentication, both peers SHALL exchange:
 
@@ -295,7 +295,7 @@ Nodes SHALL reject mandatory protocol incompatibilities.
 
 ---
 
-# 11. Capability Advertisement
+## 11. Capability Advertisement
 
 Each node advertises the services it provides.
 
@@ -321,7 +321,7 @@ Capability advertisement enables intelligent peer selection.
 
 ---
 
-# 12. Session Establishment
+## 12. Session Establishment
 
 Once negotiation succeeds:
 
@@ -338,7 +338,7 @@ Sessions terminate when:
 
 ---
 
-# 13. Message Framing
+## 13. Message Framing
 
 Every OFNP message SHALL follow a common envelope.
 
@@ -360,7 +360,7 @@ Higher-level specifications define payload contents.
 
 ---
 
-# 14. Standard Header Fields
+## 14. Standard Header Fields
 
 Every message header SHALL include:
 
@@ -377,7 +377,7 @@ Future versions MAY introduce optional extension fields.
 
 ---
 
-# 15. Sequence Numbers
+## 15. Sequence Numbers
 
 Every session maintains monotonically increasing sequence numbers.
 
@@ -392,7 +392,7 @@ Duplicate sequence numbers SHALL be discarded.
 
 ---
 
-# 16. Message Authentication
+## 16. Message Authentication
 
 Application messages SHALL be authenticated.
 
@@ -406,7 +406,7 @@ Authentication methods are defined by individual specifications where appropriat
 
 ---
 
-# 17. Compression
+## 17. Compression
 
 Payload compression is optional.
 
@@ -416,7 +416,7 @@ Compression SHOULD only be applied to payloads exceeding implementation-defined 
 
 ---
 
-# 18. Heartbeats
+## 18. Heartbeats
 
 Active peers SHALL periodically exchange heartbeat messages.
 
@@ -432,7 +432,7 @@ Heartbeat intervals are implementation-configurable but SHOULD remain consistent
 
 ---
 
-# 19. Flow Control
+## 19. Flow Control
 
 Nodes SHALL implement flow control to prevent resource exhaustion.
 
@@ -447,7 +447,7 @@ Flow control mechanisms MUST NOT interfere with legitimate protocol operation.
 
 ---
 
-# 20. Multiplexing
+## 20. Multiplexing
 
 Multiple protocol services SHALL share a single network connection.
 
@@ -464,7 +464,7 @@ Multiplexing minimizes connection overhead while improving network efficiency.
 
 ---
 
-# 21. Connection Prioritization
+## 21. Connection Prioritization
 
 Implementations MAY prioritize traffic based upon message class.
 
@@ -482,7 +482,7 @@ Prioritization policies SHOULD remain deterministic.
 
 ---
 
-# 22. Error Handling
+## 22. Error Handling
 
 Standard error categories include:
 
@@ -502,7 +502,7 @@ Human-readable descriptions MAY accompany errors.
 
 ---
 
-# 23. Graceful Shutdown
+## 23. Graceful Shutdown
 
 Nodes SHOULD terminate connections gracefully.
 
@@ -532,7 +532,7 @@ Abrupt disconnections SHOULD be avoided whenever practical.
 
 ---
 
-# 24. Version Compatibility
+## 24. Version Compatibility
 
 Nodes MUST advertise:
 
@@ -544,7 +544,7 @@ Version negotiation SHALL occur before application traffic begins.
 
 ---
 
-# 25. Future Extensions
+## 25. Future Extensions
 
 OFNP is intentionally minimal.
 
@@ -559,7 +559,7 @@ Examples include:
 
 ---
 
-# 26. Security Considerations
+## 26. Security Considerations
 
 Implementations MUST consider:
 
@@ -575,7 +575,7 @@ Implementations SHOULD apply conservative connection limits and continuous peer 
 
 ---
 
-# 27. Conformance
+## 27. Conformance
 
 An implementation claiming compliance with OFS-1000 MUST:
 
@@ -592,13 +592,13 @@ An implementation claiming compliance with OFS-1000 MUST:
 
 ---
 
-# 28. Relationship to Other Specifications
+## 28. Relationship to Other Specifications
 
 OFS-1000 defines the transport layer for the entire OpenFiat ecosystem.
 
 Higher-level specifications build upon OFNP but do not modify its behavior.
 
-```
+```text
                 OFS-0000
         OpenFiat Protocol Suite
                      │

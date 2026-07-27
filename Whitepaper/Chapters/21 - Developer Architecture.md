@@ -20,7 +20,7 @@ This ensures the long-term health of the ecosystem by preventing dependence on a
 
 ---
 
-# 21.2 Design Principles
+## 21.2 Design Principles
 
 The OpenFiat developer ecosystem follows several guiding principles.
 
@@ -50,7 +50,7 @@ New services should integrate through published interfaces rather than private A
 
 ---
 
-# 21.3 Reference Architecture
+## 21.3 Reference Architecture
 
 The OpenFiat ecosystem consists of several independent software components.
 
@@ -76,7 +76,7 @@ Each component may evolve independently while remaining compatible through the p
 
 ---
 
-# 21.4 Official Reference Node
+## 21.4 Official Reference Node
 
 The official OpenFiat node is written in **Rust**.
 
@@ -105,7 +105,7 @@ Although the reference node is written in Rust, the protocol itself is language 
 
 ---
 
-# 21.5 Storage Engine
+## 21.5 Storage Engine
 
 The official reference node embeds **RocksDB** as its storage engine.
 
@@ -135,7 +135,7 @@ The protocol itself does not require alternative implementations to use RocksDB,
 
 ---
 
-# 21.6 Client Applications
+## 21.6 Client Applications
 
 The OpenFiat Foundation maintains several official client applications.
 
@@ -176,7 +176,7 @@ These applications communicate with OpenFiat nodes using the published protocol.
 
 ---
 
-# 21.7 Self-Hosted User Interfaces
+## 21.7 Self-Hosted User Interfaces
 
 OpenFiat intentionally separates the protocol from its user interfaces.
 
@@ -210,7 +210,7 @@ Regardless of which interface is used, every participant interacts with the same
 
 ---
 
-# 21.8 SDKs
+## 21.8 SDKs
 
 Official Software Development Kits (SDKs) simplify application development.
 
@@ -233,7 +233,7 @@ SDKs abstract common protocol operations while remaining faithful to the publish
 
 ---
 
-# 21.9 Public APIs
+## 21.9 Public APIs
 
 Every OpenFiat node exposes standardized APIs.
 
@@ -269,7 +269,7 @@ These APIs are identical across all compliant implementations.
 
 ---
 
-# 21.10 Event Streaming
+## 21.10 Event Streaming
 
 Applications often require real-time updates.
 
@@ -286,7 +286,7 @@ This enables responsive user interfaces without continuous polling.
 
 ---
 
-# 21.11 Plugin Architecture
+## 21.11 Plugin Architecture
 
 Many protocol services are intentionally modular.
 
@@ -303,7 +303,7 @@ Future protocol extensions can introduce additional provider types without modif
 
 ---
 
-# 21.12 Development Workflow
+## 21.12 Development Workflow
 
 The OpenFiat Foundation maintains a transparent development process.
 
@@ -345,7 +345,7 @@ Major architectural changes should be publicly discussed before implementation.
 
 ---
 
-# 21.13 Testing Strategy
+## 21.13 Testing Strategy
 
 OpenFiat adopts multiple layers of automated testing.
 
@@ -379,7 +379,7 @@ Continuous testing helps maintain protocol stability across releases.
 
 ---
 
-# 21.14 Documentation
+## 21.14 Documentation
 
 Documentation is considered part of the protocol.
 
@@ -398,7 +398,7 @@ Every protocol feature should be documented before public release.
 
 ---
 
-# 21.15 Versioning
+## 21.15 Versioning
 
 OpenFiat follows semantic versioning principles.
 
@@ -420,7 +420,7 @@ Nodes advertise supported protocol versions during peer discovery.
 
 ---
 
-# 21.16 Open Governance for Development
+## 21.16 Open Governance for Development
 
 Although AllenHark initially leads development, protocol evolution is governed through the OpenFiat Governance Protocol.
 
@@ -436,7 +436,7 @@ The protocol belongs to its community rather than a single organization.
 
 ---
 
-# 21.17 Community Contributions
+## 21.17 Community Contributions
 
 The OpenFiat ecosystem welcomes contributions from developers worldwide.
 
@@ -455,7 +455,7 @@ Contributions strengthen the ecosystem while reducing dependence on any single t
 
 ---
 
-# 21.18 Reference vs Independent Implementations
+## 21.18 Reference vs Independent Implementations
 
 The OpenFiat Foundation maintains the official Rust reference implementation.
 
@@ -473,7 +473,7 @@ Compliance is determined by adherence to the protocol specification rather than 
 
 ---
 
-# 21.19 Why This Architecture Matters
+## 21.19 Why This Architecture Matters
 
 Many blockchain projects tightly couple their protocol with a single software implementation.
 
@@ -489,7 +489,7 @@ This approach encourages innovation while preserving interoperability.
 
 ---
 
-# 21.20 Looking Ahead
+## 21.20 Looking Ahead
 
 With the protocol, infrastructure, security model, and developer ecosystem established, the remaining chapters focus on operating OpenFiat in production.
 

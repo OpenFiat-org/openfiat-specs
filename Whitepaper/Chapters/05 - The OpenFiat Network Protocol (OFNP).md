@@ -24,7 +24,7 @@ It is the communication backbone of the OpenFiat ecosystem.
 
 ---
 
-# 5.2 Why OFNP Exists
+## 5.2 Why OFNP Exists
 
 A natural question arises:
 
@@ -64,7 +64,7 @@ This division of responsibility is one of the defining architectural decisions o
 
 ---
 
-# 5.3 Design Goals
+## 5.3 Design Goals
 
 The OpenFiat Network Protocol was designed around several primary objectives.
 
@@ -94,7 +94,7 @@ Future protocol versions should introduce new message types without breaking com
 
 ---
 
-# 5.4 Building on Proven Technology
+## 5.4 Building on Proven Technology
 
 Rather than inventing an entirely new networking protocol, OpenFiat intentionally builds upon technologies that have already demonstrated reliability at internet scale.
 
@@ -117,7 +117,7 @@ OpenFiat defines the application protocol that operates above libp2p rather than
 
 ---
 
-# 5.5 Network Topology
+## 5.5 Network Topology
 
 OpenFiat forms a decentralized mesh network.
 
@@ -150,7 +150,7 @@ The network continues functioning even if every AllenHark-operated bootstrap nod
 
 ---
 
-# 5.6 Bootstrap Nodes
+## 5.6 Bootstrap Nodes
 
 Every decentralized network faces the same initial challenge.
 
@@ -184,7 +184,7 @@ Bootstrap nodes are therefore **directories**, not centralized coordinators.
 
 ---
 
-# 5.7 Peer Discovery
+## 5.7 Peer Discovery
 
 Once connected, nodes continuously discover additional peers.
 
@@ -212,7 +212,7 @@ Reliable peers become preferred communication partners.
 
 ---
 
-# 5.8 Gossip Protocol
+## 5.8 Gossip Protocol
 
 Most OpenFiat information propagates using a gossip protocol.
 
@@ -240,7 +240,7 @@ Because each message is cryptographically signed, receiving nodes can independen
 
 ---
 
-# 5.9 Message Types
+## 5.9 Message Types
 
 OFNP defines several categories of network messages.
 
@@ -278,7 +278,7 @@ Future protocol versions may introduce additional message categories without mod
 
 ---
 
-# 5.10 Local State
+## 5.10 Local State
 
 Unlike blockchains, OpenFiat nodes maintain local databases containing frequently accessed marketplace information.
 
@@ -300,7 +300,7 @@ This dramatically improves performance while reducing operating costs.
 
 ---
 
-# 5.11 Snapshots
+## 5.11 Snapshots
 
 Synchronizing years of marketplace history from individual gossip messages would become increasingly inefficient.
 
@@ -326,7 +326,7 @@ They accelerate synchronization without introducing trusted intermediaries.
 
 ---
 
-# 5.12 Session Synchronization
+## 5.12 Session Synchronization
 
 Trades often span several minutes or longer.
 
@@ -344,7 +344,7 @@ This mechanism allows trades to continue without depending on a single server ma
 
 ---
 
-# 5.13 Network Resilience
+## 5.13 Network Resilience
 
 OFNP assumes that failures are normal.
 
@@ -364,7 +364,7 @@ No individual node is indispensable.
 
 ---
 
-# 5.14 Security
+## 5.14 Security
 
 Every OFNP message is digitally signed.
 
@@ -382,7 +382,7 @@ This prevents unauthorized participants from impersonating merchants or modifyin
 
 ---
 
-# 5.15 Evolution
+## 5.15 Evolution
 
 OFNP is designed as a living protocol.
 
@@ -399,7 +399,7 @@ Backward compatibility remains a primary design objective whenever practical.
 
 ---
 
-# 5.16 Looking Ahead
+## 5.16 Looking Ahead
 
 The OpenFiat Network Protocol enables decentralized communication.
 

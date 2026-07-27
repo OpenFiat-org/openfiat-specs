@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Trade Protocol (OFTP) defines the complete decentralized trading lifecycle within the OpenFiat Network.
 
@@ -31,7 +31,7 @@ Individual protocol specifications define each stage in greater detail:
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 OpenFiat is a decentralized peer-to-peer stablecoin marketplace.
 
@@ -52,7 +52,7 @@ Every compliant implementation follows exactly the same trade lifecycle.
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -75,7 +75,7 @@ This specification does **not** define:
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 The protocol SHALL:
 
@@ -89,7 +89,7 @@ The protocol SHALL:
 
 ---
 
-# 4. Marketplace Participants
+## 4. Marketplace Participants
 
 A trade may involve several independent participants.
 
@@ -131,7 +131,7 @@ No participant can unilaterally complete or alter a trade outside the protocol r
 
 ---
 
-# 5. Trading Models
+## 5. Trading Models
 
 OpenFiat supports two trading models.
 
@@ -165,7 +165,7 @@ This model allows professional liquidity providers to continuously purchase inve
 
 ---
 
-# 6. Core Principle: Automatic Escrow
+## 6. Core Principle: Automatic Escrow
 
 Escrow is always created automatically by the protocol.
 
@@ -177,7 +177,7 @@ This prevents over-locking capital while guaranteeing settlement security.
 
 ---
 
-# 7. Merchant Selling Flow
+## 7. Merchant Selling Flow
 
 When selling stablecoins:
 
@@ -219,7 +219,7 @@ The remaining balance remains available for additional advertisements and trades
 
 ---
 
-# 8. Merchant Buying Flow
+## 8. Merchant Buying Flow
 
 When buying stablecoins:
 
@@ -259,7 +259,7 @@ Instead, the seller deposits the stablecoins into escrow after accepting the adv
 
 ---
 
-# 9. Trade Lifecycle
+## 9. Trade Lifecycle
 
 Every trade follows the same deterministic state machine.
 
@@ -299,7 +299,7 @@ Every state transition generates a signed protocol event.
 
 ---
 
-# 10. Reservation
+## 10. Reservation
 
 Reservations are handled on a strict **first-come, first-served** basis.
 
@@ -311,7 +311,7 @@ All unsuccessful reservations receive immediate rejection.
 
 ---
 
-# 11. Escrow Funding
+## 11. Escrow Funding
 
 Escrow funding occurs immediately after a successful reservation.
 
@@ -325,7 +325,7 @@ This guarantees:
 
 ---
 
-# 12. Fiat Settlement
+## 12. Fiat Settlement
 
 Fiat transfers occur outside the blockchain.
 
@@ -341,7 +341,7 @@ Payment methods are advertised before reservation.
 
 ---
 
-# 13. Payment Confirmation
+## 13. Payment Confirmation
 
 Once fiat has been sent:
 
@@ -358,7 +358,7 @@ This action:
 
 ---
 
-# 14. Payment Proof
+## 14. Payment Proof
 
 Payment confirmation MAY include:
 
@@ -373,7 +373,7 @@ Evidence becomes part of the dispute record if required.
 
 ---
 
-# 15. Merchant Verification
+## 15. Merchant Verification
 
 Merchants MAY request additional verification before confirming settlement.
 
@@ -388,7 +388,7 @@ These requests occur within the protocol.
 
 ---
 
-# 16. Settlement
+## 16. Settlement
 
 Once payment is verified:
 
@@ -412,7 +412,7 @@ No intermediary holds custody.
 
 ---
 
-# 17. Automatic Completion
+## 17. Automatic Completion
 
 Future protocol versions MAY support fully automated settlement where payment verification can be performed through trusted providers.
 
@@ -420,7 +420,7 @@ Current protocol assumes merchant verification unless automated verification is 
 
 ---
 
-# 18. Failure Recovery
+## 18. Failure Recovery
 
 Network failures do not invalidate trades.
 
@@ -435,7 +435,7 @@ No trade should be lost due to infrastructure failure.
 
 ---
 
-# 19. Trade Cancellation
+## 19. Trade Cancellation
 
 Trades may terminate before settlement for reasons including:
 
@@ -449,7 +449,7 @@ Cancellation rules are defined in OFS-2200.
 
 ---
 
-# 20. Trade Completion
+## 20. Trade Completion
 
 A trade completes only when:
 
@@ -462,7 +462,7 @@ Only then is liquidity considered available again.
 
 ---
 
-# 21. Security Model
+## 21. Security Model
 
 The protocol prevents:
 
@@ -477,7 +477,7 @@ All state transitions are cryptographically authenticated.
 
 ---
 
-# 22. Scalability
+## 22. Scalability
 
 The protocol is designed to support:
 
@@ -492,7 +492,7 @@ No centralized matching engine is required.
 
 ---
 
-# 23. Deterministic State
+## 23. Deterministic State
 
 Every compliant node processing the same sequence of protocol events SHALL reach the same marketplace state.
 
@@ -505,7 +505,7 @@ Deterministic execution enables:
 
 ---
 
-# 24. Relationship to Other Specifications
+## 24. Relationship to Other Specifications
 
 OFTP defines the complete trading lifecycle.
 
@@ -531,7 +531,7 @@ Advertisement  Reservation     Settlement
 
 ---
 
-# 25. Conformance
+## 25. Conformance
 
 A compliant implementation MUST:
 
@@ -548,7 +548,7 @@ A compliant implementation MUST:
 
 ---
 
-# 26. Summary
+## 26. Summary
 
 The OpenFiat Trade Protocol is the operational heart of the OpenFiat ecosystem.
 

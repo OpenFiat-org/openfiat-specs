@@ -12,7 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: DavidAnson/markdownlint-cli2-action@v18
+      # Rules and ignores live in .markdownlint-cli2.yaml so this job and the
+      # local pre-commit hook read the same file. v18 carried markdownlint
+      # 0.36, which predates rules the config now names.
+      - uses: DavidAnson/markdownlint-cli2-action@v24
         with:
           globs: "**/*.md"
       - uses: ibiqlik/action-yamllint@v3

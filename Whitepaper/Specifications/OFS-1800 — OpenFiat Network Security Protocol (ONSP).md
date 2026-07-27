@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Network Security Protocol (ONSP) defines the security architecture governing communication between OpenFiat nodes.
 
@@ -24,7 +24,7 @@ Unlike wallet security, which protects user assets, the Network Security Protoco
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 OpenFiat is an open, permissionless network where any participant may operate a node.
 
@@ -43,7 +43,7 @@ Every connection is independently authenticated, validated, monitored, and conti
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -69,7 +69,7 @@ It does not define:
 
 ---
 
-# 3. Security Goals
+## 3. Security Goals
 
 The network SHALL provide:
 
@@ -84,7 +84,7 @@ The network SHALL provide:
 
 ---
 
-# 4. Security Model
+## 4. Security Model
 
 The protocol assumes:
 
@@ -95,7 +95,7 @@ The protocol assumes:
 
 ---
 
-# 5. Node Identity
+## 5. Node Identity
 
 Each node SHALL possess a long-lived cryptographic identity.
 
@@ -111,7 +111,7 @@ Private keys MUST never be transmitted across the network.
 
 ---
 
-# 6. Secure Transport
+## 6. Secure Transport
 
 Node-to-node communication SHALL occur over encrypted channels.
 
@@ -126,7 +126,7 @@ Alternative transport implementations MAY be adopted provided they satisfy these
 
 ---
 
-# 7. Peer Authentication
+## 7. Peer Authentication
 
 Before exchanging protocol data, peers SHALL:
 
@@ -140,7 +140,7 @@ Unauthenticated peers MUST NOT participate in protocol synchronization.
 
 ---
 
-# 8. Message Authentication
+## 8. Message Authentication
 
 Every protocol message SHALL include:
 
@@ -154,7 +154,7 @@ Nodes MUST verify message authenticity before processing.
 
 ---
 
-# 9. Replay Protection
+## 9. Replay Protection
 
 Replay attacks are prevented through:
 
@@ -167,7 +167,7 @@ Duplicate or expired messages MUST be discarded.
 
 ---
 
-# 10. Protocol Negotiation
+## 10. Protocol Negotiation
 
 Peers SHALL negotiate:
 
@@ -181,7 +181,7 @@ If negotiation fails, the connection SHALL terminate gracefully.
 
 ---
 
-# 11. Rate Limiting
+## 11. Rate Limiting
 
 Nodes SHOULD enforce independent limits for:
 
@@ -196,7 +196,7 @@ Limits MAY adapt according to peer reputation.
 
 ---
 
-# 12. Denial-of-Service Protection
+## 12. Denial-of-Service Protection
 
 Implementations SHOULD defend against:
 
@@ -211,7 +211,7 @@ Suspicious peers MAY be temporarily isolated.
 
 ---
 
-# 13. Sybil Resistance
+## 13. Sybil Resistance
 
 OpenFiat is permissionless; therefore Sybil attacks cannot be eliminated entirely.
 
@@ -226,7 +226,7 @@ Mitigations include:
 
 ---
 
-# 14. Peer Reputation
+## 14. Peer Reputation
 
 Security decisions MAY incorporate the Reputation Engine.
 
@@ -243,7 +243,7 @@ Nodes SHOULD prefer well-behaved peers.
 
 ---
 
-# 15. Key Rotation
+## 15. Key Rotation
 
 Node operators SHOULD periodically rotate identity keys.
 
@@ -253,7 +253,7 @@ Unauthorized key replacement MUST be rejected.
 
 ---
 
-# 16. Abuse Handling
+## 16. Abuse Handling
 
 Nodes MAY respond to abusive behavior by:
 
@@ -266,7 +266,7 @@ Nodes MAY respond to abusive behavior by:
 
 ---
 
-# 17. Security Logging
+## 17. Security Logging
 
 Nodes SHOULD maintain tamper-evident logs for:
 
@@ -281,7 +281,7 @@ Logs SHOULD avoid exposing sensitive information.
 
 ---
 
-# 18. Incident Recovery
+## 18. Incident Recovery
 
 Following a suspected compromise, operators SHOULD:
 
@@ -293,7 +293,7 @@ Following a suspected compromise, operators SHOULD:
 
 ---
 
-# 19. Future Cryptography
+## 19. Future Cryptography
 
 Future protocol versions MAY introduce:
 
@@ -307,7 +307,7 @@ These extensions MUST remain backward compatible whenever practical.
 
 ---
 
-# 20. Conformance
+## 20. Conformance
 
 A compliant implementation MUST:
 
@@ -322,7 +322,7 @@ A compliant implementation MUST:
 
 ---
 
-# 21. Relationship to Other Specifications
+## 21. Relationship to Other Specifications
 
 ```text
 OFS-1100  Peer Discovery
@@ -344,7 +344,7 @@ OFS-1800  Network Security
 
 ---
 
-# 22. Summary
+## 22. Summary
 
 The OpenFiat Network Security Protocol establishes the security foundation of the OpenFiat network by defining how nodes authenticate, communicate securely, resist abuse, and maintain trustworthy peer-to-peer interactions.
 

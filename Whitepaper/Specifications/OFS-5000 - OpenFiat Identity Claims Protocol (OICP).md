@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Identity Claims Protocol (OICP) defines how users, merchants, node operators, and service providers establish verifiable identity claims within the OpenFiat ecosystem while preserving privacy and self-sovereignty.
 
@@ -26,7 +26,7 @@ Identity remains wallet-centric, portable, and completely controlled by the user
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 Every decentralized marketplace faces the same challenge:
 
@@ -51,7 +51,7 @@ These are intentionally independent concepts.
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -73,7 +73,7 @@ This specification does **not** define:
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 The Identity Protocol SHALL:
 
@@ -86,7 +86,7 @@ The Identity Protocol SHALL:
 
 ---
 
-# 4. Design Philosophy
+## 4. Design Philosophy
 
 OpenFiat intentionally avoids centralized identity providers.
 
@@ -101,7 +101,7 @@ Users reveal only the information they choose to publish.
 
 ---
 
-# 5. Identity Model
+## 5. Identity Model
 
 Identity belongs to the wallet.
 
@@ -118,7 +118,7 @@ The wallet is the permanent identity anchor.
 
 ---
 
-# 6. Identity Claims
+## 6. Identity Claims
 
 An Identity Claim is a cryptographically signed statement about a wallet.
 
@@ -138,7 +138,7 @@ Users decide which claims to publish.
 
 ---
 
-# 7. Claim Structure
+## 7. Claim Structure
 
 Every claim contains:
 
@@ -157,7 +157,7 @@ Updates generate new claim versions.
 
 ---
 
-# 8. Identity Levels
+## 8. Identity Levels
 
 The protocol defines progressive identity levels.
 
@@ -165,7 +165,7 @@ Participation never requires advancing beyond Level 0.
 
 ---
 
-## Level 0 — Wallet Identity
+### Level 0 — Wallet Identity
 
 Requirements:
 
@@ -176,7 +176,7 @@ This is the minimum requirement to use OpenFiat.
 
 ---
 
-## Level 1 — Verified Contact
+### Level 1 — Verified Contact
 
 Users may verify one or more communication channels using One-Time Password (OTP) verification.
 
@@ -194,7 +194,7 @@ Multiple verified contacts may be associated with a single wallet.
 
 ---
 
-## Level 2 — Verified Merchant Identity
+### Level 2 — Verified Merchant Identity
 
 This level is intended for merchants who wish to publicly establish a recognizable business identity.
 
@@ -210,7 +210,7 @@ These claims improve user confidence but do not imply regulatory approval.
 
 ---
 
-## Level 3 — Trusted Infrastructure Provider
+### Level 3 — Trusted Infrastructure Provider
 
 Infrastructure providers may publish operational identity information.
 
@@ -226,7 +226,7 @@ These claims help other operators identify trusted infrastructure providers.
 
 ---
 
-# 9. OTP Verification
+## 9. OTP Verification
 
 Contact verification follows a standardized workflow.
 
@@ -258,7 +258,7 @@ Verification services never obtain wallet private keys.
 
 ---
 
-# 10. Claim Verification
+## 10. Claim Verification
 
 Applications SHALL verify:
 
@@ -272,7 +272,7 @@ Invalid claims MUST be rejected.
 
 ---
 
-# 11. Claim Updates
+## 11. Claim Updates
 
 Users may update identity claims.
 
@@ -289,7 +289,7 @@ Historical claims remain archived.
 
 ---
 
-# 12. Claim Revocation
+## 12. Claim Revocation
 
 Users may revoke claims at any time.
 
@@ -306,7 +306,7 @@ Applications SHOULD immediately stop displaying revoked claims.
 
 ---
 
-# 13. Multiple Claims
+## 13. Multiple Claims
 
 A wallet may simultaneously possess multiple verified claims.
 
@@ -332,7 +332,7 @@ Removing one claim does not affect the others.
 
 ---
 
-# 14. Privacy Model
+## 14. Privacy Model
 
 Identity claims are voluntary.
 
@@ -346,7 +346,7 @@ Applications SHOULD minimize unnecessary exposure of personal information.
 
 ---
 
-# 15. Merchant Identity
+## 15. Merchant Identity
 
 Merchants MAY publish additional business information.
 
@@ -362,7 +362,7 @@ These fields improve marketplace usability without changing protocol behavior.
 
 ---
 
-# 16. Infrastructure Identity
+## 16. Infrastructure Identity
 
 Node operators and service providers MAY publish:
 
@@ -375,7 +375,7 @@ These claims assist operational coordination across the network.
 
 ---
 
-# 17. Identity Synchronization
+## 17. Identity Synchronization
 
 Identity events include:
 
@@ -390,7 +390,7 @@ Every compliant node eventually reaches identical identity state.
 
 ---
 
-# 18. Identity Portability
+## 18. Identity Portability
 
 Identity claims belong to the wallet.
 
@@ -408,7 +408,7 @@ Identity remains portable across the OpenFiat ecosystem.
 
 ---
 
-# 19. Security Considerations
+## 19. Security Considerations
 
 Implementations MUST protect against:
 
@@ -423,7 +423,7 @@ All identity claims MUST be digitally signed by the wallet owner.
 
 ---
 
-# 20. Performance Considerations
+## 20. Performance Considerations
 
 Identity synchronization is relatively lightweight.
 
@@ -438,7 +438,7 @@ Reference implementations SHOULD store claim records within RocksDB.
 
 ---
 
-# 21. Conformance
+## 21. Conformance
 
 A compliant implementation MUST:
 
@@ -453,7 +453,7 @@ A compliant implementation MUST:
 
 ---
 
-# 22. Relationship to Other Specifications
+## 22. Relationship to Other Specifications
 
 The Identity Claims Protocol provides the trust foundation upon which authentication, reputation, governance, and trading operate.
 
@@ -476,7 +476,7 @@ OFS-1400   OFS-3000    OFS-4000
 
 ---
 
-# 23. Summary
+## 23. Summary
 
 The OpenFiat Identity Claims Protocol enables users to build trust without sacrificing privacy or requiring mandatory KYC.
 

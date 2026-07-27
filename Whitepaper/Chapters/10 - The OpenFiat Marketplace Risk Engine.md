@@ -36,7 +36,7 @@ The Risk Engine is advisory, not authoritative.
 
 ---
 
-# 10.2 Design Objectives
+## 10.2 Design Objectives
 
 The Marketplace Risk Engine was designed around several guiding principles.
 
@@ -66,7 +66,7 @@ Risk naturally decreases as abnormal behavior subsides.
 
 ---
 
-# 10.3 Reputation vs. Risk
+## 10.3 Reputation vs. Risk
 
 Although closely related, reputation and risk measure fundamentally different characteristics.
 
@@ -92,7 +92,7 @@ The protocol therefore maintains these systems independently.
 
 ---
 
-# 10.4 Advisory by Design
+## 10.4 Advisory by Design
 
 One of the most important principles of OpenFiat is that the Marketplace Risk Engine never controls funds.
 
@@ -121,7 +121,7 @@ Financial custody always remains governed by deterministic smart contracts.
 
 ---
 
-# 10.5 Risk Vectors
+## 10.5 Risk Vectors
 
 Rather than maintaining a single numerical score, OpenFiat stores a collection of independent risk vectors.
 
@@ -157,7 +157,7 @@ Additional vectors may be introduced through future protocol specifications with
 
 ---
 
-# 10.6 Merchant Risk Signals
+## 10.6 Merchant Risk Signals
 
 The protocol continuously evaluates merchant activity.
 
@@ -178,7 +178,7 @@ Instead, multiple signals collectively influence the merchant's current operatio
 
 ---
 
-# 10.7 Buyer Risk Signals
+## 10.7 Buyer Risk Signals
 
 Buyer behavior also contributes to marketplace risk.
 
@@ -195,7 +195,7 @@ These signals help merchants evaluate counterparties while preserving the protoc
 
 ---
 
-# 10.8 Arbitrator Risk Signals
+## 10.8 Arbitrator Risk Signals
 
 Arbitrators occupy a position of trust within the ecosystem.
 
@@ -214,7 +214,7 @@ Persistent abnormalities may reduce arbitrator visibility or eligibility accordi
 
 ---
 
-# 10.9 Infrastructure Risk
+## 10.9 Infrastructure Risk
 
 Infrastructure providers contribute directly to marketplace reliability.
 
@@ -251,7 +251,7 @@ These evaluations help maintain a healthy decentralized infrastructure ecosystem
 
 ---
 
-# 10.10 Time-Based Analysis
+## 10.10 Time-Based Analysis
 
 Risk changes over time.
 
@@ -276,7 +276,7 @@ Each risk vector therefore applies an appropriate decay model according to the n
 
 ---
 
-# 10.11 Anti-Manipulation
+## 10.11 Anti-Manipulation
 
 Participants may attempt to manipulate marketplace signals.
 
@@ -295,7 +295,7 @@ The objective is not to accuse participants of wrongdoing but to identify statis
 
 ---
 
-# 10.12 Risk Responses
+## 10.12 Risk Responses
 
 The protocol intentionally limits the actions available to the Risk Engine.
 
@@ -312,7 +312,7 @@ No response may alter ownership of assets or interfere with deterministic settle
 
 ---
 
-# 10.13 Explainability
+## 10.13 Explainability
 
 Every risk assessment must be explainable.
 
@@ -342,7 +342,7 @@ This transparency enables informed decision-making and encourages confidence in 
 
 ---
 
-# 10.14 Deterministic Algorithms
+## 10.14 Deterministic Algorithms
 
 The Marketplace Risk Engine deliberately avoids opaque machine learning models.
 
@@ -358,7 +358,7 @@ Artificial intelligence may later assist client applications in explaining risk,
 
 ---
 
-# 10.15 Client Interpretation
+## 10.15 Client Interpretation
 
 The protocol stores measurable facts rather than user-facing labels.
 
@@ -377,7 +377,7 @@ Regardless of presentation, the underlying protocol data remains identical.
 
 ---
 
-# 10.16 Privacy Considerations
+## 10.16 Privacy Considerations
 
 Risk analysis operates primarily on protocol events rather than personal information.
 
@@ -394,7 +394,7 @@ Where private dispute evidence influences risk, only the outcome of the disputeâ
 
 ---
 
-# 10.17 Relationship with the Reputation Engine
+## 10.17 Relationship with the Reputation Engine
 
 The Reputation Engine and Marketplace Risk Engine are complementary.
 
@@ -412,7 +412,7 @@ This separation produces a more accurate and resilient marketplace.
 
 ---
 
-# 10.18 Why the Marketplace Risk Engine Matters
+## 10.18 Why the Marketplace Risk Engine Matters
 
 Centralized exchanges often rely upon proprietary fraud detection systems.
 
@@ -432,7 +432,7 @@ By separating advisory risk assessment from deterministic financial settlement, 
 
 ---
 
-# 10.19 Looking Ahead
+## 10.19 Looking Ahead
 
 Understanding current risk is only one component of building a secure marketplace.
 

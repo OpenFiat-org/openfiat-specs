@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Session Synchronization Protocol (SSP) defines how authenticated user sessions are propagated, synchronized, recovered, and invalidated across the decentralized OpenFiat network.
 
@@ -24,7 +24,7 @@ Session Synchronization ensures that any OpenFiat node can continue servicing an
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 Traditional applications store user sessions inside centralized databases.
 
@@ -51,7 +51,7 @@ At no point should a centralized session server be required.
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -76,7 +76,7 @@ Authentication is defined separately in **OFS-5100**.
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 The protocol SHALL:
 
@@ -89,7 +89,7 @@ The protocol SHALL:
 
 ---
 
-# 4. Session Philosophy
+## 4. Session Philosophy
 
 A session represents **temporary authorization**, not permanent identity.
 
@@ -105,7 +105,7 @@ This separation minimizes trust and simplifies recovery.
 
 ---
 
-# 5. Session Creation
+## 5. Session Creation
 
 Sessions are created after successful wallet authentication.
 
@@ -143,7 +143,7 @@ The signing process is specified in OFS-5100.
 
 ---
 
-# 6. Session Identifier
+## 6. Session Identifier
 
 Every session SHALL possess a globally unique Session ID.
 
@@ -153,7 +153,7 @@ Session IDs MUST remain immutable throughout the session lifetime.
 
 ---
 
-# 7. Session Record
+## 7. Session Record
 
 Each session contains:
 
@@ -171,7 +171,7 @@ No private keys are ever stored.
 
 ---
 
-# 8. Signed Sessions
+## 8. Signed Sessions
 
 Every session MUST be cryptographically signed.
 
@@ -185,7 +185,7 @@ Unsigned sessions MUST be rejected.
 
 ---
 
-# 9. Session Propagation
+## 9. Session Propagation
 
 New sessions are propagated through the Gossip Protocol.
 
@@ -195,7 +195,7 @@ Propagation ensures neighboring nodes can recognize valid sessions immediately.
 
 ---
 
-# 10. Session Replication
+## 10. Session Replication
 
 Sessions SHALL be replicated across multiple peers.
 
@@ -210,7 +210,7 @@ No single node owns a session.
 
 ---
 
-# 11. Session Ownership
+## 11. Session Ownership
 
 Although replicated, only one node is considered the **Primary Session Host** at any given time.
 
@@ -224,7 +224,7 @@ If the host becomes unavailable, another synchronized node may assume responsibi
 
 ---
 
-# 12. Session Migration
+## 12. Session Migration
 
 Users may seamlessly move between nodes.
 
@@ -254,7 +254,7 @@ Provided the session remains valid, re-authentication is not required.
 
 ---
 
-# 13. Session Updates
+## 13. Session Updates
 
 Session changes generate synchronization events.
 
@@ -269,7 +269,7 @@ Every update creates a new signed session version.
 
 ---
 
-# 14. Session Expiration
+## 14. Session Expiration
 
 Sessions expire automatically.
 
@@ -285,7 +285,7 @@ Expired sessions MUST NOT be accepted.
 
 ---
 
-# 15. Session Renewal
+## 15. Session Renewal
 
 Before expiration, a client MAY request renewal.
 
@@ -301,7 +301,7 @@ It extends authorization.
 
 ---
 
-# 16. Session Revocation
+## 16. Session Revocation
 
 Sessions may be revoked immediately.
 
@@ -317,7 +317,7 @@ Revocation events SHALL propagate immediately across the network.
 
 ---
 
-# 17. Session Recovery
+## 17. Session Recovery
 
 If a node unexpectedly fails:
 
@@ -349,7 +349,7 @@ Recovery SHOULD occur without requiring user intervention whenever possible.
 
 ---
 
-# 18. Session Consistency
+## 18. Session Consistency
 
 Session synchronization guarantees eventual consistency.
 
@@ -361,7 +361,7 @@ Conflicting session versions are resolved using deterministic version ordering d
 
 ---
 
-# 19. Offline Clients
+## 19. Offline Clients
 
 Temporary client disconnections do not immediately terminate sessions.
 
@@ -375,7 +375,7 @@ This allows:
 
 ---
 
-# 20. Concurrent Devices
+## 20. Concurrent Devices
 
 A wallet MAY maintain multiple simultaneous sessions.
 
@@ -392,7 +392,7 @@ Revoking one session MUST NOT revoke unrelated sessions.
 
 ---
 
-# 21. Session Privacy
+## 21. Session Privacy
 
 Session synchronization intentionally minimizes replicated information.
 
@@ -402,7 +402,7 @@ Application-specific user data SHOULD remain on the client whenever practical.
 
 ---
 
-# 22. Storage
+## 22. Storage
 
 The reference implementation stores session records inside RocksDB.
 
@@ -412,7 +412,7 @@ Session storage MUST survive unexpected node restarts.
 
 ---
 
-# 23. Security Considerations
+## 23. Security Considerations
 
 Implementations MUST protect against:
 
@@ -428,7 +428,7 @@ All session state SHALL remain cryptographically verifiable.
 
 ---
 
-# 24. Performance Considerations
+## 24. Performance Considerations
 
 Session synchronization is expected to support millions of concurrent authenticated users.
 
@@ -442,7 +442,7 @@ Implementations SHOULD optimize:
 
 ---
 
-# 25. Relationship to Wallet Authentication
+## 25. Relationship to Wallet Authentication
 
 Wallet authentication proves identity.
 
@@ -454,7 +454,7 @@ Only signed authorization records are synchronized.
 
 ---
 
-# 26. Conformance
+## 26. Conformance
 
 A compliant implementation MUST:
 
@@ -469,7 +469,7 @@ A compliant implementation MUST:
 
 ---
 
-# 27. Relationship to Other Specifications
+## 27. Relationship to Other Specifications
 
 Session Synchronization provides the authenticated user layer built on top of the networking stack.
 

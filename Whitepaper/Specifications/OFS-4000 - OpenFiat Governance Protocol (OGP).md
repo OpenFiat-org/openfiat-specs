@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Governance Protocol (OGP) defines how the OpenFiat protocol evolves without relying on a centralized authority.
 
@@ -26,7 +26,7 @@ The governance process modifies protocol rules only. It does not intervene in in
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 Every decentralized protocol eventually evolves.
 
@@ -46,7 +46,7 @@ OpenFiat instead defines governance as a protocol.
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -71,7 +71,7 @@ Those are defined in the Tokenomics and Foundation documents.
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 The Governance Protocol SHALL:
 
@@ -84,7 +84,7 @@ The Governance Protocol SHALL:
 
 ---
 
-# 4. Governance Philosophy
+## 4. Governance Philosophy
 
 Governance exists to improve the protocol.
 
@@ -101,7 +101,7 @@ Governance changes protocol rules—not protocol history.
 
 ---
 
-# 5. Governance Participants
+## 5. Governance Participants
 
 Governance may involve multiple stakeholder groups.
 
@@ -118,7 +118,7 @@ Each participant contributes to protocol evolution in different ways.
 
 ---
 
-# 6. Bootstrap Governance
+## 6. Bootstrap Governance
 
 During the initial growth phase, the protocol is funded and developed primarily by AllenHark.
 
@@ -135,7 +135,7 @@ Long-term control transitions to decentralized governance.
 
 ---
 
-# 7. Governance Proposal (OFP)
+## 7. Governance Proposal (OFP)
 
 Every governance change begins with an OpenFiat Proposal (OFP).
 
@@ -150,7 +150,7 @@ Each proposal receives:
 
 Example:
 
-```
+```text
 OFP-0042
 
 Increase Reservation Timeout
@@ -162,7 +162,7 @@ Voting
 
 ---
 
-# 8. Proposal Categories
+## 8. Proposal Categories
 
 Examples include:
 
@@ -198,7 +198,7 @@ Governance
 
 ---
 
-# 9. Proposal Lifecycle
+## 9. Proposal Lifecycle
 
 Every proposal follows the same lifecycle.
 
@@ -242,7 +242,7 @@ Every proposal remains permanently archived.
 
 ---
 
-# 10. Proposal Requirements
+## 10. Proposal Requirements
 
 A proposal SHOULD include:
 
@@ -258,7 +258,7 @@ Major protocol changes SHOULD include a reference implementation.
 
 ---
 
-# 11. Community Discussion
+## 11. Community Discussion
 
 Before voting:
 
@@ -275,7 +275,7 @@ Open discussion generally produces stronger proposals.
 
 ---
 
-# 12. Technical Review
+## 12. Technical Review
 
 Protocol maintainers review:
 
@@ -291,7 +291,7 @@ It does not replace voting.
 
 ---
 
-# 13. Voting
+## 13. Voting
 
 After review:
 
@@ -307,7 +307,7 @@ Voting periods are governance configurable.
 
 ---
 
-# 14. Voting Power
+## 14. Voting Power
 
 The exact voting model is defined by the Tokenomics specification.
 
@@ -322,7 +322,7 @@ The governance protocol intentionally separates voting mechanics from governance
 
 ---
 
-# 15. Quorum
+## 15. Quorum
 
 Proposals require minimum participation before becoming valid.
 
@@ -335,7 +335,7 @@ Quorum requirements are governance configurable.
 
 ---
 
-# 16. Proposal Approval
+## 16. Proposal Approval
 
 A proposal becomes Approved when:
 
@@ -347,7 +347,7 @@ Approval alone does not immediately change protocol behavior.
 
 ---
 
-# 17. Implementation
+## 17. Implementation
 
 Approved proposals move into implementation.
 
@@ -363,7 +363,7 @@ Only completed implementations proceed to activation.
 
 ---
 
-# 18. Protocol Activation
+## 18. Protocol Activation
 
 Activation occurs using scheduled protocol upgrades.
 
@@ -393,7 +393,7 @@ Activation schedules provide operators sufficient time to upgrade.
 
 ---
 
-# 19. Emergency Governance
+## 19. Emergency Governance
 
 Exceptional circumstances may require accelerated governance.
 
@@ -408,7 +408,7 @@ Emergency procedures SHOULD require higher approval thresholds than ordinary pro
 
 ---
 
-# 20. Constitutional Changes
+## 20. Constitutional Changes
 
 Certain protocol principles are foundational.
 
@@ -423,7 +423,7 @@ Changes affecting constitutional principles SHOULD require stronger approval req
 
 ---
 
-# 21. Proposal Withdrawal
+## 21. Proposal Withdrawal
 
 Proposal authors MAY withdraw proposals before voting concludes.
 
@@ -433,13 +433,13 @@ Historical governance records are never deleted.
 
 ---
 
-# 22. Proposal Supersession
+## 22. Proposal Supersession
 
 A newer proposal may replace an older one.
 
 Example:
 
-```
+```text
 OFP-32
 
 Superseded by
@@ -451,7 +451,7 @@ Historical documents remain accessible.
 
 ---
 
-# 23. Governance Transparency
+## 23. Governance Transparency
 
 Every governance action is publicly recorded.
 
@@ -467,7 +467,7 @@ Transparency builds long-term confidence.
 
 ---
 
-# 24. Governance Security
+## 24. Governance Security
 
 Implementations SHOULD defend against:
 
@@ -482,7 +482,7 @@ Every governance action MUST be digitally signed.
 
 ---
 
-# 25. Governance Upgrades
+## 25. Governance Upgrades
 
 The governance protocol itself may evolve.
 
@@ -499,7 +499,7 @@ The protocol intentionally supports long-term evolution.
 
 ---
 
-# 26. Conformance
+## 26. Conformance
 
 A compliant implementation MUST:
 
@@ -514,7 +514,7 @@ A compliant implementation MUST:
 
 ---
 
-# 27. Relationship to Other Specifications
+## 27. Relationship to Other Specifications
 
 The Governance Protocol coordinates the evolution of every OpenFiat specification.
 
@@ -536,7 +536,7 @@ The Governance Protocol coordinates the evolution of every OpenFiat specificatio
 
 ---
 
-# 28. Summary
+## 28. Summary
 
 The OpenFiat Governance Protocol provides a transparent, structured, and decentralized process for evolving the OpenFiat ecosystem.
 

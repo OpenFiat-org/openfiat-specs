@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Reservation Protocol (ORP) defines how liquidity is reserved within the OpenFiat marketplace.
 
@@ -24,7 +24,7 @@ Reservations are processed using deterministic first-come, first-served ordering
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 Every trade begins with a reservation.
 
@@ -39,7 +39,7 @@ The Reservation Protocol solves these problems by introducing a deterministic re
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -62,7 +62,7 @@ This specification does **not** define:
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 The protocol SHALL:
 
@@ -75,7 +75,7 @@ The protocol SHALL:
 
 ---
 
-# 4. Reservation Philosophy
+## 4. Reservation Philosophy
 
 Reservations represent a temporary exclusive claim on advertised liquidity.
 
@@ -89,7 +89,7 @@ Instead, it guarantees that:
 
 ---
 
-# 5. Reservation Lifecycle
+## 5. Reservation Lifecycle
 
 Every reservation follows the same lifecycle.
 
@@ -133,7 +133,7 @@ Every transition generates a signed protocol event.
 
 ---
 
-# 6. Reservation Request
+## 6. Reservation Request
 
 A reservation request contains:
 
@@ -149,7 +149,7 @@ Every request MUST be signed by the requesting wallet.
 
 ---
 
-# 7. Reservation Validation
+## 7. Reservation Validation
 
 Nodes SHALL verify:
 
@@ -165,7 +165,7 @@ Only valid reservations proceed.
 
 ---
 
-# 8. First-Come, First-Served
+## 8. First-Come, First-Served
 
 Reservations are allocated strictly in arrival order.
 
@@ -205,7 +205,7 @@ Arrival order is determined using deterministic network ordering rules.
 
 ---
 
-# 9. Simultaneous Requests
+## 9. Simultaneous Requests
 
 Two nodes may receive competing reservation requests at nearly the same time.
 
@@ -222,7 +222,7 @@ Every compliant implementation SHALL reach the same result.
 
 ---
 
-# 10. Immediate Escrow Creation
+## 10. Immediate Escrow Creation
 
 Immediately after reservation succeeds:
 
@@ -288,7 +288,7 @@ Only the required liquidity is locked.
 
 ---
 
-# 11. Reservation Ownership
+## 11. Reservation Ownership
 
 A reservation belongs exclusively to one buyer (or seller, depending on trade direction).
 
@@ -296,7 +296,7 @@ Reservations cannot be transferred between wallets.
 
 ---
 
-# 12. Reservation Timeout
+## 12. Reservation Timeout
 
 Reservations expire automatically if settlement does not progress.
 
@@ -326,7 +326,7 @@ Liquidity Returned
 
 ---
 
-# 13. Reservation Extension
+## 13. Reservation Extension
 
 Merchants MAY approve reservation extensions.
 
@@ -340,7 +340,7 @@ Extensions generate signed protocol events.
 
 ---
 
-# 14. Reservation Cancellation
+## 14. Reservation Cancellation
 
 Reservations may be cancelled due to:
 
@@ -355,7 +355,7 @@ Cancellation immediately releases reserved liquidity.
 
 ---
 
-# 15. Automatic Inventory Updates
+## 15. Automatic Inventory Updates
 
 Reservations automatically update advertisements.
 
@@ -383,7 +383,7 @@ Merchants never manually update inventory.
 
 ---
 
-# 16. Reservation Recovery
+## 16. Reservation Recovery
 
 If a node fails:
 
@@ -407,7 +407,7 @@ Reservations survive infrastructure failures because reservation state is synchr
 
 ---
 
-# 17. Reservation Synchronization
+## 17. Reservation Synchronization
 
 Reservation events include:
 
@@ -421,7 +421,7 @@ All events propagate using OFS-1200.
 
 ---
 
-# 18. Reservation State Machine
+## 18. Reservation State Machine
 
 Each reservation exists in exactly one state.
 
@@ -469,7 +469,7 @@ Illegal state transitions MUST be rejected.
 
 ---
 
-# 19. Reservation Conflicts
+## 19. Reservation Conflicts
 
 Conflict examples include:
 
@@ -484,7 +484,7 @@ Every compliant node SHALL reach identical outcomes.
 
 ---
 
-# 20. Reservation Notifications
+## 20. Reservation Notifications
 
 Reservation events SHOULD trigger notifications.
 
@@ -506,7 +506,7 @@ Notification delivery is defined separately in OFS-6000.
 
 ---
 
-# 21. Security Considerations
+## 21. Security Considerations
 
 Implementations MUST reject:
 
@@ -522,7 +522,7 @@ Escrow creation MUST remain fully deterministic.
 
 ---
 
-# 22. Performance Considerations
+## 22. Performance Considerations
 
 Reservation processing is latency-sensitive.
 
@@ -537,7 +537,7 @@ Reservation events SHOULD receive high network priority under OFS-1600 (SWQoS).
 
 ---
 
-# 23. Conformance
+## 23. Conformance
 
 A compliant implementation MUST:
 
@@ -553,7 +553,7 @@ A compliant implementation MUST:
 
 ---
 
-# 24. Relationship to Other Specifications
+## 24. Relationship to Other Specifications
 
 The Reservation Protocol bridges advertisements and settlement.
 

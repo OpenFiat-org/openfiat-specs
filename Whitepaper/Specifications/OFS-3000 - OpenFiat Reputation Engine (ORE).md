@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Reputation Engine (ORE) defines how trust is established, measured, maintained, and utilized across the OpenFiat ecosystem.
 
@@ -26,7 +26,7 @@ Reputation is earned through consistent, verifiable behavior over time.
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 Trust is the foundation of peer-to-peer trading.
 
@@ -41,7 +41,7 @@ OpenFiat addresses these challenges through a decentralized reputation engine th
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -62,7 +62,7 @@ This specification does not define:
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 The Reputation Engine SHALL:
 
@@ -76,7 +76,7 @@ The Reputation Engine SHALL:
 
 ---
 
-# 4. Design Philosophy
+## 4. Design Philosophy
 
 OpenFiat intentionally avoids simplistic rating systems.
 
@@ -97,7 +97,7 @@ Protocol data is significantly harder to manipulate than subjective reviews.
 
 ---
 
-# 5. Reputation Identity
+## 5. Reputation Identity
 
 Every wallet possesses its own reputation profile.
 
@@ -107,7 +107,7 @@ Reputation travels with the wallet across all OpenFiat-compatible clients.
 
 ---
 
-# 6. Reputation Dimensions
+## 6. Reputation Dimensions
 
 Rather than a single score, reputation consists of multiple independent dimensions.
 
@@ -128,7 +128,7 @@ Future protocol versions may introduce additional dimensions through governance.
 
 ---
 
-# 7. Settlement Speed
+## 7. Settlement Speed
 
 Settlement Speed measures how quickly a participant completes trades after reservation.
 
@@ -143,7 +143,7 @@ Consistently fast settlement improves marketplace ranking.
 
 ---
 
-# 8. Trade Success Rate
+## 8. Trade Success Rate
 
 Trade Success Rate measures successfully completed trades relative to initiated trades.
 
@@ -167,7 +167,7 @@ Cancelled trades are evaluated separately.
 
 ---
 
-# 9. Dispute Rate
+## 9. Dispute Rate
 
 Dispute Rate measures the percentage of completed trades that required formal dispute resolution.
 
@@ -191,7 +191,7 @@ Repeated disputes reduce trust.
 
 ---
 
-# 10. Trade Volume
+## 10. Trade Volume
 
 Trade Volume measures the cumulative value settled by a participant.
 
@@ -207,7 +207,7 @@ Large volume alone does not guarantee high reputation.
 
 ---
 
-# 11. Average Ticket Size
+## 11. Average Ticket Size
 
 Average Ticket Size measures the typical value of completed trades.
 
@@ -221,7 +221,7 @@ Applications MAY filter merchants based on preferred trade size.
 
 ---
 
-# 12. Merchant Age
+## 12. Merchant Age
 
 Merchant Age represents the duration since a merchant first became active on the network.
 
@@ -233,7 +233,7 @@ It serves as contextual information.
 
 ---
 
-# 13. Availability
+## 13. Availability
 
 Availability measures operational reliability.
 
@@ -249,7 +249,7 @@ Merchants who remain consistently available receive higher availability scores.
 
 ---
 
-# 14. Payment Accuracy
+## 14. Payment Accuracy
 
 Payment Accuracy measures the frequency of settlement discrepancies.
 
@@ -264,7 +264,7 @@ High payment accuracy benefits both buyers and merchants.
 
 ---
 
-# 15. Reputation Events
+## 15. Reputation Events
 
 The following protocol events update reputation:
 
@@ -289,7 +289,7 @@ Each event contributes only to relevant reputation dimensions.
 
 ---
 
-# 16. Reputation Calculation
+## 16. Reputation Calculation
 
 The protocol intentionally does not define a fixed mathematical formula.
 
@@ -305,7 +305,7 @@ Implementations SHALL produce deterministic results for a given algorithm versio
 
 ---
 
-# 17. Reputation Decay
+## 17. Reputation Decay
 
 Operational metrics SHOULD emphasize recent activity.
 
@@ -321,7 +321,7 @@ Historical metrics such as lifetime trade volume remain permanent.
 
 ---
 
-# 18. Merchant Tiers
+## 18. Merchant Tiers
 
 Applications MAY classify merchants into tiers.
 
@@ -355,7 +355,7 @@ They never bypass protocol rules.
 
 ---
 
-# 19. Reputation Portability
+## 19. Reputation Portability
 
 Reputation belongs to the wallet.
 
@@ -372,7 +372,7 @@ Users retain their marketplace history across the entire OpenFiat ecosystem.
 
 ---
 
-# 20. Anti-Manipulation
+## 20. Anti-Manipulation
 
 The Reputation Engine is designed to resist abuse.
 
@@ -389,7 +389,7 @@ Future protocol versions MAY incorporate graph analysis and anomaly detection to
 
 ---
 
-# 21. Reputation Visibility
+## 21. Reputation Visibility
 
 Applications MAY expose:
 
@@ -406,7 +406,7 @@ Transparency builds trust.
 
 ---
 
-# 22. Marketplace Ranking
+## 22. Marketplace Ranking
 
 Marketplace search results MAY consider:
 
@@ -421,7 +421,7 @@ The protocol deliberately avoids mandating a universal ranking algorithm.
 
 ---
 
-# 23. Reputation History
+## 23. Reputation History
 
 Every reputation update creates an immutable protocol event.
 
@@ -436,7 +436,7 @@ Historical events are never rewritten.
 
 ---
 
-# 24. Reputation Synchronization
+## 24. Reputation Synchronization
 
 Reputation updates propagate using the Gossip Protocol.
 
@@ -444,7 +444,7 @@ Every compliant node eventually reaches identical reputation state after process
 
 ---
 
-# 25. Privacy
+## 25. Privacy
 
 While overall reputation is generally public, applications SHOULD protect sensitive operational details.
 
@@ -459,7 +459,7 @@ Only information necessary for marketplace trust should be publicly exposed.
 
 ---
 
-# 26. Security Considerations
+## 26. Security Considerations
 
 Implementations MUST protect against:
 
@@ -474,7 +474,7 @@ Only cryptographically verified protocol events SHALL modify reputation.
 
 ---
 
-# 27. Performance Considerations
+## 27. Performance Considerations
 
 The Reputation Engine is expected to process millions of updates.
 
@@ -489,7 +489,7 @@ The reference implementation stores reputation state within RocksDB for determin
 
 ---
 
-# 28. Conformance
+## 28. Conformance
 
 A compliant implementation MUST:
 
@@ -504,7 +504,7 @@ A compliant implementation MUST:
 
 ---
 
-# 29. Relationship to Other Specifications
+## 29. Relationship to Other Specifications
 
 The Reputation Engine integrates information from nearly every OpenFiat trading protocol.
 
@@ -536,7 +536,7 @@ The Reputation Engine integrates information from nearly every OpenFiat trading 
 
 ---
 
-# 30. Summary
+## 30. Summary
 
 The OpenFiat Reputation Engine transforms trust from subjective opinion into objective protocol behavior.
 

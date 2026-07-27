@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Settlement Protocol (OSP) defines how reserved trades are completed after escrow has been created.
 
@@ -24,7 +24,7 @@ The protocol guarantees that stablecoins are released only when settlement condi
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 Settlement is the most security-critical phase of an OpenFiat trade.
 
@@ -46,7 +46,7 @@ It ends only when escrow is either:
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -69,7 +69,7 @@ This specification does not define:
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 The Settlement Protocol SHALL:
 
@@ -82,7 +82,7 @@ The Settlement Protocol SHALL:
 
 ---
 
-# 4. Settlement Philosophy
+## 4. Settlement Philosophy
 
 Settlement separates:
 
@@ -100,7 +100,7 @@ The protocol coordinates both worlds without requiring custody of either.
 
 ---
 
-# 5. Settlement Lifecycle
+## 5. Settlement Lifecycle
 
 ```text id="settlement-lifecycle"
 Reservation Accepted
@@ -138,7 +138,7 @@ Every transition produces a signed protocol event.
 
 ---
 
-# 6. Escrow State
+## 6. Escrow State
 
 Before settlement begins:
 
@@ -151,7 +151,7 @@ No additional escrow operations are required during settlement.
 
 ---
 
-# 7. Fiat Payment
+## 7. Fiat Payment
 
 The payer submits fiat using one of the merchant's advertised payment methods.
 
@@ -172,7 +172,7 @@ It coordinates settlement.
 
 ---
 
-# 8. Payment Deadline
+## 8. Payment Deadline
 
 Each settlement defines a payment deadline.
 
@@ -200,7 +200,7 @@ Timeout values are configurable through governance.
 
 ---
 
-# 9. "I Paid" Event
+## 9. "I Paid" Event
 
 Once fiat has been sent:
 
@@ -216,7 +216,7 @@ It does **not** release escrow.
 
 ---
 
-# 10. Reversing "I Paid"
+## 10. Reversing "I Paid"
 
 Until settlement has been approved, the payer MAY withdraw the "I Paid" declaration.
 
@@ -233,7 +233,7 @@ Applications SHALL display the latest valid payment state.
 
 ---
 
-# 11. Payment Proof
+## 11. Payment Proof
 
 Payment submissions MAY include evidence.
 
@@ -250,7 +250,7 @@ Evidence becomes permanently associated with the settlement record.
 
 ---
 
-# 12. Merchant Verification
+## 12. Merchant Verification
 
 After receiving the Payment Submitted event, the merchant reviews:
 
@@ -264,7 +264,7 @@ Merchants MAY request additional information before settlement.
 
 ---
 
-# 13. Additional Verification
+## 13. Additional Verification
 
 Merchants MAY request:
 
@@ -278,7 +278,7 @@ Every request generates a synchronized protocol event.
 
 ---
 
-# 14. Automatic Settlement
+## 14. Automatic Settlement
 
 Future protocol versions MAY support trusted payment verification providers.
 
@@ -294,7 +294,7 @@ Automatic settlement remains optional.
 
 ---
 
-# 15. Settlement Approval
+## 15. Settlement Approval
 
 When payment has been successfully verified:
 
@@ -320,7 +320,7 @@ Only the OpenFiat Program releases escrow.
 
 ---
 
-# 16. Escrow Release
+## 16. Escrow Release
 
 Escrow release is performed exclusively by the OpenFiat Program.
 
@@ -337,7 +337,7 @@ Stablecoins are transferred to the receiving wallet.
 
 ---
 
-# 17. Settlement Failure
+## 17. Settlement Failure
 
 Settlement may fail due to:
 
@@ -352,7 +352,7 @@ Failed settlements generate deterministic failure events.
 
 ---
 
-# 18. Settlement Recovery
+## 18. Settlement Recovery
 
 If infrastructure fails during settlement:
 
@@ -383,7 +383,7 @@ No completed work is lost.
 
 ---
 
-# 19. Settlement Cancellation
+## 19. Settlement Cancellation
 
 Settlement MAY terminate before completion when:
 
@@ -397,7 +397,7 @@ Cancellation returns the trade to a deterministic terminal state.
 
 ---
 
-# 20. Settlement State Machine
+## 20. Settlement State Machine
 
 ```text id="settlement-state-machine"
 Escrow Locked
@@ -443,7 +443,7 @@ Only valid state transitions are permitted.
 
 ---
 
-# 21. Settlement Synchronization
+## 21. Settlement Synchronization
 
 Settlement events include:
 
@@ -459,7 +459,7 @@ Events propagate through OFS-1200.
 
 ---
 
-# 22. Settlement Notifications
+## 22. Settlement Notifications
 
 Settlement SHOULD generate notifications.
 
@@ -481,7 +481,7 @@ Notification delivery is specified in OFS-6000.
 
 ---
 
-# 23. Settlement Metrics
+## 23. Settlement Metrics
 
 Settlement metrics contribute to merchant reputation.
 
@@ -498,7 +498,7 @@ These metrics feed into OFS-3000.
 
 ---
 
-# 24. Security Considerations
+## 24. Security Considerations
 
 Implementations MUST prevent:
 
@@ -513,7 +513,7 @@ All settlement events MUST be digitally signed.
 
 ---
 
-# 25. Performance Considerations
+## 25. Performance Considerations
 
 Settlement is among the highest-priority operations within the network.
 
@@ -528,7 +528,7 @@ Settlement traffic SHOULD receive high-priority scheduling under OFS-1600.
 
 ---
 
-# 26. Conformance
+## 26. Conformance
 
 A compliant implementation MUST:
 
@@ -544,7 +544,7 @@ A compliant implementation MUST:
 
 ---
 
-# 27. Relationship to Other Specifications
+## 27. Relationship to Other Specifications
 
 The Settlement Protocol governs the final execution phase of every OpenFiat trade.
 

@@ -16,11 +16,11 @@ Rather than storing advertisements on centralized servers, OpenFiat distributes 
 
 ---
 
-# 6.2 Buyers and Merchants
+## 6.2 Buyers and Merchants
 
 OpenFiat recognizes two primary marketplace participants.
 
-## Buyers
+### Buyers
 
 A buyer is any participant who accepts an existing advertisement.
 
@@ -28,7 +28,7 @@ Buyers do not need to publish advertisements before using the protocol.
 
 They simply browse available offers, select one that satisfies their requirements, reserve the trade, and follow the standardized trading process defined by the protocol.
 
-## Merchants
+### Merchants
 
 Merchants are participants who continuously provide liquidity to the marketplace.
 
@@ -55,7 +55,7 @@ Ordering is determined by transparent algorithms implemented consistently across
 
 ---
 
-# 6.3 Merchant Registration
+## 6.3 Merchant Registration
 
 Before publishing advertisements, a participant must register as a merchant.
 
@@ -92,7 +92,7 @@ Reputation must always be earned through successful marketplace participation.
 
 ---
 
-# 6.4 Advertisements
+## 6.4 Advertisements
 
 An advertisement is a publicly signed statement expressing a merchant's willingness to trade.
 
@@ -120,11 +120,11 @@ Unsigned or modified advertisements are rejected automatically.
 
 ---
 
-# 6.5 Fixed and Floating Prices
+## 6.5 Fixed and Floating Prices
 
 OpenFiat supports two pricing models.
 
-## Fixed Price
+### Fixed Price
 
 The merchant specifies an exact exchange rate.
 
@@ -136,7 +136,7 @@ The price remains unchanged until the merchant updates the advertisement.
 
 Fixed pricing provides predictability but requires manual maintenance during volatile market conditions.
 
-## Floating Price
+### Floating Price
 
 Rather than specifying an exact price, the merchant defines a pricing formula.
 
@@ -156,7 +156,7 @@ This approach allows merchants to remain competitive without continuously editin
 
 ---
 
-# 6.6 Payment Methods
+## 6.6 Payment Methods
 
 OpenFiat intentionally supports regional payment systems.
 
@@ -178,7 +178,7 @@ This flexibility allows OpenFiat to operate globally while respecting regional f
 
 ---
 
-# 6.7 Advertisement Capacity
+## 6.7 Advertisement Capacity
 
 Publishing advertisements consumes marketplace resources.
 
@@ -200,13 +200,13 @@ This creates an incentive to build long-term trust rather than repeatedly creati
 
 ---
 
-# 6.8 Merchant Availability
+## 6.8 Merchant Availability
 
 Merchants may control whether advertisements are available for new orders.
 
 Three operating states are defined.
 
-## Online
+### Online
 
 The merchant is actively accepting new trades.
 
@@ -214,7 +214,7 @@ Advertisements remain visible.
 
 New reservations are permitted.
 
-## Offline
+### Offline
 
 Advertisements remain published but are temporarily unavailable for new reservations.
 
@@ -222,7 +222,7 @@ Merchants may enter offline mode manually or automatically if no compatible clie
 
 This prevents buyers from reserving trades that cannot be serviced promptly.
 
-## Vacation Mode
+### Vacation Mode
 
 Vacation mode suspends all advertisements until manually re-enabled.
 
@@ -232,7 +232,7 @@ Reputation is not negatively affected while vacation mode is active.
 
 ---
 
-# 6.9 Automatic Advertisement Refresh
+## 6.9 Automatic Advertisement Refresh
 
 Advertisements are not permanent.
 
@@ -253,7 +253,7 @@ This prevents stale listings from accumulating over time.
 
 ---
 
-# 6.10 Marketplace Discovery
+## 6.10 Marketplace Discovery
 
 Buyers discover advertisements through any compatible OpenFiat client.
 
@@ -275,7 +275,7 @@ No client possesses exclusive advertisements.
 
 ---
 
-# 6.11 Marketplace Fairness
+## 6.11 Marketplace Fairness
 
 OpenFiat deliberately avoids allowing applications or infrastructure providers to manipulate marketplace visibility.
 
@@ -295,7 +295,7 @@ This transparency prevents hidden favoritism or paid promotion outside protocol-
 
 ---
 
-# 6.12 The Marketplace Risk Engine
+## 6.12 The Marketplace Risk Engine
 
 While OpenFiat remains permissionless, it continuously evaluates marketplace health using objective protocol metrics.
 
@@ -317,7 +317,7 @@ All risk calculations are deterministic and publicly documented.
 
 ---
 
-# 6.13 Marketplace Economics
+## 6.13 Marketplace Economics
 
 Publishing advertisements is not free.
 
@@ -335,7 +335,7 @@ They fund infrastructure providers, governance initiatives, and ecosystem develo
 
 ---
 
-# 6.14 Why This Marketplace Is Different
+## 6.14 Why This Marketplace Is Different
 
 Most existing P2P marketplaces are websites.
 
@@ -355,7 +355,7 @@ These characteristics transform the marketplace from a commercial platform into 
 
 ---
 
-# 6.15 Looking Ahead
+## 6.15 Looking Ahead
 
 Publishing advertisements represents only the beginning of a trade.
 

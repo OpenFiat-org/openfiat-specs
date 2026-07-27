@@ -30,7 +30,7 @@ The objective is simple:
 
 ---
 
-# 13.2 Design Objectives
+## 13.2 Design Objectives
 
 The OPEN economy was designed around several guiding principles.
 
@@ -56,7 +56,7 @@ Merchants, node operators, arbitrators, developers, and token holders should all
 
 ---
 
-# 13.3 The Role of OPEN
+## 13.3 The Role of OPEN
 
 OPEN performs multiple functions within the protocol.
 
@@ -97,7 +97,7 @@ Protocol rewards are distributed in OPEN during the network's growth phase.
 
 ---
 
-# 13.4 Why a Native Token?
+## 13.4 Why a Native Token?
 
 OpenFiat could theoretically have used SOL alone.
 
@@ -115,7 +115,7 @@ Most importantly, it aligns incentives between users, infrastructure providers, 
 
 ---
 
-# 13.5 Fixed Supply
+## 13.5 Fixed Supply
 
 OpenFiat adopts a **fixed token supply**.
 
@@ -131,7 +131,7 @@ Future governance may redistribute treasury holdings, but it cannot create new t
 
 ---
 
-# 13.6 Why Not Inflation?
+## 13.6 Why Not Inflation?
 
 Many blockchain networks, including Solana, use controlled inflation to continuously reward validators.
 
@@ -157,7 +157,7 @@ As adoption grows, protocol usage gradually replaces bootstrap incentives.
 
 ---
 
-# 13.7 Initial Token Allocation
+## 13.7 Initial Token Allocation
 
 The genesis supply is divided into several major allocations.
 
@@ -189,7 +189,7 @@ Exact percentages are intentionally defined within the Tokenomics Specification 
 
 ---
 
-# 13.8 The Presale
+## 13.8 The Presale
 
 OpenFiat's initial development is funded by AllenHark.
 
@@ -214,7 +214,7 @@ The objective is to finance the construction of durable public infrastructure.
 
 ---
 
-# 13.9 AllenHark's Commitment
+## 13.9 AllenHark's Commitment
 
 AllenHark assumes the initial financial risk of building OpenFiat.
 
@@ -235,7 +235,7 @@ The protocol is designed to outlive its original creators.
 
 ---
 
-# 13.10 Staking
+## 13.10 Staking
 
 Many protocol roles require OPEN staking.
 
@@ -258,7 +258,7 @@ Participants retain ownership of their stake unless protocol-defined penalties a
 
 ---
 
-# 13.11 Protocol Fees
+## 13.11 Protocol Fees
 
 Protocol fees fund long-term sustainability.
 
@@ -273,7 +273,7 @@ Fees are intentionally designed to remain small enough that they do not discoura
 
 ---
 
-# 13.12 Revenue Distribution
+## 13.12 Revenue Distribution
 
 Protocol revenue is distributed automatically by the OpenFiat Escrow Program according to governance-defined parameters.
 
@@ -292,7 +292,7 @@ No centralized accounting is required.
 
 ---
 
-# 13.13 Bootstrap Incentives
+## 13.13 Bootstrap Incentives
 
 Early in the protocol's life, marketplace activity will be limited.
 
@@ -309,7 +309,7 @@ Over time, bootstrap incentives gradually decline as transaction fees become the
 
 ---
 
-# 13.14 Long-Term Sustainability
+## 13.14 Long-Term Sustainability
 
 The long-term vision for OpenFiat is straightforward.
 
@@ -326,7 +326,7 @@ The protocol becomes increasingly self-sustaining through genuine economic activ
 
 ---
 
-# 13.15 Economic Alignment
+## 13.15 Economic Alignment
 
 Every major participant benefits when OpenFiat succeeds.
 
@@ -346,7 +346,7 @@ The objective is to ensure that individual incentives reinforce the health of th
 
 ---
 
-# 13.16 Why OPEN Matters
+## 13.16 Why OPEN Matters
 
 The OPEN token is more than a governance asset.
 
@@ -356,7 +356,7 @@ By tying governance, staking, incentives, infrastructure, and protocol services 
 
 ---
 
-# 13.17 Looking Ahead
+## 13.17 Looking Ahead
 
 This chapter introduces the philosophy of the OPEN economy.
 

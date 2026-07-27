@@ -24,7 +24,7 @@ Every trade follows the same deterministic state machine.
 
 ---
 
-# 7.2 Design Objectives
+## 7.2 Design Objectives
 
 The OpenFiat Trade Protocol was designed around six primary objectives.
 
@@ -56,7 +56,7 @@ No merchant or client application receives special privileges beyond those expli
 
 ---
 
-# 7.3 The Trade Lifecycle
+## 7.3 The Trade Lifecycle
 
 Every OpenFiat trade progresses through a fixed sequence of states.
 
@@ -102,7 +102,7 @@ This deterministic progression ensures that all implementations interpret trade 
 
 ---
 
-# 7.4 Step 1 — Advertisement Discovery
+## 7.4 Step 1 — Advertisement Discovery
 
 Every trade begins when a buyer discovers an advertisement.
 
@@ -124,7 +124,7 @@ No application owns exclusive liquidity.
 
 ---
 
-# 7.5 Step 2 — Reservation
+## 7.5 Step 2 — Reservation
 
 Once a buyer selects an advertisement, the buyer submits a reservation request.
 
@@ -140,7 +140,7 @@ This prevents overselling while maintaining fairness.
 
 ---
 
-# 7.6 Step 3 — Escrow Funding
+## 7.6 Step 3 — Escrow Funding
 
 Immediately after a reservation is accepted, the advertised stablecoins are transferred into the OpenFiat escrow program on Solana.
 
@@ -156,7 +156,7 @@ This eliminates one of the most common fraud scenarios found in informal peer-to
 
 ---
 
-# 7.7 Step 4 — Trade Session
+## 7.7 Step 4 — Trade Session
 
 Once escrow has been funded, a secure trade session is established.
 
@@ -174,7 +174,7 @@ The protocol standardizes message exchange while allowing clients flexibility in
 
 ---
 
-# 7.8 Step 5 — Fiat Payment
+## 7.8 Step 5 — Fiat Payment
 
 The buyer submits payment using one of the merchant's supported payment methods.
 
@@ -192,7 +192,7 @@ Instead, the protocol coordinates communication between participants while recor
 
 ---
 
-# 7.9 Step 6 — "I Paid"
+## 7.9 Step 6 — "I Paid"
 
 After submitting payment, the buyer selects **"I Paid."**
 
@@ -211,7 +211,7 @@ This evidence becomes part of the trade record should arbitration later become n
 
 ---
 
-# 7.10 Step 7 — Merchant Verification
+## 7.10 Step 7 — Merchant Verification
 
 The merchant verifies that fiat payment has been received.
 
@@ -229,7 +229,7 @@ All communication remains associated with the signed trade session.
 
 ---
 
-# 7.11 Step 8 — Settlement
+## 7.11 Step 8 — Settlement
 
 If payment is confirmed, the merchant authorizes settlement.
 
@@ -241,7 +241,7 @@ Neither the merchant nor any OpenFiat node can alter the settlement rules once e
 
 ---
 
-# 7.12 Disputes
+## 7.12 Disputes
 
 If participants disagree regarding payment, either party may initiate a dispute.
 
@@ -263,7 +263,7 @@ The complete dispute protocol is described in a later chapter.
 
 ---
 
-# 7.13 Trade Completion
+## 7.13 Trade Completion
 
 A trade is considered complete only after:
 
@@ -278,7 +278,7 @@ Only then does the trade become part of each participant's permanent trading his
 
 ---
 
-# 7.14 Fault Recovery
+## 7.14 Fault Recovery
 
 Real-world networks are imperfect.
 
@@ -296,7 +296,7 @@ This significantly improves reliability compared to centralized platforms that d
 
 ---
 
-# 7.15 Security Guarantees
+## 7.15 Security Guarantees
 
 The OpenFiat Trade Protocol provides several important guarantees.
 
@@ -326,7 +326,7 @@ Dispute outcomes are executed according to publicly documented protocol rules ra
 
 ---
 
-# 7.16 Why OFTP Matters
+## 7.16 Why OFTP Matters
 
 Trading digital assets for fiat currency requires coordination between blockchain transactions and real-world payment systems.
 
@@ -340,7 +340,7 @@ The protocol transforms peer-to-peer trading from a website-specific feature int
 
 ---
 
-# 7.17 Looking Ahead
+## 7.17 Looking Ahead
 
 Every OpenFiat trade depends upon one critical component: the escrow system.
 

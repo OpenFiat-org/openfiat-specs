@@ -12,7 +12,7 @@ This chapter defines how OpenFiat evolves over time while maintaining stability 
 
 ---
 
-# 24.2 Governance Philosophy
+## 24.2 Governance Philosophy
 
 OpenFiat governance follows several fundamental principles.
 
@@ -42,7 +42,7 @@ Every governance decision should strengthen the long-term health of the ecosyste
 
 ---
 
-# 24.3 Governance Scope
+## 24.3 Governance Scope
 
 Governance is responsible for protocol-level decisions.
 
@@ -63,7 +63,7 @@ Governance does **not** intervene in individual marketplace disputes, trade outc
 
 ---
 
-# 24.4 Governance Participants
+## 24.4 Governance Participants
 
 Multiple groups contribute to OpenFiat governance.
 
@@ -99,7 +99,7 @@ Each participant brings different expertise to governance.
 
 ---
 
-# 24.5 OpenFiat Improvement Proposals (OFIPs)
+## 24.5 OpenFiat Improvement Proposals (OFIPs)
 
 All protocol changes begin as an **OpenFiat Improvement Proposal (OFIP)**.
 
@@ -122,7 +122,7 @@ The OFIP process ensures that every protocol change is carefully documented befo
 
 ---
 
-# 24.6 OFIP Lifecycle
+## 24.6 OFIP Lifecycle
 
 Every proposal follows a standardized lifecycle.
 
@@ -170,7 +170,7 @@ Each stage serves a specific purpose, ensuring that proposals receive adequate r
 
 ---
 
-# 24.7 Proposal Categories
+## 24.7 Proposal Categories
 
 Not every proposal affects the protocol in the same way.
 
@@ -204,7 +204,7 @@ Categorizing proposals simplifies review and implementation.
 
 ---
 
-# 24.8 Proposal Submission
+## 24.8 Proposal Submission
 
 Any participant meeting governance requirements may submit an OFIP.
 
@@ -221,7 +221,7 @@ The goal is to encourage thoughtful proposals without preventing meaningful part
 
 ---
 
-# 24.9 Technical Review
+## 24.9 Technical Review
 
 Before governance voting begins, every OFIP undergoes technical review.
 
@@ -241,7 +241,7 @@ Its purpose is to provide objective analysis so voters can make informed decisio
 
 ---
 
-# 24.10 Community Discussion
+## 24.10 Community Discussion
 
 Governance depends upon informed participation.
 
@@ -260,7 +260,7 @@ Proposal authors are encouraged to revise OFIPs based on constructive feedback b
 
 ---
 
-# 24.11 Governance Voting
+## 24.11 Governance Voting
 
 After technical review and community discussion, eligible OPEN holders vote.
 
@@ -276,7 +276,7 @@ Every vote is publicly verifiable.
 
 ---
 
-# 24.12 Proposal Approval
+## 24.12 Proposal Approval
 
 A proposal is considered approved only after satisfying governance-defined requirements.
 
@@ -292,7 +292,7 @@ These parameters remain configurable through governance.
 
 ---
 
-# 24.13 Implementation
+## 24.13 Implementation
 
 Approval does not immediately change the protocol.
 
@@ -332,7 +332,7 @@ This separation ensures that governance approves ideas while engineering ensures
 
 ---
 
-# 24.14 Protocol Releases
+## 24.14 Protocol Releases
 
 OpenFiat follows structured release management.
 
@@ -358,7 +358,7 @@ Release notes accompany every production version.
 
 ---
 
-# 24.15 Backward Compatibility
+## 24.15 Backward Compatibility
 
 Backward compatibility is preferred whenever technically practical.
 
@@ -373,7 +373,7 @@ Abrupt protocol changes should be avoided.
 
 ---
 
-# 24.16 Emergency Governance
+## 24.16 Emergency Governance
 
 Critical vulnerabilities occasionally require rapid action.
 
@@ -397,7 +397,7 @@ Emergency governance should never become normal governance.
 
 ---
 
-# 24.17 Treasury Governance
+## 24.17 Treasury Governance
 
 Treasury funds are controlled through governance.
 
@@ -421,7 +421,7 @@ Every allocation proposal should clearly describe:
 
 ---
 
-# 24.18 Governance Transparency
+## 24.18 Governance Transparency
 
 Every governance action is permanently recorded.
 
@@ -438,7 +438,7 @@ Transparent governance increases accountability and strengthens community trust.
 
 ---
 
-# 24.19 Governance Evolution
+## 24.19 Governance Evolution
 
 Governance itself is governed.
 
@@ -456,7 +456,7 @@ Any changes to governance must themselves follow the governance process.
 
 ---
 
-# 24.20 AllenHark's Role
+## 24.20 AllenHark's Role
 
 During the bootstrap phase, AllenHark will:
 
@@ -472,7 +472,7 @@ As governance decentralizes, AllenHark becomes one participant among many, subje
 
 ---
 
-# 24.21 Long-Term Governance Vision
+## 24.21 Long-Term Governance Vision
 
 The objective of OpenFiat governance is not simply to approve software updates.
 
@@ -488,7 +488,7 @@ Most importantly, it ensures that OpenFiat can continue evolving regardless of w
 
 ---
 
-# 24.22 Looking Ahead
+## 24.22 Looking Ahead
 
 The governance framework completes the operational and organizational foundation of OpenFiat.
 

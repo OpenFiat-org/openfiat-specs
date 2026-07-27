@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Advertisement Protocol (OAP) defines how merchants create, publish, update, synchronize, prioritize, and remove trading advertisements across the OpenFiat Network.
 
@@ -26,7 +26,7 @@ They exist as decentralized protocol objects synchronized across the OpenFiat ne
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 Advertisements are the foundation of the OpenFiat marketplace.
 
@@ -48,7 +48,7 @@ No central order book exists.
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -74,7 +74,7 @@ This specification does **not** define:
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 The Advertisement Protocol SHALL:
 
@@ -88,11 +88,11 @@ The Advertisement Protocol SHALL:
 
 ---
 
-# 4. Advertisement Types
+## 4. Advertisement Types
 
 OpenFiat supports two advertisement directions.
 
-## Sell Advertisement
+### Sell Advertisement
 
 Merchant offers stablecoins.
 
@@ -102,7 +102,7 @@ Example:
 
 ---
 
-## Buy Advertisement
+### Buy Advertisement
 
 Merchant wishes to purchase stablecoins.
 
@@ -114,7 +114,7 @@ Both advertisement types follow the same lifecycle.
 
 ---
 
-# 5. Advertisement Identifier
+## 5. Advertisement Identifier
 
 Every advertisement SHALL possess a globally unique Advertisement ID.
 
@@ -122,7 +122,7 @@ The Advertisement ID remains constant until the advertisement is permanently rem
 
 ---
 
-# 6. Advertisement Structure
+## 6. Advertisement Structure
 
 Every advertisement SHALL contain:
 
@@ -145,7 +145,7 @@ Every advertisement SHALL contain:
 
 ---
 
-# 7. Merchant Capacity
+## 7. Merchant Capacity
 
 The number of simultaneously active advertisements is determined by the merchant's protocol capacity.
 
@@ -162,7 +162,7 @@ The exact scoring formula is defined by the Reputation Engine.
 
 ---
 
-# 8. Advertisement Visibility
+## 8. Advertisement Visibility
 
 Advertisements become visible only after:
 
@@ -174,7 +174,7 @@ Applications SHALL ignore advertisements that fail validation.
 
 ---
 
-# 9. Liquidity
+## 9. Liquidity
 
 Every advertisement publishes available liquidity.
 
@@ -190,7 +190,7 @@ Liquidity automatically changes as trades occur.
 
 ---
 
-# 10. Automatic Inventory Management
+## 10. Automatic Inventory Management
 
 Inventory management is handled entirely by the protocol.
 
@@ -244,11 +244,11 @@ The merchant never manually edits available inventory after every trade.
 
 ---
 
-# 11. Pricing Models
+## 11. Pricing Models
 
 OpenFiat supports two pricing models.
 
-## Fixed Pricing
+### Fixed Pricing
 
 Example:
 
@@ -258,7 +258,7 @@ Price remains constant until updated.
 
 ---
 
-## Floating Pricing
+### Floating Pricing
 
 Price is calculated dynamically using trusted Oracle Providers.
 
@@ -278,7 +278,7 @@ Floating pricing automatically updates as market prices move.
 
 ---
 
-# 12. Oracle Integration
+## 12. Oracle Integration
 
 Floating advertisements rely on OFS-7000.
 
@@ -293,7 +293,7 @@ Applications calculate the current price locally using the latest verified oracl
 
 ---
 
-# 13. Payment Methods
+## 13. Payment Methods
 
 Every advertisement may support multiple payment methods.
 
@@ -313,7 +313,7 @@ Payment methods are independently selectable by the merchant.
 
 ---
 
-# 14. Merchant Availability
+## 14. Merchant Availability
 
 Merchants publish current availability.
 
@@ -329,7 +329,7 @@ Availability updates propagate immediately through the Gossip Protocol.
 
 ---
 
-# 15. Offline Mode
+## 15. Offline Mode
 
 OpenFiat supports offline merchants.
 
@@ -347,7 +347,7 @@ If neither condition is met, advertisements automatically transition to Offline.
 
 ---
 
-# 16. Vacation Mode
+## 16. Vacation Mode
 
 Vacation Mode allows merchants to temporarily suspend trading without deleting advertisements.
 
@@ -362,7 +362,7 @@ Vacation Mode may be enabled or disabled at any time.
 
 ---
 
-# 17. Advertisement Refresh
+## 17. Advertisement Refresh
 
 Advertisements automatically refresh whenever:
 
@@ -376,7 +376,7 @@ Manual refresh is not required.
 
 ---
 
-# 18. Automatic Disable
+## 18. Automatic Disable
 
 Advertisements SHALL automatically become inactive when:
 
@@ -390,7 +390,7 @@ Applications MUST stop displaying inactive advertisements.
 
 ---
 
-# 19. Merchant Tiers
+## 19. Merchant Tiers
 
 Merchant tiers are determined using a hybrid scoring model.
 
@@ -414,7 +414,7 @@ Merchant tiers never bypass protocol rules.
 
 ---
 
-# 20. Advertisement Priority
+## 20. Advertisement Priority
 
 Search ordering MAY consider:
 
@@ -431,7 +431,7 @@ The protocol does not mandate a single ranking algorithm.
 
 ---
 
-# 21. Advertisement Expiration
+## 21. Advertisement Expiration
 
 Advertisements may expire automatically due to:
 
@@ -445,7 +445,7 @@ Expired advertisements are removed through the Gossip Protocol.
 
 ---
 
-# 22. Marketplace Risk Integration
+## 22. Marketplace Risk Integration
 
 Before an advertisement becomes visible, participating applications SHOULD evaluate merchant risk using the Marketplace Risk Engine.
 
@@ -464,7 +464,7 @@ The protocol itself remains permissionless—risk evaluation influences presenta
 
 ---
 
-# 23. Advertisement Synchronization
+## 23. Advertisement Synchronization
 
 Advertisement changes generate immutable protocol events.
 
@@ -482,7 +482,7 @@ All changes propagate through OFS-1200.
 
 ---
 
-# 24. Security Considerations
+## 24. Security Considerations
 
 Implementations MUST reject:
 
@@ -498,7 +498,7 @@ Every advertisement MUST be cryptographically authenticated.
 
 ---
 
-# 25. Conformance
+## 25. Conformance
 
 A compliant implementation MUST:
 
@@ -515,7 +515,7 @@ A compliant implementation MUST:
 
 ---
 
-# 26. Relationship to Other Specifications
+## 26. Relationship to Other Specifications
 
 The Advertisement Protocol represents the public entry point into the OpenFiat marketplace.
 

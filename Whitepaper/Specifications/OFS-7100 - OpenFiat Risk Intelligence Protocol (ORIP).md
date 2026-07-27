@@ -14,7 +14,7 @@
 
 ---
 
-# Abstract
+## Abstract
 
 The OpenFiat Risk Intelligence Protocol (ORIP) defines how fraud intelligence, wallet reputation, sanctions information, scam reports, blockchain analytics, and financial crime indicators are shared throughout the OpenFiat ecosystem.
 
@@ -28,7 +28,7 @@ They **do not** replace user judgment, override protocol consensus, or automatic
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 
 A decentralized financial marketplace must remain open while protecting honest participants.
 
@@ -52,7 +52,7 @@ OpenFiat therefore allows multiple independent Risk Intelligence Providers to pu
 
 ---
 
-# 2. Scope
+## 2. Scope
 
 This specification defines:
 
@@ -75,7 +75,7 @@ This specification does **not** define:
 
 ---
 
-# 3. Design Goals
+## 3. Design Goals
 
 The Risk Intelligence Protocol SHALL:
 
@@ -89,7 +89,7 @@ The Risk Intelligence Protocol SHALL:
 
 ---
 
-# 4. Design Philosophy
+## 4. Design Philosophy
 
 Risk intelligence is advisory.
 
@@ -110,7 +110,7 @@ The protocol intentionally leaves enforcement policies to applications and gover
 
 ---
 
-# 5. Risk Intelligence Providers
+## 5. Risk Intelligence Providers
 
 Any qualified organization may become a provider.
 
@@ -128,7 +128,7 @@ Providers register through OFS-1500.
 
 ---
 
-# 6. Provider Categories
+## 6. Provider Categories
 
 Examples include:
 
@@ -164,7 +164,7 @@ Infrastructure Intelligence
 
 ---
 
-# 7. Risk Record
+## 7. Risk Record
 
 Every published record contains:
 
@@ -181,7 +181,7 @@ Every published record contains:
 
 ---
 
-# 8. Risk Categories
+## 8. Risk Categories
 
 The protocol initially defines:
 
@@ -221,7 +221,7 @@ Governance may introduce additional categories.
 
 ---
 
-# 9. Confidence Levels
+## 9. Confidence Levels
 
 Every report includes a confidence level.
 
@@ -245,7 +245,7 @@ Applications SHOULD consider both severity and confidence before taking action.
 
 ---
 
-# 10. Evidence References
+## 10. Evidence References
 
 Providers SHOULD publish evidence whenever possible.
 
@@ -262,7 +262,7 @@ Sensitive evidence MAY remain private while exposing verifiable references or cr
 
 ---
 
-# 11. Wallet Screening
+## 11. Wallet Screening
 
 Applications SHOULD screen wallet addresses before accepting deposits.
 
@@ -304,7 +304,7 @@ Wallet screening SHOULD occur before escrow creation whenever practical.
 
 ---
 
-# 12. Deposit Rejection
+## 12. Deposit Rejection
 
 Applications MAY automatically reject deposits from wallets matching governance-defined rejection policies.
 
@@ -319,7 +319,7 @@ Applications SHOULD clearly communicate why a deposit was rejected whenever lega
 
 ---
 
-# 13. Multiple Provider Consensus
+## 13. Multiple Provider Consensus
 
 Applications SHOULD consult multiple providers.
 
@@ -351,7 +351,7 @@ Reliance on multiple providers reduces single-provider failure risk.
 
 ---
 
-# 14. Risk Updates
+## 14. Risk Updates
 
 Risk intelligence changes over time.
 
@@ -369,7 +369,7 @@ Historical records remain available for audit purposes.
 
 ---
 
-# 15. False Positives
+## 15. False Positives
 
 No provider is infallible.
 
@@ -384,7 +384,7 @@ Incorrect classifications SHOULD be corrected as rapidly as possible.
 
 ---
 
-# 16. Community Reporting
+## 16. Community Reporting
 
 Future protocol versions MAY permit community-submitted reports.
 
@@ -397,7 +397,7 @@ Such reports SHOULD:
 
 ---
 
-# 17. Privacy
+## 17. Privacy
 
 Providers SHOULD minimize personal data collection.
 
@@ -411,7 +411,7 @@ Personally identifiable information SHOULD only be included where legally requir
 
 ---
 
-# 18. Synchronization
+## 18. Synchronization
 
 Risk intelligence updates generate signed protocol events.
 
@@ -421,7 +421,7 @@ Applications eventually converge on identical intelligence datasets from the pro
 
 ---
 
-# 19. Security Considerations
+## 19. Security Considerations
 
 Implementations MUST protect against:
 
@@ -436,7 +436,7 @@ Every intelligence record MUST be digitally signed.
 
 ---
 
-# 20. Performance Considerations
+## 20. Performance Considerations
 
 Risk screening should add minimal latency to trading.
 
@@ -452,7 +452,7 @@ The reference implementation SHOULD maintain indexed risk datasets within RocksD
 
 ---
 
-# 21. Conformance
+## 21. Conformance
 
 A compliant implementation MUST:
 
@@ -467,7 +467,7 @@ A compliant implementation MUST:
 
 ---
 
-# 22. Relationship to Other Specifications
+## 22. Relationship to Other Specifications
 
 The Risk Intelligence Protocol provides a security layer across the entire OpenFiat ecosystem.
 
@@ -491,7 +491,7 @@ The Risk Intelligence Protocol provides a security layer across the entire OpenF
 
 ---
 
-# 23. Example Providers
+## 23. Example Providers
 
 The protocol is provider-neutral.
 
@@ -509,7 +509,7 @@ Listing an organization within this specification does **not** imply endorsement
 
 ---
 
-# 24. Future Extensions
+## 24. Future Extensions
 
 Future versions of the protocol may support:
 
@@ -525,7 +525,7 @@ Future versions of the protocol may support:
 
 ---
 
-# 25. Summary
+## 25. Summary
 
 The OpenFiat Risk Intelligence Protocol establishes a standardized, decentralized framework for sharing security intelligence throughout the OpenFiat ecosystem.
 
