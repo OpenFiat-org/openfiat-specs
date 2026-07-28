@@ -56,7 +56,7 @@ This specification does not cover:
 
 ## 4. Transport
 
-```
+```text
 POST /rpc
 Content-Type: application/json
 ```
@@ -153,7 +153,7 @@ A client MUST treat `data.ofsErrorCode` as the authoritative error identity for 
 
 ## 11. Subscriptions
 
-```
+```text
 GET /ws
 ```
 
