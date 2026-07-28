@@ -189,6 +189,7 @@ Additional specifications may be introduced through governance.
 * OFS-4000 — Governance Protocol
 * OFS-4100 — Tokenomics Specification
 * OFS-4200 — On-Chain Program Architecture
+* OFS-4300 — Chain Bridge Protocol (OCBP)
 
 ---
 

@@ -106,6 +106,7 @@ The registry defines the following namespaces.
 | Risk          | RSK    |
 | Notification  | NOT    |
 | Wallet        | WAL    |
+| Chain Bridge  | CHN    |
 | SDK           | SDK    |
 | System        | SYS    |
 
@@ -541,7 +542,17 @@ WalletRestored
 
 ---
 
-## 18. SDK Events (SDK)
+## 18. Chain Bridge Events (CHN)
+
+BlockhashAnnounced
+
+TransactionRelayRequested
+
+TransactionRelayed
+
+---
+
+## 19. SDK Events (SDK)
 
 SDKConnected
 
@@ -561,7 +572,7 @@ RPCDisconnected
 
 ---
 
-## 19. System Events (SYS)
+## 20. System Events (SYS)
 
 ConfigurationLoaded
 
@@ -587,7 +598,7 @@ NodeHealthChanged
 
 ---
 
-## 20. Event Versioning
+## 21. Event Versioning
 
 Every event SHALL include a schema version.
 
@@ -597,7 +608,7 @@ Breaking changes SHALL require a new event version.
 
 ---
 
-## 21. Event Ordering
+## 22. Event Ordering
 
 Events SHALL be processed in deterministic sequence order.
 
@@ -607,7 +618,7 @@ Replay protection SHALL follow OFS-1800.
 
 ---
 
-## 22. Extensibility
+## 23. Extensibility
 
 Future specifications MAY register additional event types.
 
@@ -617,7 +628,7 @@ Deprecated event types SHALL remain reserved permanently.
 
 ---
 
-## 23. Conformance
+## 24. Conformance
 
 A compliant implementation MUST:
 
@@ -630,7 +641,7 @@ A compliant implementation MUST:
 
 ---
 
-## 24. Summary
+## 25. Summary
 
 The OpenFiat Event Type Registry defines the canonical event vocabulary for the OpenFiat ecosystem.
 

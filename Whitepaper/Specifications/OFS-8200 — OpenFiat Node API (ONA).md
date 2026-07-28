@@ -87,6 +87,8 @@ Method names are camelCase and fall into exactly two families, distinguished by 
 
 No third method-name family is defined. A future specification that needs one (for example, a batched submission method) MUST NOT repurpose `getX`/`sendX` semantics for a different meaning.
 
+**One documented exception:** `sendTransaction` (OFS-4300) is a `sendX` write whose `data` is a base64-encoded, already-signed **Solana** transaction, not an OpenFiat `Signed*` JSON envelope — Solana's own transaction-message signing scheme governs that payload, not this specification's JSON convention. It still satisfies `sendX`'s core contract (opaque, already-signed by the caller, the node never constructs or completes it) — only the payload's own signing scheme differs, because it's chain-native rather than protocol-native data.
+
 ## 6. Method Categories
 
 Each domain specification already listed in "Depends On" contributes its own methods to one shared namespace. The canonical category list, by underlying specification:
@@ -107,6 +109,7 @@ Each domain specification already listed in "Depends On" contributes its own met
 | Risk intelligence | OFS-7100 | `getWalletScreening`, `sendRiskPublish` |
 | Snapshots | OFS-1300 | `getLatestSnapshot`, `getCheckpointHeight`, `sendSnapshotAnnounce` |
 | Sessions | OFS-1400 | `getSession`, `sendSessionEstablish`, `sendSessionRenew`, `sendSessionRevoke`, `sendSessionMigrate` |
+| Chain bridge | OFS-4300 | `getChainStatus`, `getLatestBlockhash`, `sendTransaction` |
 | Node | — | `getVersion`, `getHealth` |
 
 This table is illustrative, not normative on its own — the normative list for a given node is whatever its self-description (§9) reports, since that is generated from the node's own dispatch table.
