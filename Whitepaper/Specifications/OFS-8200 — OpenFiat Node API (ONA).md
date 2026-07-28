@@ -78,11 +78,11 @@ A node MAY additionally expose `GET /health` (liveness only, no protocol semanti
 Method names are camelCase and fall into exactly two families, distinguished by their prefix:
 
 * **`getX`** — a read. MUST NOT mutate node state. MUST be safe to retry and safe to call without any signature.
-* **`sendX`** — a write. MUST take exactly one param, `data`: an opaque, base64-encoded, already-signed wire payload the caller's own client produced locally, in the same wire format (OFS-serialization + the domain's own `Signed*` envelope) a gossip-received event would carry. The node's only job is to decode it and apply it through the identical validate → store → broadcast path OFS-1200 §8 defines for a gossip-received event — it never constructs, completes, or signs a payload for the caller.
+* **`sendX`** — a write. MUST take exactly one param, `data`: an opaque, base64-encoded, already-signed JSON payload the caller's own client produced locally — the domain's own `Signed*` envelope, JSON-serialized. The node's only job is to decode it and apply it through the identical validate → store → broadcast path OFS-1200 §8 defines for a gossip-received event — it never constructs, completes, or signs a payload for the caller. JSON is deliberately chosen here over the postcard-based wire format OFS-1200's gossip envelope carries internally: `sendX` is the one boundary a non-Rust SDK (TypeScript, Python, ...) has to cross, and a signature computed over a compact binary encoding only Rust's `serde` ecosystem produces byte-identically would make every other language re-implement that encoding just to sign anything. Every domain event's signature is computed over its own JSON encoding for exactly this reason — see the domain's own specification for the exact `Signed*` shape.
 
 ```json
 { "method": "getReservation", "params": { "id": "res-1" } }
-{ "method": "sendReservationRequest", "params": { "data": "<base64 wire bytes>" } }
+{ "method": "sendReservationRequest", "params": { "data": "<base64 JSON bytes>" } }
 ```
 
 No third method-name family is defined. A future specification that needs one (for example, a batched submission method) MUST NOT repurpose `getX`/`sendX` semantics for a different meaning.
