@@ -148,6 +148,10 @@ Future specifications SHALL allocate codes only within their assigned range.
 | 1007 | MESSAGE_OUT_OF_ORDER         |
 | 1008 | NODE_NOT_SYNCHRONIZED        |
 | 1009 | NETWORK_UNAVAILABLE          |
+| 1010 | CHAIN_UNAVAILABLE            |
+| 1011 | BLOCKHASH_EXPIRED            |
+| 1012 | MALFORMED_TRANSACTION        |
+| 1013 | TRANSACTION_SUBMISSION_FAILED |
 
 ---
 
