@@ -211,6 +211,14 @@ Additional specifications may be introduced through governance.
 
 ---
 
+### External Registries & API
+
+* OFS-8000 — Error Code Registry (OECR)
+* OFS-8100 — Event Type Registry (OETR)
+* OFS-8200 — Node API (ONA)
+
+---
+
 ## 6. Protocol Dependencies
 
 The specifications intentionally build upon one another.
@@ -337,16 +345,17 @@ Reference implementations may use separate open-source software licenses.
 
 ## 12. Future Protocol Families
 
-Future protocol groups may include:
+OFS-8000, OFS-8100, and OFS-8200 are no longer reserved for future use — they
+are assigned to the Error Code Registry, Event Type Registry, and Node API
+respectively (§5's "External Registries & API"). Future protocol groups may
+include:
 
-* OFS-8000 — Cross-chain interoperability
-* OFS-8100 — Cross-chain settlement
-* OFS-8200 — Cross-chain identity
-* OFS-8300 — Zero-knowledge extensions
-* OFS-8400 — AI-assisted marketplace services
-* OFS-8500 — Institutional settlement
-* OFS-8600 — Hardware security integration
-* OFS-8700 — Mobile-first optimizations
+* OFS-8300 — Cross-chain interoperability
+* OFS-8400 — Zero-knowledge extensions
+* OFS-8500 — AI-assisted marketplace services
+* OFS-8600 — Institutional settlement
+* OFS-8700 — Hardware security integration
+* OFS-8800 — Mobile-first optimizations
 
 These ranges are reserved for future governance.
 
