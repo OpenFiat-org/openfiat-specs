@@ -292,9 +292,30 @@ history: a participant cannot reconstruct what they earned, and no explorer can 
 it. This is a hard requirement, not a nice-to-have — an unauditable reward system is
 indistinguishable from an arbitrary one.
 
-### 9.5 Not specified here
+### 9.5 Service-provider earnings
 
-Service-provider rewards (notification, oracle, risk intelligence, snapshot) are
-deliberately left open. Each needs a metered unit of work before a fee can be
-attached to it, and no such metering exists yet. Stating a revenue share before the
-meter exists would be a promise the protocol cannot keep.
+Providers are not paid a protocol reward. They **bill for their own service**, which
+is a different economic shape from node and arbitrator rewards and does not draw on
+the emission pool at all.
+
+| Parameter | Value | Status |
+|---|---|---|
+| Billing currency | OPEN, USDC, or another configured token, chosen by the provider | [DECISION — protocol steward] |
+| Price | Declared in the provider's OFS-1500 registration, as a token and an amount rather than free text | [DECISION — protocol steward] |
+| Payout destination | The wallet registered against the service | [DECISION — protocol steward] |
+| Earnings visibility | The provider proves control of the service by signing a message with the registered key, and reads their earnings back | [DECISION — protocol steward] |
+
+Proving ownership by signature rather than by account is what keeps this consistent
+with the rest of the protocol: there is no provider login, no session, and no
+registry of people — only a key that can demonstrate control of a Service ID it already
+owns. The same mechanism already authenticates arbitrators.
+
+**What is still open: the billing trigger.** Who pays, and at which moment, is not
+settled for every role, and differs by role — a notification has an identifiable
+beneficiary (the participant who enabled it) while a published exchange rate is
+consumed by anyone who reads it and has no natural payer at read time. This
+specification records the *mechanism* — declared price, registered payout wallet,
+signature-authenticated statement — and leaves per-role triggers to be defined as
+each role's metering is built. A provider can declare a price before the protocol
+can enforce collection, and that gap should be stated to providers rather than
+hidden from them.
