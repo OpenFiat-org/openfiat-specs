@@ -142,6 +142,48 @@ Every instruction that moves vault funds signs via `invoke_signed` using the vau
 
 Confirm no instruction, in any combination, can: confiscate a user's funds outside a resolved dispute or a proven-misconduct slash; reverse a `Released` trade; alter a finalized `VoteRecord` or a closed dispute's recorded outcome; move funds from any vault/stake account to an arbitrary destination not enumerated in this document's instruction set.
 
-## 7. Testing Environment Note
+## 7. Config Accounts Naming Token Destinations
+
+A configuration field that names somewhere tokens will be sent MUST be written by an
+instruction that takes it as a **validated token account**, not as a bare `Pubkey`
+parameter.
+
+This is not a style preference. Every instruction that later *spends* to such a field
+constrains it as `InterfaceAccount<'info, TokenAccount>` and requires the stored
+pubkey to equal that account's address. If the field was populated from a raw
+`Pubkey`, nothing stopped a wallet address being stored there — and a wallet is not a
+token account, so the constraint can never be satisfied and the spending instruction
+becomes permanently unexecutable.
+
+The failure is invisible in three ways that matter:
+
+* **Tests pass.** Integration tests create their own correctly-typed accounts, so the
+  code path is exercised and correct. Only the deployed configuration is broken.
+* **The write succeeds.** Storing the wrong kind of address is a valid transaction;
+  nothing fails until something first tries to spend.
+* **It presents as a missing feature.** The symptom is "this never happens", which
+  reads as unimplemented rather than misconfigured.
+
+Four fields in this workspace were populated this way and had to be corrected after
+deployment: `FeeConfig`'s four treasury destinations, `StakingConfig`'s
+`slash_destination` and `rewards_authority`, and `GovernanceConfig`'s
+`forfeit_destination`. In each case the settlement fee, arbitrator slashing, reward
+distribution and deposit forfeiture respectively could not execute at all.
+
+`openfiat-presale` is the counter-example and the pattern to copy: `initialize_sale`
+takes `presale_vault`, `usdc_vault` and `treasury` as `InterfaceAccount<TokenAccount>`
+with mint and owner constraints applied at write time, so storing a wallet is not
+expressible. `update_fee_config` was written the same way when the escrow fee path was
+repaired, and later update instructions follow it.
+
+**An authority field has the same hazard in a different form.** `rewards_authority`
+must *sign*, so a `Pubkey` is the correct type — but an address for which no keypair
+exists is equally dead, and equally silent. Such fields MUST be rejected if zero, and
+SHOULD be verified as controllable before a deployment is considered complete.
+
+Verification that catches this class is reading the deployed account back and decoding
+it. A green test suite does not.
+
+## 8. Testing Environment Note
 
 `anchor test` runs against `solana-test-validator`. Since `openfiat-presale` CPIs into Jupiter's real aggregator program, the test environment needs either a cloned copy of Jupiter's on-chain program (via `solana-test-validator --clone <jupiter_program_id> --url devnet`) or a purpose-built mock with the same instruction interface for deterministic CI runs. This should be verified as the first task of Phase 3, since it determines how automatable this phase's testing actually is.
