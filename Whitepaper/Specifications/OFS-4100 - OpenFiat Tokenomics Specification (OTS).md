@@ -205,6 +205,9 @@ Every place this specification made a call rather than citing a whitepaper numbe
     compensation are both scaled by observed uptime (§9.6, §9.7); the risk-intelligence
     subscription is paid by the treasury; AllenHark's default service key is
     `ALLENLMtV1zEAHT3xpVryqcbdPCB8c9JhM1Jdbe5XHg5`. All protocol-steward decisions.
+16. Risk-intelligence compensation scales with wallets processed rather than nodes served
+    (§9.7). The real-activity condition on what counts as processed is this specification's
+    anti-gaming term, not the steward's instruction.
 
 ---
 
@@ -395,8 +398,9 @@ protocol-steward decisions.
 
 | Parameter | Value | Status |
 |---|---|---|
-| Compensation | Fixed subscription, default **1,000 USDC per month** | [DECISION — protocol steward] |
-| Adjustability | Governance-configurable, and expected to change as the network grows | [DECISION — protocol steward] |
+| Compensation | A base of **1,000 USDC per month**, plus a component scaling with the number of **wallets processed** over the period | [DECISION — protocol steward] |
+| Scaling metric | Wallets processed — **not** nodes, not queries served, not records published | [DECISION — protocol steward] |
+| Adjustability | Both the base and the per-wallet rate are governance-configurable, and expected to change as the network grows | [DECISION — protocol steward] |
 | Who may provide | **Only providers approved by governance.** Registration is permissioned for this role alone | [DECISION — protocol steward] |
 | Uptime | The subscription is scaled by observed uptime over the billing period — a provider that is down does not draw a full month | [DECISION — protocol steward] |
 | Default provider | AllenHark, service key `ALLENLMtV1zEAHT3xpVryqcbdPCB8c9JhM1Jdbe5XHg5` | [DECISION — protocol steward] |
@@ -412,6 +416,28 @@ lets a paid slot exist at all.
 
 The treasury pays, which is what makes the approval gate load-bearing: an unapproved
 party drawing a standing subscription would be drawing directly on protocol funds.
+
+**Volume scaling ties pay to work, and needs one guard.** A provider's real cost is
+proportional to how many wallets it must screen, not to how many nodes consult the
+result — a single flagged wallet read by a thousand nodes is one piece of work. The
+base plus per-wallet shape reflects that, and lets the fee grow with the network the
+way §9.7's adjustability requires without governance having to re-vote a flat figure
+every quarter.
+
+The guard: a **risk provider is the party that publishes risk records**, so paying
+per wallet processed pays them for output they alone generate. Left unqualified, a
+provider could publish records against arbitrary addresses and bill for every one.
+A wallet therefore counts only when it was processed against **real protocol
+activity** — it was party to a reservation or settlement during the period, or was
+the subject of a client screening request — and never merely because the provider
+emitted a record naming it. This is the same shape as §9.6's in-use condition for
+oracle pairs, and for the same reason: any per-unit payment to the party that
+creates the units needs an independent witness to the unit being real.
+
+`[PROPOSED — NEEDS SIGN-OFF]`: the per-wallet rate, whether a wallet processed
+repeatedly in one period counts once or per screening, and whether the base is a
+floor or an advance against volume. The steward set the base and the metric; these
+follow from them and are not yet decided.
 
 **Uptime scaling applies to both paid provider roles.** A fixed monthly figure that
 pays the same whether a provider served every query or none is an invitation to
