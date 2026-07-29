@@ -264,6 +264,18 @@ Sensitive evidence MAY remain private while exposing verifiable references or cr
 
 ## 11. Wallet Screening
 
+A given wallet is screened **at most once every 48 hours**. Nodes cache the result for
+that window and serve repeat lookups from cache rather than re-querying a provider.
+
+This bounds provider load — the same wallet appearing in many trades is one screening,
+not many — and it is also the billable unit under OFS-4100 §9.7, so the cache is what
+keeps a provider from being paid repeatedly for work it did once. A risk assessment
+that changes faster than the cadence is noise rather than signal.
+
+The cache is node-side by requirement. A provider cannot be the party that reports how
+often it was consulted when it is paid per consultation.
+
+
 Applications SHOULD screen wallet addresses before accepting deposits.
 
 Typical workflow:
@@ -306,9 +318,10 @@ Wallet screening SHOULD occur before escrow creation whenever practical.
 
 ## 12. Deposit Rejection
 
-Applications MAY automatically reject deposits from wallets matching governance-defined rejection policies.
+A wallet on the governance-maintained ban list MUST NOT be able to deposit into any
+vault. This is enforced by the protocol, not left to each application.
 
-Examples include:
+Examples of grounds for listing include:
 
 * Confirmed stolen funds
 * Active sanctions
@@ -316,6 +329,37 @@ Examples include:
 * Confirmed scam wallets
 
 Applications SHOULD clearly communicate why a deposit was rejected whenever legally appropriate.
+
+### 12.1 What changed, and what it costs
+
+An earlier version of this section said applications **MAY** reject deposits matching
+governance-defined policies. Governance-defined policy was therefore always
+anticipated; what changed is that enforcement moved from optional and per-application
+to mandatory and protocol-wide.
+
+That is a real trade and it should be recorded rather than absorbed quietly. The
+protocol's stated position elsewhere has been that risk data is advisory — that an
+application may warn, confirm, or ignore, and that no wallet is excluded by a central
+list. A protocol-enforced ban list is a central list; the authority is a governance
+vote rather than a company, but a listed wallet is excluded everywhere, by every
+application, with no appeal at the application layer. Whatever censorship-resistance
+claims the project makes must be brought into line with this, not left standing
+alongside it.
+
+### 12.2 Enforcement requirements
+
+* The list MUST be readable **on-chain**. Vault deposits are executed by an on-chain
+  program, and an on-chain program cannot read gossip-replicated risk records — so a
+  list that exists only off-chain cannot gate a deposit, however authoritative it is.
+* Only governance may add or remove entries. A risk intelligence provider publishes
+  *evidence*; it does not decide exclusion. Conflating the two would let a single
+  approved provider exclude wallets network-wide, which is a far larger power than
+  §5 grants one.
+* Listing and delisting MUST both be possible, and both MUST emit an event. An
+  exclusion nobody can audit or reverse is a worse failure than the abuse it prevents.
+* §15's false-positive handling becomes materially more important once rejection is
+  mandatory: an erroneous listing now costs a wallet all protocol access rather than
+  one application's caution.
 
 ---
 

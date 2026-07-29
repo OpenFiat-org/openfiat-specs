@@ -210,6 +210,9 @@ Every place this specification made a call rather than citing a whitepaper numbe
     anti-gaming term, not the steward's instruction.
 17. A wallet is scanned at most once per 48 hours, cached node-side, and is billable once per
     that window (§9.7).
+18. The dispute filing cost is recovered from the merchant's stake when their liquidity vault
+    is short (§9.3), so an empty vault cannot make a merchant undisputable. The recovery must
+    use OFS-4200 §1's off-chain relay pattern rather than an escrow→staking CPI.
 
 ---
 
@@ -275,13 +278,29 @@ than a finished answer.
 | Who posts the arbitration deposit | The **merchant**, from their liquidity vault — regardless of which party opened the dispute | [DECISION — protocol steward] |
 | Source | The dispute-filing fee (§6, default 20 OPEN), charged on `open_dispute_case` | [PROPOSED — NEEDS SIGN-OFF] |
 | If the merchant loses | Deposit forfeited to the arbitration OPEN pool, a destination distinct from the four settlement-fee treasuries | [DECISION — protocol steward] |
-| If the merchant does not lose | Deposit returns to the merchant's vault | [PROPOSED — NEEDS SIGN-OFF; the steward stated the losing case only] |
-| No-consensus terminal split | Deposit returns to the merchant — there is no loser, and forfeiting would punish a merchant who did nothing wrong | [PROPOSED — NEEDS SIGN-OFF] |
+| If the merchant does not lose | The filing cost returns to the merchant's vault | [DECISION — protocol steward] |
+| No-consensus terminal split | Returned — there is no loser, and forfeiting would punish a merchant who did nothing wrong | [DECISION — protocol steward] |
+| If the merchant's vault is short | The case opens regardless, and the shortfall is recovered **from the merchant's stake** when the case closes | [DECISION — protocol steward] |
 | Distribution | From the arbitration OPEN pool, split among arbitrators whose revealed vote matched the tallied outcome, pro-rata by revealed weight | [PROPOSED — NEEDS SIGN-OFF] |
 | Outside-consensus penalty | The existing slashing rate (§4) applied to the arbitrator's active stake | [PROPOSED — NEEDS SIGN-OFF] |
 
 This is the incentive the commit-reveal design depends on: without it, voting
 carries cost and no return, and voting *against* consensus carries no cost at all.
+
+**Stake is the backstop, which is why the deposit cannot be dodged.** A merchant with
+an empty liquidity vault does not become undisputable: the case opens anyway and the
+shortfall is taken from the stake every merchant must post to publish advertisements
+at all. Without that fallback, emptying the vault would be a way to make arbitration
+unaffordable and therefore not happen — the deposit would protect the party it is
+meant to hold accountable.
+
+Recovering from stake means the escrow program must reduce a balance held by the
+staking program. OFS-4200 §1 deliberately avoids a direct escrow→staking CPI so that
+a bug in one program cannot corrupt the other's state, and it resolves the equivalent
+problem for arbitrator slashing with an off-chain relay of an already-tallied outcome.
+The same pattern applies here and should be used rather than introducing the coupling
+§1 rejected. `[PROPOSED — NEEDS SIGN-OFF]`: the relay design, and what happens if the
+stake is *also* insufficient.
 
 The merchant always funding the deposit is a deliberate asymmetry, not an
 oversight. A buyer is frequently a one-time participant with no vault and no
