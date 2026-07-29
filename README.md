@@ -23,8 +23,6 @@ audited smart contracts; OpenFiat coordinates the peer-to-peer marketplace
 layer (discovery, advertisements, reputation, governance, notifications, and
 more) without centralized infrastructure.
 
-This repository (Core) — canonical openfiat protocol specifications and whitepaper — the source of truth for the network.
-
 For the full protocol motivation and design, see the
 [whitepaper](https://github.com/OpenFiat-org/openfiat-specs) and the
 [protocol specifications](https://github.com/OpenFiat-org/openfiat-specs/tree/main/Whitepaper/Specifications).
@@ -69,11 +67,21 @@ proposing a change:
    content change — renumbering is a separate, low-risk mechanical PR.
 4. PDF regeneration (`Whitepaper/PDF/`) happens as part of the release
    process, not on every commit.
+5. Commit messages follow Conventional Commits — enforced by `commitlint`
+   on `commit-msg` (see `commitlint.config.js`).
+
+Install the local hooks once with `pre-commit install --hook-type
+pre-commit --hook-type commit-msg` (`.pre-commit-config.yaml`): trailing
+whitespace, EOF newlines, YAML/TOML/JSON validity, `editorconfig-checker`,
+and the same `markdownlint-cli2` rules CI runs, so a failing check surfaces
+before you push rather than in CI.
 
 ## Testing
 
-`docs-lint` CI checks markdown formatting and link validity on every PR.
-There is no runtime test suite for a documentation repository.
+CI (`.github/workflows/ci.yml`, job `markdownlint / yamllint`) runs
+`markdownlint-cli2` against every Markdown file and `yamllint` against every
+YAML file on each push and PR to `main`. There is no link-validity check and
+no runtime test suite — this is a documentation repository.
 
 ## Contributing
 
