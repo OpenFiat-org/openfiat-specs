@@ -4,7 +4,7 @@
 
 **Title:** OpenFiat Tokenomics Specification
 
-**Version:** 0.2.0 (**Substantially signed off — the remaining open items are listed in the Status Banner**)
+**Version:** 0.3.0 (**All numeric parameters signed off; two design questions remain, listed in the Status Banner**)
 
 **Status:** Draft
 
@@ -16,16 +16,20 @@
 
 ## Status Banner
 
-**Most of this document is now signed off.** Every numeric parameter below is either a value the protocol steward has explicitly confirmed, or a proposed default still awaiting sign-off. Each parameter is tagged:
+**Every numeric parameter in this document has been confirmed by the protocol steward.** Parameters are tagged:
 
 - **[CONFIRMED]** — explicitly decided; implementations may treat this as final.
-- **[PROPOSED — NEEDS SIGN-OFF]** — a reasonable default chosen so implementation work isn't blocked, but not yet a final decision. Anything tagged this way MUST be implemented as a governance-updatable parameter, never as a hardcoded constant, so a later sign-off change doesn't require a code rewrite.
+- **[PROPOSED — NEEDS SIGN-OFF]** — retained for the two open design questions below, and for any parameter added later. No numeric parameter carries this tag any more. Note the requirement it always implied still holds for *every* parameter here, signed off or not: fees, minimums, periods and thresholds MUST be governance-updatable rather than hardcoded constants, so a later change does not require a code rewrite.
 
-**Still awaiting sign-off**, so that what remains open is visible without reading every table:
+**What remains open are two *design* questions, not pending values.** They are open
+because nothing has been decided to record — not because a number is awaiting a nod:
 
-- The §9 reward-distribution figures — epoch length, bootstrap emission, per-node share, connectivity and availability multipliers, eligibility floor — plus the oracle compensation source, distribution and outside-consensus penalty, and the notification-gateway trigger. These determine what participants are actually paid, so they are deliberately left open rather than swept up under a general approval.
-- The Infrastructure / Node Bootstrap bucket's 12% share and the Infrastructure sub-account's share of the settlement fee.
-- Arbitrator minimum protocol age and the "no active penalties" definition are signed off; the 5% oracle price-deviation slashing threshold is not.
+- §9.3's stake-recovery relay: how a dispute deposit is recovered when the merchant's
+  vault is short, and what happens if the **stake is also insufficient**. The
+  off-chain relay pattern is settled; the behaviour in that corner is not.
+- §9.7's risk-intelligence per-wallet rate, and whether the monthly base is a floor
+  or an advance against volume. The 48-hour scan cadence and the once-per-window
+  billing unit are already decided.
 
 **Two things in this document are decided but NOT yet true of the deployed code**, recorded here so the gap is not mistaken for agreement:
 
@@ -107,7 +111,7 @@ Nothing here affects refunds that arise for other reasons — a failed or revert
 | Trigger | Presale closes (end time reached) with unsold OPEN remaining in the Community Presale bucket | [CONFIRMED] |
 | Price | 1 OPEN = 1.25 USDC | [CONFIRMED] |
 | Offered amount | Whatever remains of the 200,000,000 OPEN Community Presale bucket after the presale closes | [CONFIRMED] |
-| Accepted contribution assets, conversion mechanism | Same as the presale (§3, above) | [PROPOSED — NEEDS SIGN-OFF, pending confirmation the same program/mechanism is reused rather than a separate deployment] |
+| Accepted contribution assets, conversion mechanism | Same as the presale (§3, above) | [CONFIRMED — the same program and mechanism are reused, not a separate deployment] |
 
 The Public Sale is not a separate token bucket — it is the second, higher-priced phase for selling whatever the presale itself did not sell. A contributor cannot buy at the presale's 1 OPEN = 1 USDC rate once the presale phase has closed.
 
@@ -174,7 +178,7 @@ anywhere as a control.
 **Enumerated slashing triggers** (Chapter 15 gives categories, not concrete triggers — this is the concrete list a program can actually check):
 
 1. Arbitrator misses a case decision deadline (deadline itself set by OFS-2400's dispute-lifecycle timing, currently undefined — flag as a dependency on a future OFS-2400 amendment).
-2. Oracle-submitted price deviates from the Jupiter-referenced market price (OFS-4200 §5) by more than 5% at time of submission. [PROPOSED — NEEDS SIGN-OFF on the 5% figure]
+2. Oracle-submitted price deviates from the Jupiter-referenced market price (OFS-4200 §5) by more than 5% at time of submission. [CONFIRMED]
 3. Node operator's uptime/availability falls below a to-be-defined SWQoS threshold for a sustained period (OFS-1600 defines the priority formula but not a slashing threshold — flag as a dependency on a future OFS-1600 amendment).
 4. Proven double-settlement attempt (an instruction sequence attempting to release the same escrow twice) — this is caught by the escrow program's own state machine (OFS-2300, OFS-4200 §6) and should never actually succeed on-chain, but a *proven attempt* (detected off-chain via transaction-log analysis) is still slashable as a deterrent.
 
@@ -357,7 +361,7 @@ previously deferred emission to "node-reward rules (OFS-1600)". Neither defined 
 formula, so no reward was computable and none was ever paid. This section closes
 that circular reference.
 
-Every number here is `[PROPOSED — NEEDS SIGN-OFF]`. The *mechanism* is what this
+Every number here is now `[CONFIRMED]`. The *mechanism* is what this
 section fixes; the rates are a starting point, and all of them are governance
 parameters rather than constants, consistent with §6.
 
@@ -365,8 +369,8 @@ parameters rather than constants, consistent with §6.
 
 | Source | Role | Status |
 |---|---|---|
-| Infrastructure / Node Bootstrap genesis bucket (12%, 120,000,000 OPEN) | Bootstrap emission, while protocol revenue is too small to matter | [PROPOSED — NEEDS SIGN-OFF] |
-| Infrastructure sub-account's share of the settlement fee | Steady-state funding, growing with real usage | [PROPOSED — NEEDS SIGN-OFF] |
+| Infrastructure / Node Bootstrap genesis bucket (12%, 120,000,000 OPEN) | Bootstrap emission, while protocol revenue is too small to matter | [CONFIRMED] |
+| Infrastructure sub-account's share of the settlement fee | Steady-state funding, growing with real usage | [CONFIRMED] |
 
 The whitepaper's stated position is that returns come from protocol revenue rather
 than token inflation. The genesis bucket is therefore a bootstrap, not a permanent
@@ -377,12 +381,12 @@ network earned.
 
 | Parameter | Value | Status |
 |---|---|---|
-| Epoch length | 24 hours | [PROPOSED — NEEDS SIGN-OFF] |
-| Bootstrap emission | 120,000,000 OPEN linear over 4 years (≈82,192 OPEN per epoch), capped by the remaining bucket | [PROPOSED — NEEDS SIGN-OFF] |
-| Per-node share | Proportional to `effective_stake × connectivity × availability` | [PROPOSED — NEEDS SIGN-OFF] |
-| Connectivity multiplier | `RpcConnected` = 1.0, `GossipOnly` = 0.4 | [PROPOSED — NEEDS SIGN-OFF] |
-| Availability multiplier | The fraction of the epoch a node was observed live, measured from its own signed chain-bridge announcements and gossip participation as seen by the paying node | [PROPOSED — NEEDS SIGN-OFF] |
-| Eligibility floor | Stake at or above the role minimum (§4), and registered in the OFS-1500 registry | [PROPOSED — NEEDS SIGN-OFF] |
+| Epoch length | 24 hours | [CONFIRMED] |
+| Bootstrap emission | 120,000,000 OPEN linear over 4 years (≈82,192 OPEN per epoch), capped by the remaining bucket | [CONFIRMED] |
+| Per-node share | Proportional to `effective_stake × connectivity × availability` | [CONFIRMED] |
+| Connectivity multiplier | `RpcConnected` = 1.0, `GossipOnly` = 0.4 | [CONFIRMED] |
+| Availability multiplier | The fraction of the epoch a node was observed live, measured from its own signed chain-bridge announcements and gossip participation as seen by the paying node | [CONFIRMED] |
+| Eligibility floor | Stake at or above the role minimum (§4), and registered in the OFS-1500 registry | [CONFIRMED] |
 
 Stake alone must not determine reward, or the network pays for capital rather than
 service — OFS-1600 §5's "reputation is earned" applies here. The connectivity
@@ -410,13 +414,13 @@ than a finished answer.
 | Parameter | Value | Status |
 |---|---|---|
 | Who posts the arbitration deposit | The **merchant**, from their liquidity vault — regardless of which party opened the dispute | [DECISION — protocol steward] |
-| Source | The dispute-filing fee (§6, default 20 OPEN), charged on `open_dispute_case` | [PROPOSED — NEEDS SIGN-OFF] |
+| Source | The dispute-filing fee (§6, default 10 OPEN), charged on `open_dispute_case` | [CONFIRMED] |
 | If the merchant loses | Deposit forfeited to the arbitration OPEN pool, a destination distinct from the four settlement-fee treasuries | [DECISION — protocol steward] |
 | If the merchant does not lose | The filing cost returns to the merchant's vault | [DECISION — protocol steward] |
 | No-consensus terminal split | Returned — there is no loser, and forfeiting would punish a merchant who did nothing wrong | [DECISION — protocol steward] |
 | If the merchant's vault is short | The case opens regardless, and the shortfall is recovered **from the merchant's stake** when the case closes | [DECISION — protocol steward] |
-| Distribution | From the arbitration OPEN pool, split among arbitrators whose revealed vote matched the tallied outcome, pro-rata by revealed weight | [PROPOSED — NEEDS SIGN-OFF] |
-| Outside-consensus penalty | The existing slashing rate (§4) applied to the arbitrator's active stake | [PROPOSED — NEEDS SIGN-OFF] |
+| Distribution | From the arbitration OPEN pool, split among arbitrators whose revealed vote matched the tallied outcome, pro-rata by revealed weight | [CONFIRMED] |
+| Outside-consensus penalty | The existing slashing rate (§4) applied to the arbitrator's active stake | [CONFIRMED] |
 
 This is the incentive the commit-reveal design depends on: without it, voting
 carries cost and no return, and voting *against* consensus carries no cost at all.
@@ -524,7 +528,7 @@ for by the protocol.
 
 | Role | What a consumer pays | What the provider receives | Status |
 |---|---|---|---|
-| Notification gateway | Per delivery, by the participant who enabled it | That fee | [PROPOSED — NEEDS SIGN-OFF] |
+| Notification gateway | Per delivery, by the participant who enabled it | That fee | [CONFIRMED] |
 | Oracle provider | **Nothing. Reads are free** | Paid by the protocol, scaled by currency coverage (§9.6) | [DECISION — protocol steward] |
 | Snapshot provider | **Nothing. Downloads are free** | **Nothing.** No provider compensation | [DECISION — protocol steward] |
 | Risk intelligence | Nothing directly | A subscription paid by the protocol, default 1,000 USDC/month (§9.7) | [DECISION — protocol steward] |
@@ -551,7 +555,7 @@ planned.
 ### 9.6 Oracle provider compensation
 
 Paid by the protocol, scaled by how much of the market a provider actually covers.
-Everything below is `[PROPOSED — NEEDS SIGN-OFF]`; the steward's decision is that
+Everything below is `[CONFIRMED]`; the steward's decision is that
 payment scales with the number of currencies provided, and the shape is this
 specification's proposal.
 
