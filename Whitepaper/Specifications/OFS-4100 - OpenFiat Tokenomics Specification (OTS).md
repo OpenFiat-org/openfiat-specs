@@ -51,7 +51,7 @@ Seven buckets, named in Chapter 14, with no percentages given there. Proposed sp
 | Strategic Reserve | 8% | 80,000,000 | [PROPOSED — NEEDS SIGN-OFF] |
 | **Total** | **100%** | **1,000,000,000** | |
 
-**Why the Presale bucket is the entire 20% (200,000,000 OPEN), confirmed by the protocol steward:** this is no longer a raise-ceiling sizing choice, because the presale itself has no fixed hard cap on demand (§3). The presale sells from this bucket at 1 OPEN = 1 USDC toward a $2,000,000 *target* — a goal, not a cap — and keeps selling into the same 200,000,000-token bucket for as long as demand continues. Whatever remains unsold when the presale closes is offered afterward in a **Public Sale** at 1 OPEN = 1.25 USDC (§3). Because the bucket funds two sequential sale phases rather than one capped raise, its size is decoupled from the $2,000,000 target. The other six buckets absorb the resulting reduction proportionally to their prior share (each individually rounded to the nearest whole percent via largest-remainder so the split still sums to exactly 100%).
+**Why the Presale bucket is the entire 20% (200,000,000 OPEN), confirmed by the protocol steward:** this is no longer a raise-ceiling sizing choice, because the presale itself has no fixed hard cap on demand (§3). The presale sells from this bucket at 1 OPEN = 1 USDC toward a $20,000,000 *target* — a goal, not a cap — and keeps selling into the same 200,000,000-token bucket for as long as demand continues. Whatever remains unsold when the presale closes is offered afterward in a **Public Sale** at 1 OPEN = 1.25 USDC (§3). Because the bucket funds two sequential sale phases rather than one capped raise, its size is decoupled from the $20,000,000 target. The other six buckets absorb the resulting reduction proportionally to their prior share (each individually rounded to the nearest whole percent via largest-remainder so the split still sums to exactly 100%).
 
 **Vesting** (Chapter 14 gives philosophy only, no durations):
 
@@ -72,9 +72,9 @@ Seven buckets, named in Chapter 14, with no percentages given there. Proposed sp
 | Price | 1 OPEN = 1 USDC | [CONFIRMED] |
 | Accepted contribution assets | Native SOL, and any stablecoin on the whitelist below | [CONFIRMED] |
 | Conversion mechanism | Atomic on-chain swap via Jupiter's aggregator program (CPI), executed inside the same transaction as the contribution | [CONFIRMED] |
-| Raise target | 2,000,000 USDC-equivalent — a goal, not a cap. The presale keeps selling out of the full 200,000,000 OPEN Community Presale bucket (§2) if demand continues past this target. | [CONFIRMED] |
+| Raise target | 20,000,000 USDC-equivalent — a goal, not a cap. The presale keeps selling out of the full 200,000,000 OPEN Community Presale bucket (§2) if demand continues past this target. | [CONFIRMED] |
 | Hard cap | None distinct from the bucket itself — the presale may sell up to the full 200,000,000 OPEN Community Presale allocation. | [CONFIRMED] |
-| Soft cap | 5,000,000 USDC-equivalent; contributions are refundable if unmet by end time | [PROPOSED — NEEDS SIGN-OFF] |
+| Soft cap | **None.** There is no minimum to raise, so there is no threshold a raise can fall short of and no refund condition derived from one. The presale proceeds with whatever it raises. | [CONFIRMED] |
 | Minimum contribution per wallet | 50 USDC-equivalent | [PROPOSED — NEEDS SIGN-OFF] |
 | Maximum contribution per wallet | 1,000,000 USDC-equivalent | [CONFIRMED] |
 | Vesting on presale tokens | None — immediate unlock at claim | [PROPOSED — NEEDS SIGN-OFF] |
@@ -83,7 +83,11 @@ Seven buckets, named in Chapter 14, with no percentages given there. Proposed sp
 
 **Immediate-unlock tradeoff, stated explicitly:** no vesting on presale tokens is simpler to ship and consistent with "the presale unlocks development funding" urgency, but it means presale buyers can sell into the open market the instant tokens are claimable, with no lockup smoothing out sell pressure. A short cliff + linear vest would reduce that risk at the cost of slower time-to-market for the presale itself. This specification proposes immediate unlock and flags the tradeoff rather than silently picking a side.
 
-**Refund semantics:** if the soft cap is unmet, refunds are paid in **USDC** (the post-swap asset), not in whatever the contributor originally sent (SOL or another stablecoin). The presale UI must state this plainly before a contributor confirms a non-USDC contribution.
+**Refund semantics:** there are none, and the presale UI must say so rather than stay silent. With no soft cap there is no shortfall condition, so a contribution is not refundable on the ground that the raise fell short — the presale proceeds with whatever it raises. A contributor must be told this **before** confirming, because the absence of a refund path is exactly the kind of term a reader assumes in their own favour when it is left unstated.
+
+This replaces an earlier proposed term under which a 5,000,000 USDC-equivalent soft cap made contributions refundable if unmet, with refunds paid in USDC rather than in whatever asset was originally sent. That term is withdrawn in full. Any surface still describing a refundable presale is wrong and must be corrected, not merely left ambiguous.
+
+Nothing here affects refunds that arise for other reasons — a failed or reverted contribution transaction is a separate matter, as is the governance **deposit** refund in §7, which is unrelated to the presale and unchanged.
 
 **Public Sale (follow-on phase):**
 
@@ -184,7 +188,7 @@ The following are real parts of the whitepaper's long-term vision but are **not*
 Every place this specification made a call rather than citing a whitepaper number:
 
 1. Decimals = 9.
-2. Presale bucket = 20% (200,000,000 OPEN), confirmed by the protocol steward — funds two sequential sale phases (a $2,000,000-target presale at 1 OPEN = 1 USDC, then a public sale at 1 OPEN = 1.25 USDC for whatever remains unsold) rather than sizing a single capped raise.
+2. Presale bucket = 20% (200,000,000 OPEN), confirmed by the protocol steward — funds two sequential sale phases (a $20,000,000-target presale at 1 OPEN = 1 USDC, then a public sale at 1 OPEN = 1.25 USDC for whatever remains unsold) rather than sizing a single capped raise.
 3. All allocation percentages, vesting cliffs/durations.
 4. Presale hard/soft cap, min/max contribution, no vesting on presale tokens (with tradeoff stated), 1% max slippage, stablecoin whitelist contents.
 5. Staking minimums (per-role, §4), unbonding period, slashing %, the four enumerated slashing triggers (two of which depend on future amendments elsewhere). Minimums were originally specified as flat-plus-arbitrator and listed in §7 as not-yet-differentiated; they are now a per-role array and are actually enforced.
