@@ -145,7 +145,7 @@ Fee amounts are deliberately **not** fixed here — Chapter 23 explicitly wants 
 | Parameter | Value | Status |
 |---|---|---|
 | Treasury sub-accounts | Development, Ecosystem, Infrastructure, Emergency Reserve | [CONFIRMED — named in Ch.14/16] |
-| Dust-remainder-on-fee-split rule | Any remainder from integer-division fee splits goes to the Development sub-account | [PROPOSED — NEEDS SIGN-OFF] |
+| Dust-remainder-on-fee-split rule | Any remainder from integer-division fee splits goes to the Emergency Reserve sub-account | [PROPOSED — NEEDS SIGN-OFF; amended to match the deployed `openfiat-escrow`, which sweeps the remainder to the emergency reserve. The earlier text said Development. The amounts are sub-unit rounding dust, but the spec and the program must not disagree — if Development is the intended destination, the program is what needs changing, not this row] |
 | Default ad-listing fee | 1 OPEN | [PROPOSED — NEEDS SIGN-OFF] |
 | Default dispute-filing fee | 20 OPEN | [PROPOSED — NEEDS SIGN-OFF] |
 
@@ -169,3 +169,77 @@ Every place this specification made a call rather than citing a whitepaper numbe
 7. Governance: "OFIP" naming, 6-category taxonomy, deposit amount, quorum/threshold numbers, vote-lock duration, cast-time snapshot, quorum-met-as-frivolity-proxy.
 8. Fee amounts, dust-handling rule.
 9. The strict-fixed-supply resolution of the Ch.13/Ch.23 inconsistency.
+10. §9 in full — epoch length, bootstrap emission schedule, the stake×connectivity×availability
+    share formula, the 1.0/0.4 connectivity multiplier, and funding arbitrator rewards from the
+    dispute-filing fee. OFS-1600 §16 and this specification previously deferred to each other,
+    so there was no formula to cite.
+11. Dust-remainder destination amended from Development to Emergency Reserve to match the
+    deployed program (§6).
+
+---
+
+## 9. Reward Distribution
+
+OFS-1600 §16 defers reward calculation to this specification; this specification
+previously deferred emission to "node-reward rules (OFS-1600)". Neither defined a
+formula, so no reward was computable and none was ever paid. This section closes
+that circular reference.
+
+Every number here is `[PROPOSED — NEEDS SIGN-OFF]`. The *mechanism* is what this
+section fixes; the rates are a starting point, and all of them are governance
+parameters rather than constants, consistent with §6.
+
+### 9.1 Funding
+
+| Source | Role | Status |
+|---|---|---|
+| Infrastructure / Node Bootstrap genesis bucket (12%, 120,000,000 OPEN) | Bootstrap emission, while protocol revenue is too small to matter | [PROPOSED — NEEDS SIGN-OFF] |
+| Infrastructure sub-account's share of the settlement fee | Steady-state funding, growing with real usage | [PROPOSED — NEEDS SIGN-OFF] |
+
+The whitepaper's stated position is that returns come from protocol revenue rather
+than token inflation. The genesis bucket is therefore a bootstrap, not a permanent
+emission: it is finite, and once exhausted the reward pool is exactly what the
+network earned.
+
+### 9.2 Node operator rewards
+
+| Parameter | Value | Status |
+|---|---|---|
+| Epoch length | 24 hours | [PROPOSED — NEEDS SIGN-OFF] |
+| Bootstrap emission | 120,000,000 OPEN linear over 4 years (≈82,192 OPEN per epoch), capped by the remaining bucket | [PROPOSED — NEEDS SIGN-OFF] |
+| Per-node share | Proportional to `effective_stake × connectivity × availability` | [PROPOSED — NEEDS SIGN-OFF] |
+| Connectivity multiplier | `RpcConnected` = 1.0, `GossipOnly` = 0.4 | [PROPOSED — NEEDS SIGN-OFF] |
+| Availability multiplier | The node's OFS-3000 §13 availability ratio over the epoch, floored at 0 | [PROPOSED — NEEDS SIGN-OFF] |
+| Eligibility floor | Stake at or above the role minimum (§4), and registered in the OFS-1500 registry | [PROPOSED — NEEDS SIGN-OFF] |
+
+Stake alone must not determine reward, or the network pays for capital rather than
+service — OFS-1600 §5's "reputation is earned" applies here. The connectivity
+multiplier exists because a node bridging to Solana does strictly more work than one
+only gossiping, and the difference is externally observable from its own signed
+blockhash announcements rather than self-reported.
+
+### 9.3 Arbitrator rewards
+
+| Parameter | Value | Status |
+|---|---|---|
+| Source | The dispute-filing fee (§6, default 20 OPEN), which must actually be collected on `open_dispute_case` | [PROPOSED — NEEDS SIGN-OFF] |
+| Distribution | Split among arbitrators whose revealed vote matched the tallied outcome, pro-rata by revealed weight | [PROPOSED — NEEDS SIGN-OFF] |
+| Outside-consensus penalty | The existing slashing rate (§4) applied to the arbitrator's active stake | [PROPOSED — NEEDS SIGN-OFF] |
+| Frivolous-dispute case | Fee forfeited rather than refunded, and distributed as above | [PROPOSED — NEEDS SIGN-OFF] |
+
+This is the incentive the commit-reveal design depends on: without it, voting
+carries cost and no return, and voting *against* consensus carries no cost at all.
+
+### 9.4 Auditability
+
+Reward and slash events MUST be emitted as on-chain events. Without them there is no
+history: a participant cannot reconstruct what they earned, and no explorer can show
+it. This is a hard requirement, not a nice-to-have — an unauditable reward system is
+indistinguishable from an arbitrary one.
+
+### 9.5 Not specified here
+
+Service-provider rewards (notification, oracle, risk intelligence, snapshot) are
+deliberately left open. Each needs a metered unit of work before a fee can be
+attached to it, and no such metering exists yet. Stating a revenue share before the
+meter exists would be a promise the protocol cannot keep.
