@@ -181,8 +181,35 @@ must *sign*, so a `Pubkey` is the correct type — but an address for which no k
 exists is equally dead, and equally silent. Such fields MUST be rejected if zero, and
 SHOULD be verified as controllable before a deployment is considered complete.
 
+### 7.1 How to decode a deployed account
+
 Verification that catches this class is reading the deployed account back and decoding
-it. A green test suite does not.
+it. A green test suite does not. But decoding has its own failure mode, and the weaker
+form of this rule is not enough.
+
+Decode by **walking the struct definition field by field**, and assert that the walk
+consumes the whole account minus its trailing bumps. Do not read at hand-computed
+offsets.
+
+A hand-computed offset that skips a field produces a decode that *looks* correct: every
+subsequent field is read from the wrong place, but each still yields a well-formed value
+of the right type, so nothing appears wrong. Two 32-byte pubkeys adjacent in a struct
+will happily swap identities and both still decode as valid addresses. The byte count is
+what catches it — an omitted field leaves exactly its own width unexplained at the end.
+
+This is not hypothetical. `StakingConfig`'s `slashing_authority` was omitted from such a
+walk, shifting `slash_destination` and `rewards_authority` each one field along. The
+result was a confident report that reward distribution was permanently broken — it was
+not — and that the slash destination was a controllable key — it was not. Both
+conclusions were wrong, in opposite directions, from one missing field. It was caught
+only because someone re-derived the values independently rather than trusting the
+report.
+
+Applying the byte-count assertion afterwards confirmed the project's other three config
+decodes were sound: `FeeConfig` consumed 202 of 203 bytes, `StakingConfig` 234 of 237,
+`GovernanceConfig` 138 of 140, each remainder being exactly the declared bumps. The
+check takes one line and is the difference between a decode you can cite and one you
+merely believe.
 
 ## 8. Testing Environment Note
 
