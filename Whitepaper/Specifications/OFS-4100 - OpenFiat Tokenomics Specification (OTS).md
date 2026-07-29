@@ -209,14 +209,29 @@ network earned.
 | Bootstrap emission | 120,000,000 OPEN linear over 4 years (≈82,192 OPEN per epoch), capped by the remaining bucket | [PROPOSED — NEEDS SIGN-OFF] |
 | Per-node share | Proportional to `effective_stake × connectivity × availability` | [PROPOSED — NEEDS SIGN-OFF] |
 | Connectivity multiplier | `RpcConnected` = 1.0, `GossipOnly` = 0.4 | [PROPOSED — NEEDS SIGN-OFF] |
-| Availability multiplier | The node's OFS-3000 §13 availability ratio over the epoch, floored at 0 | [PROPOSED — NEEDS SIGN-OFF] |
+| Availability multiplier | The fraction of the epoch a node was observed live, measured from its own signed chain-bridge announcements and gossip participation as seen by the paying node | [PROPOSED — NEEDS SIGN-OFF] |
 | Eligibility floor | Stake at or above the role minimum (§4), and registered in the OFS-1500 registry | [PROPOSED — NEEDS SIGN-OFF] |
 
 Stake alone must not determine reward, or the network pays for capital rather than
 service — OFS-1600 §5's "reputation is earned" applies here. The connectivity
 multiplier exists because a node bridging to Solana does strictly more work than one
 only gossiping, and the difference is externally observable from its own signed
-blockhash announcements rather than self-reported.
+blockhash announcements rather than self-reported: a node cannot fabricate a valid
+recent (blockhash, slot) pair.
+
+Availability deliberately does **not** reuse OFS-3000 §13. That dimension measures a
+*trader's* responsiveness on a settlement and says nothing about a node. Node
+liveness is a separate measurement with its own hazard: OFS-4300 §6's amplification
+control suppresses re-forwarding a `BlockhashAnnounced` whose (blockhash, slot) has
+already been seen, so a naive network-wide count rewards whichever node announces
+first rather than whichever node is actually up. An implementation MUST account for
+that — measuring from what the paying node itself observes, rather than from
+propagation reach.
+
+A fully manipulation-resistant node-availability measure is **not** solved by this
+specification. Announcement cadence is a lower bound on liveness, not a proof of
+service quality, and it is stated here as the best currently-observable signal rather
+than a finished answer.
 
 ### 9.3 Arbitrator rewards
 
