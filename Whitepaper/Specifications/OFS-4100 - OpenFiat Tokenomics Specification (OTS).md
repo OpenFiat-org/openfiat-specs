@@ -208,6 +208,8 @@ Every place this specification made a call rather than citing a whitepaper numbe
 16. Risk-intelligence compensation scales with wallets processed rather than nodes served
     (§9.7). The real-activity condition on what counts as processed is this specification's
     anti-gaming term, not the steward's instruction.
+17. A wallet is scanned at most once per 48 hours, cached node-side, and is billable once per
+    that window (§9.7).
 
 ---
 
@@ -434,10 +436,26 @@ emitted a record naming it. This is the same shape as §9.6's in-use condition f
 oracle pairs, and for the same reason: any per-unit payment to the party that
 creates the units needs an independent witness to the unit being real.
 
-`[PROPOSED — NEEDS SIGN-OFF]`: the per-wallet rate, whether a wallet processed
-repeatedly in one period counts once or per screening, and whether the base is a
-floor or an advance against volume. The steward set the base and the metric; these
-follow from them and are not yet decided.
+**Scan cadence caps the billable unit.** A wallet is scanned **at most once every 48
+hours**, and nodes cache the result for that window rather than re-querying — both
+to keep risk providers from being overloaded by repeated identical questions, and
+because a risk assessment that changes faster than that is not an assessment, it is
+noise.
+
+This settles what "processed" counts as: a wallet is billable **once per 48-hour
+window**, however many times it is looked up in that window. Repeated lookups are
+served from cache and cost the provider nothing, so they should earn nothing. It
+also caps the protocol's exposure — the maximum bill in a period is the number of
+distinct wallets in real activity divided by the cadence, which is a figure
+governance can reason about in advance rather than discover afterwards.
+
+The cache is a node-side concern, not a provider-side one: a provider cannot be
+trusted to report how often it was asked, for exactly the reason §9.7 already gives
+about self-reported volume.
+
+`[PROPOSED — NEEDS SIGN-OFF]`: the per-wallet rate, and whether the base is a floor
+or an advance against volume. The 48-hour cadence and the once-per-window billing
+unit are protocol-steward decisions.
 
 **Uptime scaling applies to both paid provider roles.** A fixed monthly figure that
 pays the same whether a provider served every query or none is an invitation to
