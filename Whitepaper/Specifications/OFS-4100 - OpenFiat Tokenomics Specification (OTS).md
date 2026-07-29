@@ -147,6 +147,22 @@ Fee amounts are deliberately **not** fixed here — Chapter 23 explicitly wants 
 | Treasury sub-accounts | Development, Ecosystem, Infrastructure, Emergency Reserve | [CONFIRMED — named in Ch.14/16] |
 | Dust-remainder-on-fee-split rule | Any remainder from integer-division fee splits goes to the Emergency Reserve sub-account | [PROPOSED — NEEDS SIGN-OFF; amended to match the deployed `openfiat-escrow`, which sweeps the remainder to the emergency reserve. The earlier text said Development. The amounts are sub-unit rounding dust, but the spec and the program must not disagree — if Development is the intended destination, the program is what needs changing, not this row] |
 | Default ad-listing fee | 1 OPEN, charged from the merchant's liquidity vault | [PROPOSED — NEEDS SIGN-OFF on the amount; the vault as the source is a protocol-steward DECISION] |
+| Default settlement fee | 0.85% (85 bps) of the traded amount, **borne by the buyer** — deducted from the stablecoin released to them, in the stablecoin traded | [DECISION — protocol steward] |
+
+**Who pays what.** The three fees do not fall on the same party, and the split is
+deliberate:
+
+| Fee | Payer | Source |
+|---|---|---|
+| Settlement fee (0.85%) | Buyer | Deducted from the escrowed stablecoin before payout |
+| Ad-listing fee | Merchant | Their liquidity vault |
+| Arbitration deposit | Merchant | Their liquidity vault, whoever opened the dispute (§9.3) |
+
+A buyer pays only when a trade actually completes, and pays nothing to raise a
+dispute. A merchant pays to advertise and to be arbitrated, and recovers the
+arbitration deposit unless the outcome goes against them. The party with an ongoing
+business carries the standing costs; the party who may be transacting once carries a
+cost only on success.
 | Default dispute-filing fee | 20 OPEN | [PROPOSED — NEEDS SIGN-OFF] |
 
 ## 7. Explicitly Out of Scope for v1
@@ -180,6 +196,8 @@ Every place this specification made a call rather than citing a whitepaper numbe
     the outcome goes against them — and the ad-listing fee drawing on the same vault. Both are
     protocol-steward decisions; what happens to the deposit when the merchant does not lose was
     not stated and is this specification's reading.
+13. Settlement fee default of 0.85%, borne by the buyer (§6). Supersedes the 15 bps that was
+    documented and deployed. Governance-updatable like every other fee.
 
 ---
 
