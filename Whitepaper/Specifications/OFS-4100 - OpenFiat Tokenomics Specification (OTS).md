@@ -4,7 +4,7 @@
 
 **Title:** OpenFiat Tokenomics Specification
 
-**Version:** 0.1.0 (**DRAFT — NOT YET SIGNED OFF**)
+**Version:** 0.2.0 (**Substantially signed off — the remaining open items are listed in the Status Banner**)
 
 **Status:** Draft
 
@@ -16,10 +16,21 @@
 
 ## Status Banner
 
-**This document is a DRAFT.** Every numeric parameter below is either a value the protocol steward has explicitly confirmed, or a proposed default awaiting sign-off. Each parameter is tagged:
+**Most of this document is now signed off.** Every numeric parameter below is either a value the protocol steward has explicitly confirmed, or a proposed default still awaiting sign-off. Each parameter is tagged:
 
 - **[CONFIRMED]** — explicitly decided; implementations may treat this as final.
 - **[PROPOSED — NEEDS SIGN-OFF]** — a reasonable default chosen so implementation work isn't blocked, but not yet a final decision. Anything tagged this way MUST be implemented as a governance-updatable parameter, never as a hardcoded constant, so a later sign-off change doesn't require a code rewrite.
+
+**Still awaiting sign-off**, so that what remains open is visible without reading every table:
+
+- The §9 reward-distribution figures — epoch length, bootstrap emission, per-node share, connectivity and availability multipliers, eligibility floor — plus the oracle compensation source, distribution and outside-consensus penalty, and the notification-gateway trigger. These determine what participants are actually paid, so they are deliberately left open rather than swept up under a general approval.
+- The Infrastructure / Node Bootstrap bucket's 12% share and the Infrastructure sub-account's share of the settlement fee.
+- Arbitrator minimum protocol age and the "no active penalties" definition are signed off; the 5% oracle price-deviation slashing threshold is not.
+
+**Two things in this document are decided but NOT yet true of the deployed code**, recorded here so the gap is not mistaken for agreement:
+
+- Dust remainders are specified to the Ecosystem treasury (§6); the deployed `openfiat-escrow` sweeps them to the Emergency Reserve.
+- Per-role unbonding and the 500 OPEN staking floors (§4) are not yet in `StakingConfig`, which still holds one flat unbonding period. Note §4.1: the arbitrator floor **must not** be lowered before case-scaled eligibility exists.
 
 Chapters 13, 14, 15, 16, and 23 of the whitepaper repeatedly defer exact figures to "the Tokenomics Specification." This is that document. It does not repeat the behavioral/state-machine design already specified in those chapters or in OFS-1600/2300/2400/4000 — it supplies the numbers those documents deliberately omitted.
 
@@ -43,12 +54,12 @@ Seven buckets, named in Chapter 14, with no percentages given there. Proposed sp
 | Bucket | % of supply | OPEN | Status |
 |---|---|---|---|
 | Community Presale | 20% | 200,000,000 | [CONFIRMED] |
-| Ecosystem Treasury | 17% | 170,000,000 | [PROPOSED — NEEDS SIGN-OFF] |
-| Community Incentives | 17% | 170,000,000 | [PROPOSED — NEEDS SIGN-OFF] |
-| AllenHark Treasury | 14% | 140,000,000 | [PROPOSED — NEEDS SIGN-OFF] |
-| Infrastructure / Node Bootstrap Program | 12% | 120,000,000 | [PROPOSED — NEEDS SIGN-OFF] |
-| Liquidity Programs | 12% | 120,000,000 | [PROPOSED — NEEDS SIGN-OFF] |
-| Strategic Reserve | 8% | 80,000,000 | [PROPOSED — NEEDS SIGN-OFF] |
+| Ecosystem Treasury | 17% | 170,000,000 | [CONFIRMED] |
+| Community Incentives | 17% | 170,000,000 | [CONFIRMED] |
+| AllenHark Treasury | 14% | 140,000,000 | [CONFIRMED] |
+| Infrastructure / Node Bootstrap Program | 12% | 120,000,000 | [CONFIRMED] |
+| Liquidity Programs | 12% | 120,000,000 | [CONFIRMED] |
+| Strategic Reserve | 8% | 80,000,000 | [CONFIRMED] |
 | **Total** | **100%** | **1,000,000,000** | |
 
 **Why the Presale bucket is the entire 20% (200,000,000 OPEN), confirmed by the protocol steward:** this is no longer a raise-ceiling sizing choice, because the presale itself has no fixed hard cap on demand (§3). The presale sells from this bucket at 1 OPEN = 1 USDC toward a $20,000,000 *target* — a goal, not a cap — and keeps selling into the same 200,000,000-token bucket for as long as demand continues. Whatever remains unsold when the presale closes is offered afterward in a **Public Sale** at 1 OPEN = 1.25 USDC (§3). Because the bucket funds two sequential sale phases rather than one capped raise, its size is decoupled from the $20,000,000 target. The other six buckets absorb the resulting reduction proportionally to their prior share (each individually rounded to the nearest whole percent via largest-remainder so the split still sums to exactly 100%).
@@ -57,13 +68,13 @@ Seven buckets, named in Chapter 14, with no percentages given there. Proposed sp
 
 | Bucket | Cliff | Vesting after cliff | Status |
 |---|---|---|---|
-| Community Presale | 0 (immediate unlock) | — | [PROPOSED — NEEDS SIGN-OFF; see §3 tradeoff note] |
-| AllenHark Treasury | 12 months | 36 months linear | [PROPOSED — NEEDS SIGN-OFF] |
-| Ecosystem Treasury | 12 months | 36 months linear | [PROPOSED — NEEDS SIGN-OFF] |
-| Infrastructure / Node Bootstrap | 0 | Emitted programmatically per node-reward rules (OFS-1600), not a simple linear release | [PROPOSED — NEEDS SIGN-OFF] |
-| Community Incentives | 0 | Emitted programmatically as incentives are earned | [PROPOSED — NEEDS SIGN-OFF] |
-| Liquidity Programs | 3 months | 24 months linear | [PROPOSED — NEEDS SIGN-OFF] |
-| Strategic Reserve | 12 months | 48 months linear | [PROPOSED — NEEDS SIGN-OFF] |
+| Community Presale | 0 (immediate unlock) | — | [CONFIRMED; see §3 tradeoff note] |
+| AllenHark Treasury | — | **8 equal tranches, one every 6 months across 4 years.** Not linear: the balance unlocks in discrete half-yearly steps, the first at month 6 and the last at month 48. | [CONFIRMED] |
+| Ecosystem Treasury | 12 months | 36 months linear | [CONFIRMED] |
+| Infrastructure / Node Bootstrap | 0 | Emitted programmatically per node-reward rules (OFS-1600), not a simple linear release | [CONFIRMED] |
+| Community Incentives | 0 | Emitted programmatically as incentives are earned | [CONFIRMED] |
+| Liquidity Programs | 3 months | 24 months linear | [CONFIRMED] |
+| Strategic Reserve | 12 months | 48 months linear | [CONFIRMED] |
 
 ## 3. Presale Terms
 
@@ -75,11 +86,11 @@ Seven buckets, named in Chapter 14, with no percentages given there. Proposed sp
 | Raise target | 20,000,000 USDC-equivalent — a goal, not a cap. The presale keeps selling out of the full 200,000,000 OPEN Community Presale bucket (§2) if demand continues past this target. | [CONFIRMED] |
 | Hard cap | None distinct from the bucket itself — the presale may sell up to the full 200,000,000 OPEN Community Presale allocation. | [CONFIRMED] |
 | Soft cap | **None.** There is no minimum to raise, so there is no threshold a raise can fall short of and no refund condition derived from one. The presale proceeds with whatever it raises. | [CONFIRMED] |
-| Minimum contribution per wallet | 50 USDC-equivalent | [PROPOSED — NEEDS SIGN-OFF] |
+| Minimum contribution per wallet | 50 USDC-equivalent | [CONFIRMED] |
 | Maximum contribution per wallet | 1,000,000 USDC-equivalent | [CONFIRMED] |
-| Vesting on presale tokens | None — immediate unlock at claim | [PROPOSED — NEEDS SIGN-OFF] |
-| Max swap slippage tolerance | 1% | [PROPOSED — NEEDS SIGN-OFF] |
-| Stablecoin whitelist | USDC, USDT, PYUSD (devnet equivalents/test mints during the devnet phase of this build) | [PROPOSED — NEEDS SIGN-OFF, and structurally must remain a governance-updatable list, never an open "any SPL token claiming to be a stablecoin"] |
+| Vesting on presale tokens | None — immediate unlock at claim | [CONFIRMED] |
+| Max swap slippage tolerance | 1% | [CONFIRMED] |
+| Stablecoin whitelist | USDC, USDT, PYUSD (devnet equivalents/test mints during the devnet phase of this build) | [CONFIRMED — and structurally must remain a governance-updatable list, never an open "any SPL token claiming to be a stablecoin"] |
 
 **Immediate-unlock tradeoff, stated explicitly:** no vesting on presale tokens is simpler to ship and consistent with "the presale unlocks development funding" urgency, but it means presale buyers can sell into the open market the instant tokens are claimable, with no lockup smoothing out sell pressure. A short cliff + linear vest would reduce that risk at the cost of slower time-to-market for the presale itself. This specification proposes immediate unlock and flags the tradeoff rather than silently picking a side.
 
@@ -106,17 +117,59 @@ Seven staked roles per Chapter 15/23: Merchant, Arbitrator, Node Operator, Notif
 
 | Parameter | Value | Status |
 |---|---|---|
-| Minimum stake — default, every role without a specific figure below | 1,000 OPEN | [PROPOSED — NEEDS SIGN-OFF] |
-| Minimum stake — Arbitrator (higher bar, per Ch.11 §11.6) | 10,000 OPEN | [PROPOSED — NEEDS SIGN-OFF] |
-| Minimum stake — Notification Provider | 5,000 OPEN | [DECISION — protocol steward] |
+| Minimum stake — default, every role without a specific figure below | 1,000 OPEN | [CONFIRMED] |
+| Minimum stake — Merchant | 500 OPEN | [CONFIRMED] |
+| Minimum stake — Arbitrator | 500 OPEN **floor only** — eligibility for any given case scales with the amount in dispute, see below | [CONFIRMED] |
+| Minimum stake — Notification Provider | 5,000 OPEN | [CONFIRMED] |
 | How minimums are stored | `StakingConfig.min_stake_by_role`, a `[u64; 7]` indexed by `Role` | [IMPLEMENTED — replaced a flat field plus a special-cased arbitrator field, which made §7's "future governance parameter change, not new code" impossible to honour] |
 | How minimums are enforced | `stake` and `request_unstake` both reject a resulting balance that is neither zero nor at least the role's minimum | [IMPLEMENTED — until this landed the minimums were stored and read by nothing, so any amount was accepted] |
 | Unstaking below the minimum | Refused; a full exit to zero is always allowed, so a minimum can never trap tokens | [DECISION — the alternative, letting a balance sit below its minimum, leaves an account that still reads as staked while no longer qualifying] |
-| Unbonding / unlock period (all roles, flat for v1) | 7 days | [PROPOSED — NEEDS SIGN-OFF] |
+| Unbonding / unlock period — Merchant | 24 hours | [CONFIRMED] |
+| Unbonding / unlock period — Arbitrator | 3 days | [CONFIRMED] |
+| Unbonding / unlock period — every other role | 7 days | [CONFIRMED] |
 | Effective-stake timing on unstake request | Reduces immediately at request time, not only at unlock release | [DECISION — whitepaper wording is ambiguous between these two readings; this specification picks the immediate-reduction interpretation to prevent a participant from requesting unstake and still counting the stake toward eligibility/voting/priority during the unbonding window] |
-| Slashing percentage (flat, all misconduct types, v1) | 10% of staked amount | [PROPOSED — NEEDS SIGN-OFF] |
-| Arbitrator minimum protocol age before eligibility | 30 days since first stake | [PROPOSED — NEEDS SIGN-OFF] |
-| Arbitrator "no active penalties" definition | No unresolved slash event in the trailing 90 days | [PROPOSED — NEEDS SIGN-OFF] |
+| Slashing percentage (flat, all misconduct types, v1) | 5% of staked amount | [CONFIRMED] |
+| Arbitrator minimum protocol age before eligibility | 30 days since first stake | [CONFIRMED] |
+| Arbitrator "no active penalties" definition | No unresolved slash event in the trailing 90 days | [CONFIRMED] |
+| Arbitrator case eligibility | Scales with the amount in dispute — see the subsection below | [CONFIRMED] |
+| Shortfall disclosure when a wallet is ineligible | Prompt to increase stake; **never state how much is missing** | [CONFIRMED] |
+
+### 4.1 Arbitrator eligibility scales with the amount in dispute
+
+The 500 OPEN figure above is a **floor**, not the bar for every case. Which
+cases a wallet may join is a function of how much it has staked: larger
+disputes require proportionally more stake.
+
+**This is a security mechanism, not a convenience.** The arbitrator minimum
+is what closes the seat-squatting attack: `commit_dispute_vote` is gated on
+it, `MAX_ARBITRATORS` is 7, and zero-balance stake accounts are legal, so
+without a meaningful bar an attacker occupies every arbitrator seat for the
+price of rent, reveals zero-weight votes, and drives the tally to a tie that
+returns a disputed escrow to the merchant. At the previous 10,000 OPEN
+minimum, filling all seven seats cost 70,000 OPEN. At a flat 500 it would
+cost 3,500 — twenty times cheaper. Case-scaled eligibility is what replaces
+the protection the flat minimum was providing.
+
+**The inequality any implementation must satisfy:** occupying enough
+arbitrator seats to force an outcome must cost more than the disputed amount
+can win. Scaling the requirement with dispute size holds this at the top of
+the range automatically. At the floor it is the **margin** that holds it,
+since 7 × 500 = 3,500 OPEN of at-risk stake only deters capture while it
+exceeds the value at stake. Derive the per-case threshold from (dispute
+amount ÷ arbitrators required) with a margin, so the inequality holds at
+*every* size rather than only for large cases. The margin is therefore a
+security parameter, not a tuning knob, and the boundary must be tested at the
+floor and not merely at large values.
+
+**The minimum must not be lowered before this exists.** Shipping 500 OPEN
+with a flat gate reopens the attack at twenty times lower cost.
+
+**On withholding the shortfall.** When a wallet is not eligible for a case it
+is told to increase its stake and *not* told by how much. This raises the
+cost of probing for the threshold in order to target a specific high-value
+case. It does not prevent it: an attacker can binary-search the boundary by
+attempting with varying stakes. Treat it as friction, and do not describe it
+anywhere as a control.
 
 **Enumerated slashing triggers** (Chapter 15 gives categories, not concrete triggers — this is the concrete list a program can actually check):
 
@@ -133,14 +186,52 @@ Triggers 1 and 3 depend on future amendments to OFS-2400 and OFS-1600 respective
 |---|---|---|
 | Proposal identifier | OFIP-#### (e.g. OFIP-0001) | [DECISION — whitepaper's "OFIP" chosen over OFS-4000's "OFP"; more descriptive, whitepaper-facing naming wins] |
 | Proposal categories | Informational, Standards, Parameter, Treasury, Protocol-Upgrade, Constitutional (whitepaper's 6-category taxonomy) | [DECISION — chosen over OFS-4000's 5-category Protocol/Economics/Marketplace/Infrastructure/Governance taxonomy] |
-| Proposal stake deposit | 5,000 OPEN | [PROPOSED — NEEDS SIGN-OFF] |
+| Proposal stake deposit | 5,000 OPEN | [CONFIRMED] |
 | Deposit refund condition | Refunded if quorum is met by the voting deadline; forfeited to the Ecosystem Treasury otherwise | [DECISION — approximates the whitepaper's more subjective "frivolous/abandoned" language with a programmatically-checkable quorum-met proxy] |
-| Vote-lock duration | 7 days (matches the voting period) | [PROPOSED — NEEDS SIGN-OFF] |
+| Vote-lock duration | 7 days (matches the voting period) | [CONFIRMED] — bounded by `MAX_VOTE_LOCK_SECS` (30 days); see §5.1 |
 | Vote-weight snapshot timing | At the moment each vote is cast, not at proposal creation | [DECISION — either is defensible; cast-time chosen for v1 simplicity] |
-| Quorum | 10% of circulating staked-for-governance supply | [PROPOSED — NEEDS SIGN-OFF] |
-| Approval threshold — Informational, Standards, Parameter | Simple majority (>50%) | [PROPOSED — NEEDS SIGN-OFF] |
-| Approval threshold — Treasury | 60% supermajority | [PROPOSED — NEEDS SIGN-OFF] |
-| Approval threshold — Protocol-Upgrade, Constitutional | 66% supermajority + 20% quorum (higher than the standard 10%) | [PROPOSED — NEEDS SIGN-OFF] |
+| Quorum | 10% of circulating staked-for-governance supply | [CONFIRMED] |
+| Approval threshold — Informational, Standards, Parameter | Simple majority (>50%) | [CONFIRMED] |
+| Approval threshold — Treasury | 60% supermajority | [CONFIRMED] |
+| Approval threshold — Protocol-Upgrade, Constitutional | 66% supermajority + 20% quorum (higher than the standard 10%) | [CONFIRMED] |
+
+### 5.1 Who may act, and the first-year exception
+
+**There is no protocol admin, and therefore no admin fast path.** Every
+governance action waits for a full vote. `list_wallet`/`delist_wallet` on the
+governance program are gated on a passed proposal and name no privileged
+signer; a stranger with no standing can execute a proposal that passed, which
+is the positive proof that authority is the vote rather than the sender.
+
+**AllenHark holds a time-limited exception during the first year only.**
+Within that window AllenHark may delay a vote, or exercise emergency powers
+over governance. After it, neither is available.
+
+| Parameter | Value | Status |
+|---|---|---|
+| Holder | `ALLENLMtV1zEAHT3xpVryqcbdPCB8c9JhM1Jdbe5XHg5` or `A11ENCKCBxZxEbXQmqs6mTmJkP8gjcA7xqfLD5BxfRpp` | [CONFIRMED] |
+| Signatures required | **Either key alone suffices.** Not a 2-of-2. | [CONFIRMED] |
+| Duration | The first year after initialization, and no longer | [CONFIRMED] |
+| `MAX_VOTE_LOCK_SECS` | 30 days — the ceiling on how far any vote lock may be pushed out | [CONFIRMED] |
+
+**What either-key means, stated rather than buried:** for the first year a
+*single* key can exercise emergency power over governance. This survives the
+loss of one key and does not survive the compromise of one. Both addresses are
+first-class authorities and must be presented as such in every application,
+explorer and document — not one with the other as a footnote.
+
+**The sunset must be non-extendable, or it is not a sunset.** It has to be
+enforced on-chain against a timestamp fixed at initialization and immutable
+afterwards. The holder must not be able to move its own deadline, directly or
+through any configuration field it can write. An implementation must test that
+expiry actually closes the power, not merely that the power works before it.
+
+**Why the vote-lock ceiling belongs here.** `vote_lock_secs` is writable, and
+left unbounded it is an emergency power wearing a different hat: parked at any
+large value it leaves every accepted proposal unexecutable — including one
+that would *delist* a wallet — without ever touching the ban instructions.
+Bounding it at 30 days means the delay is real but finite, and the bound is
+part of this exception rather than an unrelated parameter.
 
 ## 6. Treasury / Revenue Router
 
@@ -149,10 +240,10 @@ Fee amounts are deliberately **not** fixed here — Chapter 23 explicitly wants 
 | Parameter | Value | Status |
 |---|---|---|
 | Treasury sub-accounts | Development, Ecosystem, Infrastructure, Emergency Reserve | [CONFIRMED — named in Ch.14/16] |
-| Dust-remainder-on-fee-split rule | Any remainder from integer-division fee splits goes to the Emergency Reserve sub-account | [PROPOSED — NEEDS SIGN-OFF; amended to match the deployed `openfiat-escrow`, which sweeps the remainder to the emergency reserve. The earlier text said Development. The amounts are sub-unit rounding dust, but the spec and the program must not disagree — if Development is the intended destination, the program is what needs changing, not this row] |
-| Default ad-listing fee | 1 OPEN, charged from the merchant's liquidity vault, split across the four treasury sub-accounts by the same basis points as the settlement fee | [PROPOSED — NEEDS SIGN-OFF on the amount; the vault as the source and the four-way split are protocol-steward DECISIONS] |
-| Default settlement fee | 0.85% (85 bps) of the traded amount, **borne by the buyer** — deducted from the stablecoin released to them, in the stablecoin traded | [DECISION — protocol steward] |
-| Default dispute-filing fee | 20 OPEN, charged from the merchant's liquidity vault (§9.3) | [PROPOSED — NEEDS SIGN-OFF on the amount; the payer is a protocol-steward DECISION] |
+| Dust-remainder-on-fee-split rule | Any remainder from integer-division fee splits goes to the **Ecosystem** treasury sub-account | [CONFIRMED] — **the deployed `openfiat-escrow` does not do this yet.** It sweeps the remainder to the Emergency Reserve, which is what this row previously recorded. Now that the destination is decided, the program is what needs changing, not this row. Amounts are sub-unit rounding dust, so the discrepancy is small in value and total in principle: the spec and the program must not disagree about where protocol income goes. |
+| Default ad-listing fee | 1 OPEN, charged from the merchant's liquidity vault, split across the four treasury sub-accounts by the same basis points as the settlement fee | [CONFIRMED] |
+| Default settlement fee | 0.85% (85 bps) of the traded amount, **borne by the buyer** — deducted from the stablecoin released to them, in the stablecoin traded | [CONFIRMED] |
+| Default dispute-filing fee | 10 OPEN, charged from the merchant's liquidity vault (§9.3) | [CONFIRMED] |
 
 **Who pays what.** The three fees do not fall on the same party, and the split is
 deliberate:
@@ -224,6 +315,38 @@ Every place this specification made a call rather than citing a whitepaper numbe
 18. The dispute filing cost is recovered from the merchant's stake when their liquidity vault
     is short (§9.3), so an empty vault cannot make a merchant undisputable. The recovery must
     use OFS-4200 §1's off-chain relay pattern rather than an escrow→staking CPI.
+
+**Sign-off round, protocol steward.** Recorded together because several of these
+interact, and reading them separately hides the couplings:
+
+- Genesis allocation and every vesting schedule confirmed. AllenHark's treasury
+  changed from a 12-month cliff plus 36-month linear release to **8 equal tranches,
+  one every 6 months across 4 years** — discrete steps rather than a continuous
+  unlock, which is a different disclosure and a different sell-pressure profile,
+  not a restatement of the same thing.
+- Presale: raise target $20,000,000, **no soft cap and therefore no refund
+  condition** (§3). Public sale accepted. The withdrawn refund term is recorded in
+  §3 rather than deleted, because "there is no refund" is exactly the term a reader
+  assumes in their own favour when it goes unstated.
+- Staking: merchant and arbitrator floors of 500 OPEN, per-role unbonding
+  (merchant 24h, arbitrator 3 days, all others 7 days), slashing 5%.
+  **The arbitrator figure is a floor with case-scaled eligibility above it (§4.1),
+  and the floor must not ship without that scaling** — a flat 500 makes
+  seat-squatting twenty times cheaper than the 10,000 it replaces.
+- Fees: ad-listing confirmed, settlement fee 0.85% on the buyer confirmed, dispute
+  filing **10 OPEN** (was 20), dust remainders to the **Ecosystem** treasury.
+  The deployed escrow sends dust to the Emergency Reserve, so the program is now
+  the thing that disagrees with this document.
+- Billing currency: **OPEN settles, USDC denominates.** This introduces a price
+  oracle into the payment path where none existed before — see §9.5.1, and note
+  that OPEN's early float is small and its mint authority revoked, which is when a
+  published rate is cheapest to move.
+- Governance: all thresholds, quorum, deposit and vote-lock confirmed. **No admin
+  and no admin fast path.** AllenHark holds a delay/emergency power for the first
+  year only, exercisable by **either** of two keys acting alone (§5.1) — which
+  survives losing a key and does not survive one being compromised. The sunset must
+  be enforced against an immutable timestamp the holder cannot move, or it is not a
+  sunset.
 
 ---
 
@@ -352,15 +475,46 @@ Infrastructure allocation and treasury share that §9.2 draws on.
 
 | Parameter | Value | Status |
 |---|---|---|
-| Billing currency | OPEN, USDC, or another configured token, chosen by the provider | [DECISION — protocol steward] |
+| Billing currency | **OPEN is the settlement currency; USDC remains the unit of account.** A fee quoted as "1,000 USDC/month" is paid by releasing OPEN worth 1,000 USDC at payment time. See §9.5.1 for the price dependency this introduces. | [CONFIRMED] |
 | Price | Declared in the provider's OFS-1500 registration, as a token and an amount rather than free text | [DECISION — protocol steward] |
-| Payout destination | The wallet registered against the service | [DECISION — protocol steward] |
+| Payout destination | The wallet registered against the service | [CONFIRMED] |
 | Earnings visibility | The provider proves control of the service by signing a message with the registered key, and reads their earnings back | [DECISION — protocol steward] |
 
 Proving ownership by signature rather than by account is what keeps this consistent
 with the rest of the protocol: there is no provider login, no session, and no
 registry of people — only a key that can demonstrate control of a Service ID it already
 owns. The same mechanism already authenticates arbitrators.
+
+#### 9.5.1 Settling a USDC-denominated fee in OPEN puts a price oracle in the payment path
+
+Quoting a fee in USDC and paying it in OPEN means something must decide the
+OPEN/USDC rate at the moment of payment. That is a new dependency and it is
+worth stating plainly: **while a fee was simply USDC, no price was needed at
+all.** Now a wrong or manipulated rate over- or under-pays a provider, every
+billing period, automatically and without anyone approving the number.
+
+Requirements on any implementation:
+
+- Take the rate from the oracle layer (OFS-7000, `ServiceType::MarketData`),
+  not from a single venue quote.
+- Use a **time-weighted average**, not a spot price.
+- Enforce a **staleness bound**, and **refuse to pay** rather than paying on
+  a stale rate. A late payment is recoverable; an incorrect one is not.
+- Bound how far the rate may move between payments, so one bad print cannot
+  produce an outsized transfer.
+
+This matters more than it would for a mature asset. OPEN will be thinly
+traded early on, its supply is concentrated in the genesis buckets, and its
+mint authority is permanently revoked — so the float is small and predictable.
+Those are precisely the conditions under which moving a published rate is
+cheapest, and the protocol would be paying out against that rate on a
+schedule.
+
+**The settlement fee is not affected and must not be converted.** It is a
+slice of the *traded* stablecoin, moved out of the trade's own escrow vault
+(§6), so denominating it in OPEN would fail on a mint mismatch. That error has
+already been made once and corrected. "Billing currency: OPEN" governs what
+*service providers* are paid, not what a trade's fee is denominated in.
 
 **Per-role billing triggers.**
 
