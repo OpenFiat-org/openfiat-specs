@@ -157,11 +157,11 @@ becomes permanently unexecutable.
 
 The failure is invisible in three ways that matter:
 
-* **Tests pass.** Integration tests create their own correctly-typed accounts, so the
+- **Tests pass.** Integration tests create their own correctly-typed accounts, so the
   code path is exercised and correct. Only the deployed configuration is broken.
-* **The write succeeds.** Storing the wrong kind of address is a valid transaction;
+- **The write succeeds.** Storing the wrong kind of address is a valid transaction;
   nothing fails until something first tries to spend.
-* **It presents as a missing feature.** The symptom is "this never happens", which
+- **It presents as a missing feature.** The symptom is "this never happens", which
   reads as unimplemented rather than misconfigured.
 
 Four fields in this workspace were populated this way and had to be corrected after

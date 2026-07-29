@@ -275,7 +275,6 @@ that changes faster than the cadence is noise rather than signal.
 The cache is node-side by requirement. A provider cannot be the party that reports how
 often it was consulted when it is paid per consultation.
 
-
 Applications SHOULD screen wallet addresses before accepting deposits.
 
 Typical workflow:
