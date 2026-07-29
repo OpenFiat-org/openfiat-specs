@@ -198,6 +198,12 @@ Every place this specification made a call rather than citing a whitepaper numbe
     not stated and is this specification's reading.
 13. Settlement fee default of 0.85%, borne by the buyer (§6). Supersedes the 15 bps that was
     documented and deployed. Governance-updatable like every other fee.
+14. §9.6's oracle formula shape — freshness weighting and the in-use eligibility condition are
+    this specification's anti-gaming proposal; the steward's decision was that payment scales
+    with currencies covered. The new-corridor bootstrap gap is recorded, not solved.
+15. §9.7's reading that the protocol pays the risk-intelligence subscription. The amount, the
+    governance approval gate and AllenHark as default provider are steward decisions; the payer
+    is inferred from the approval gate's purpose and is flagged for correction.
 
 ---
 
@@ -312,12 +318,22 @@ owns. The same mechanism already authenticates arbitrators.
 
 **Per-role billing triggers.**
 
-| Role | Trigger | Status |
-|---|---|---|
-| Notification gateway | The participant who enabled notifications on a trade pays, per delivery | [PROPOSED — NEEDS SIGN-OFF] |
-| Oracle provider | **Reads are free.** No charge, no meter | [DECISION — protocol steward] |
-| Snapshot provider | **Downloads are free.** No charge, no meter | [DECISION — protocol steward] |
-| Risk intelligence | Not settled | [OPEN] |
+Consumption and compensation are separate questions, and conflating them is the
+mistake this table exists to prevent. A service can be free to consume *and* paid
+for by the protocol.
+
+| Role | What a consumer pays | What the provider receives | Status |
+|---|---|---|---|
+| Notification gateway | Per delivery, by the participant who enabled it | That fee | [PROPOSED — NEEDS SIGN-OFF] |
+| Oracle provider | **Nothing. Reads are free** | Paid by the protocol, scaled by currency coverage (§9.6) | [DECISION — protocol steward] |
+| Snapshot provider | **Nothing. Downloads are free** | Not specified | [DECISION on free; provider compensation OPEN] |
+| Risk intelligence | Nothing directly | A subscription paid by the protocol, default 1,000 USDC/month (§9.7) | [DECISION — protocol steward] |
+
+Oracle rates and snapshots are free to consume because charging would work against
+the protocol: a priced rate feed is consulted less, which makes the median it
+contributes to thinner and easier to move, and a priced snapshot slows the thing
+that lets a new node join at all. Paying their providers from the protocol keeps the
+good free at the point of use while still funding its supply.
 
 Oracle rates and snapshots are free because charging for them would work against
 the protocol: a priced rate feed is consulted less, which makes the median it
@@ -325,12 +341,65 @@ contributes to thinner and easier to move, and a priced snapshot slows the thing
 that lets a new node join at all. Both are load-bearing public goods, and the
 network is stronger when they are cheap to consume.
 
-**The consequence, stated plainly.** Oracle and snapshot providers therefore have no
-direct revenue: they are not paid a protocol reward (§9.5's opening), and their
-service is free. In practice both roles are usually run by parties already operating
-a node, so their compensation arrives through the node reward pool (§9.2) and the
-marginal cost of also publishing rates or serving snapshots is small. That is a
-coherent position, but it is a position — if these roles are to be sustainable on
-their own, the natural lever is to let providing them raise a node's reward share,
-and that is a decision this specification does not make. It is recorded here so the
-choice is visible rather than discovered by a provider who expected to be paid.
+**Snapshot providers remain the open case.** Downloads are free and no provider
+compensation has been specified. In practice the role is usually run by a party
+already operating a node, so compensation arrives through the node reward pool
+(§9.2) and the marginal cost of also serving snapshots is small — but unlike oracles
+that has not been decided, and it is recorded as open rather than assumed settled.
+
+### 9.6 Oracle provider compensation
+
+Paid by the protocol, scaled by how much of the market a provider actually covers.
+Everything below is `[PROPOSED — NEEDS SIGN-OFF]`; the steward's decision is that
+payment scales with the number of currencies provided, and the shape is this
+specification's proposal.
+
+| Parameter | Value |
+|---|---|
+| Basis | Distinct currency pairs for which the provider published a fresh, unexpired rate during the epoch |
+| Freshness weight | Each pair counts by the fraction of the epoch it was covered by an unexpired rate, not merely touched once |
+| Eligibility of a pair | A pair counts only if it is **in use** — referenced by at least one active advertisement, or independently covered by at least one other provider |
+| Epoch | 24 hours, matching §9.2 |
+| Funding | The same Infrastructure allocation and treasury share that funds §9.2 |
+
+The in-use condition is the anti-gaming term and is the reason this is not simply a
+count. Paying per declared pair invites a provider to publish hundreds of invented
+or dead pairs at near-zero cost and collect on all of them; requiring that somebody
+either trades against a pair or independently quotes it ties payment to coverage
+that matters. Freshness weighting exists for the same reason at the time axis: a
+single rate posted once an epoch should not earn what continuous coverage earns.
+
+**Not solved here:** a provider quoting a pair *nobody else does* and that no
+advertisement yet references earns nothing, which is exactly backwards for
+bootstrapping a new corridor. AllenHark providing default initial coverage mitigates
+this in practice, but a bootstrap allowance for genuinely new corridors is a gap
+worth closing before the formula is signed off.
+
+### 9.7 Risk intelligence: a governance-approved, paid slot
+
+Risk intelligence differs from every other provider role in two ways, both
+protocol-steward decisions.
+
+| Parameter | Value | Status |
+|---|---|---|
+| Compensation | Fixed subscription, default **1,000 USDC per month** | [DECISION — protocol steward] |
+| Adjustability | Governance-configurable, and expected to change as the network grows | [DECISION — protocol steward] |
+| Who may provide | **Only providers approved by governance.** Registration is permissioned for this role alone | [DECISION — protocol steward] |
+| Default provider | AllenHark, pending publication of the approving public key | [DECISION — protocol steward; key not yet supplied] |
+| Payer | The protocol, from treasury | [PROPOSED — this specification's reading; see below] |
+
+Approval is what makes a fixed subscription safe. Every other role in this protocol
+is permissionless because the cost of a bad actor is bounded — a useless oracle is
+outvoted by the median, a dead notification gateway simply fails to deliver. A
+standing payment has no such bound: without a gate, anyone could register as a risk
+provider and draw a subscription. Gating who may *receive* is therefore not a
+departure from the protocol's permissionless design so much as the condition that
+lets a paid slot exist at all.
+
+**One reading flagged rather than assumed.** The steward specified the amount and the
+approval gate, but not explicitly who pays it. This specification reads it as the
+protocol paying an approved provider from treasury, because that is what makes the
+approval gate necessary — if consumers paid individually, approval would prevent
+little. If the intent was instead a price that subscribers pay directly, this
+section needs revising, and it should be corrected before implementation rather
+than after.
