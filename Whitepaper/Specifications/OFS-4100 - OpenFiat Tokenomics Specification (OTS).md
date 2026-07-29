@@ -148,6 +148,7 @@ Fee amounts are deliberately **not** fixed here — Chapter 23 explicitly wants 
 | Dust-remainder-on-fee-split rule | Any remainder from integer-division fee splits goes to the Emergency Reserve sub-account | [PROPOSED — NEEDS SIGN-OFF; amended to match the deployed `openfiat-escrow`, which sweeps the remainder to the emergency reserve. The earlier text said Development. The amounts are sub-unit rounding dust, but the spec and the program must not disagree — if Development is the intended destination, the program is what needs changing, not this row] |
 | Default ad-listing fee | 1 OPEN, charged from the merchant's liquidity vault | [PROPOSED — NEEDS SIGN-OFF on the amount; the vault as the source is a protocol-steward DECISION] |
 | Default settlement fee | 0.85% (85 bps) of the traded amount, **borne by the buyer** — deducted from the stablecoin released to them, in the stablecoin traded | [DECISION — protocol steward] |
+| Default dispute-filing fee | 20 OPEN, charged from the merchant's liquidity vault (§9.3) | [PROPOSED — NEEDS SIGN-OFF on the amount; the payer is a protocol-steward DECISION] |
 
 **Who pays what.** The three fees do not fall on the same party, and the split is
 deliberate:
@@ -163,7 +164,6 @@ dispute. A merchant pays to advertise and to be arbitrated, and recovers the
 arbitration deposit unless the outcome goes against them. The party with an ongoing
 business carries the standing costs; the party who may be transacting once carries a
 cost only on success.
-| Default dispute-filing fee | 20 OPEN | [PROPOSED — NEEDS SIGN-OFF] |
 
 ## 7. Explicitly Out of Scope for v1
 
@@ -301,9 +301,19 @@ indistinguishable from an arbitrary one.
 
 ### 9.5 Service-provider earnings
 
-Providers are not paid a protocol reward. They **bill for their own service**, which
-is a different economic shape from node and arbitrator rewards and does not draw on
-the emission pool at all.
+Provider compensation takes three different shapes, and which one applies depends on
+the role rather than on any general rule:
+
+- **Billing a consumer directly** — a notification gateway charges the participant
+  who enabled notifications.
+- **Paid by the protocol** — oracle providers (§9.6) and risk intelligence (§9.7),
+  because their output is free at the point of use and would otherwise go unfunded.
+- **Nothing** — snapshot providers, by decision (§9.5's table).
+
+An earlier draft of this section asserted that providers are never paid a protocol
+reward and never draw on the emission pool. That is no longer true and was corrected
+here rather than left to contradict §9.6, which funds oracle payment from the same
+Infrastructure allocation and treasury share that §9.2 draws on.
 
 | Parameter | Value | Status |
 |---|---|---|
