@@ -146,7 +146,7 @@ Fee amounts are deliberately **not** fixed here — Chapter 23 explicitly wants 
 |---|---|---|
 | Treasury sub-accounts | Development, Ecosystem, Infrastructure, Emergency Reserve | [CONFIRMED — named in Ch.14/16] |
 | Dust-remainder-on-fee-split rule | Any remainder from integer-division fee splits goes to the Emergency Reserve sub-account | [PROPOSED — NEEDS SIGN-OFF; amended to match the deployed `openfiat-escrow`, which sweeps the remainder to the emergency reserve. The earlier text said Development. The amounts are sub-unit rounding dust, but the spec and the program must not disagree — if Development is the intended destination, the program is what needs changing, not this row] |
-| Default ad-listing fee | 1 OPEN, charged from the merchant's liquidity vault | [PROPOSED — NEEDS SIGN-OFF on the amount; the vault as the source is a protocol-steward DECISION] |
+| Default ad-listing fee | 1 OPEN, charged from the merchant's liquidity vault, split across the four treasury sub-accounts by the same basis points as the settlement fee | [PROPOSED — NEEDS SIGN-OFF on the amount; the vault as the source and the four-way split are protocol-steward DECISIONS] |
 | Default settlement fee | 0.85% (85 bps) of the traded amount, **borne by the buyer** — deducted from the stablecoin released to them, in the stablecoin traded | [DECISION — protocol steward] |
 | Default dispute-filing fee | 20 OPEN, charged from the merchant's liquidity vault (§9.3) | [PROPOSED — NEEDS SIGN-OFF on the amount; the payer is a protocol-steward DECISION] |
 
@@ -158,6 +158,13 @@ deliberate:
 | Settlement fee (0.85%) | Buyer | Deducted from the escrowed stablecoin before payout |
 | Ad-listing fee | Merchant | Their liquidity vault |
 | Arbitration deposit | Merchant | Their liquidity vault, whoever opened the dispute (§9.3) |
+
+Every fee that is protocol revenue routes the same way: the four-way basis-point
+split across the treasury sub-accounts. The ad-listing fee is a flat charge rather
+than a percentage, but it is still revenue and still splits — one revenue stream
+settling differently from the others would be an accounting discrepancy rather than
+a simplification. The arbitration deposit is not revenue and does not split; it
+returns to the merchant or goes to the arbitration pool (§9.3).
 
 A buyer pays only when a trade actually completes, and pays nothing to raise a
 dispute. A merchant pays to advertise and to be arbitrated, and recovers the
