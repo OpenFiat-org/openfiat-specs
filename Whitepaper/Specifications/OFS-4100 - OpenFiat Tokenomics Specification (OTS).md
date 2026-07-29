@@ -146,7 +146,7 @@ Fee amounts are deliberately **not** fixed here — Chapter 23 explicitly wants 
 |---|---|---|
 | Treasury sub-accounts | Development, Ecosystem, Infrastructure, Emergency Reserve | [CONFIRMED — named in Ch.14/16] |
 | Dust-remainder-on-fee-split rule | Any remainder from integer-division fee splits goes to the Emergency Reserve sub-account | [PROPOSED — NEEDS SIGN-OFF; amended to match the deployed `openfiat-escrow`, which sweeps the remainder to the emergency reserve. The earlier text said Development. The amounts are sub-unit rounding dust, but the spec and the program must not disagree — if Development is the intended destination, the program is what needs changing, not this row] |
-| Default ad-listing fee | 1 OPEN | [PROPOSED — NEEDS SIGN-OFF] |
+| Default ad-listing fee | 1 OPEN, charged from the merchant's liquidity vault | [PROPOSED — NEEDS SIGN-OFF on the amount; the vault as the source is a protocol-steward DECISION] |
 | Default dispute-filing fee | 20 OPEN | [PROPOSED — NEEDS SIGN-OFF] |
 
 ## 7. Explicitly Out of Scope for v1
@@ -175,6 +175,11 @@ Every place this specification made a call rather than citing a whitepaper numbe
     so there was no formula to cite.
 11. Dust-remainder destination amended from Development to Emergency Reserve to match the
     deployed program (§6).
+12. §9.3's payer asymmetry — the merchant funds the arbitration deposit from their liquidity
+    vault whichever party opens the dispute, forfeited to the arbitration OPEN pool only when
+    the outcome goes against them — and the ad-listing fee drawing on the same vault. Both are
+    protocol-steward decisions; what happens to the deposit when the merchant does not lose was
+    not stated and is this specification's reading.
 
 ---
 
@@ -237,13 +242,30 @@ than a finished answer.
 
 | Parameter | Value | Status |
 |---|---|---|
-| Source | The dispute-filing fee (§6, default 20 OPEN), which must actually be collected on `open_dispute_case` | [PROPOSED — NEEDS SIGN-OFF] |
-| Distribution | Split among arbitrators whose revealed vote matched the tallied outcome, pro-rata by revealed weight | [PROPOSED — NEEDS SIGN-OFF] |
+| Who posts the arbitration deposit | The **merchant**, from their liquidity vault — regardless of which party opened the dispute | [DECISION — protocol steward] |
+| Source | The dispute-filing fee (§6, default 20 OPEN), charged on `open_dispute_case` | [PROPOSED — NEEDS SIGN-OFF] |
+| If the merchant loses | Deposit forfeited to the arbitration OPEN pool, a destination distinct from the four settlement-fee treasuries | [DECISION — protocol steward] |
+| If the merchant does not lose | Deposit returns to the merchant's vault | [PROPOSED — NEEDS SIGN-OFF; the steward stated the losing case only] |
+| No-consensus terminal split | Deposit returns to the merchant — there is no loser, and forfeiting would punish a merchant who did nothing wrong | [PROPOSED — NEEDS SIGN-OFF] |
+| Distribution | From the arbitration OPEN pool, split among arbitrators whose revealed vote matched the tallied outcome, pro-rata by revealed weight | [PROPOSED — NEEDS SIGN-OFF] |
 | Outside-consensus penalty | The existing slashing rate (§4) applied to the arbitrator's active stake | [PROPOSED — NEEDS SIGN-OFF] |
-| Frivolous-dispute case | Fee forfeited rather than refunded, and distributed as above | [PROPOSED — NEEDS SIGN-OFF] |
 
 This is the incentive the commit-reveal design depends on: without it, voting
 carries cost and no return, and voting *against* consensus carries no cost at all.
+
+The merchant always funding the deposit is a deliberate asymmetry, not an
+oversight. A buyer is frequently a one-time participant with no vault and no
+standing balance; requiring them to fund a deposit to be heard would price the
+dispute mechanism out of reach of exactly the party it most protects. The merchant
+has an ongoing vault and an ongoing business, and only loses the deposit when the
+outcome goes against them — so an honest merchant faces a temporary lock, not a
+cost, while a merchant in the wrong funds the arbitration that found them so.
+
+The consequence to watch is that a buyer can open disputes at no cost to
+themselves, which bounds how much merchant liquidity an adversary can tie up. The
+reputation dimensions in OFS-3000 and the merchant's own ability to decline
+counterparties are the intended defence; if that proves insufficient in practice,
+a buyer-side cost is a parameter change rather than a redesign.
 
 ### 9.4 Auditability
 
