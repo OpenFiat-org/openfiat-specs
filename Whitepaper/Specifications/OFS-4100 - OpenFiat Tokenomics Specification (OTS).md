@@ -310,12 +310,27 @@ with the rest of the protocol: there is no provider login, no session, and no
 registry of people — only a key that can demonstrate control of a Service ID it already
 owns. The same mechanism already authenticates arbitrators.
 
-**What is still open: the billing trigger.** Who pays, and at which moment, is not
-settled for every role, and differs by role — a notification has an identifiable
-beneficiary (the participant who enabled it) while a published exchange rate is
-consumed by anyone who reads it and has no natural payer at read time. This
-specification records the *mechanism* — declared price, registered payout wallet,
-signature-authenticated statement — and leaves per-role triggers to be defined as
-each role's metering is built. A provider can declare a price before the protocol
-can enforce collection, and that gap should be stated to providers rather than
-hidden from them.
+**Per-role billing triggers.**
+
+| Role | Trigger | Status |
+|---|---|---|
+| Notification gateway | The participant who enabled notifications on a trade pays, per delivery | [PROPOSED — NEEDS SIGN-OFF] |
+| Oracle provider | **Reads are free.** No charge, no meter | [DECISION — protocol steward] |
+| Snapshot provider | **Downloads are free.** No charge, no meter | [DECISION — protocol steward] |
+| Risk intelligence | Not settled | [OPEN] |
+
+Oracle rates and snapshots are free because charging for them would work against
+the protocol: a priced rate feed is consulted less, which makes the median it
+contributes to thinner and easier to move, and a priced snapshot slows the thing
+that lets a new node join at all. Both are load-bearing public goods, and the
+network is stronger when they are cheap to consume.
+
+**The consequence, stated plainly.** Oracle and snapshot providers therefore have no
+direct revenue: they are not paid a protocol reward (§9.5's opening), and their
+service is free. In practice both roles are usually run by parties already operating
+a node, so their compensation arrives through the node reward pool (§9.2) and the
+marginal cost of also publishing rates or serving snapshots is small. That is a
+coherent position, but it is a position — if these roles are to be sustainable on
+their own, the natural lever is to let providing them raise a node's reward share,
+and that is a decision this specification does not make. It is recorded here so the
+choice is visible rather than discovered by a provider who expected to be paid.
