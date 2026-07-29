@@ -102,8 +102,12 @@ Seven staked roles per Chapter 15/23: Merchant, Arbitrator, Node Operator, Notif
 
 | Parameter | Value | Status |
 |---|---|---|
-| Minimum stake (all roles, flat for v1) | 1,000 OPEN | [PROPOSED — NEEDS SIGN-OFF] |
-| Arbitrator minimum stake (higher bar, per Ch.11 §11.6) | 10,000 OPEN | [PROPOSED — NEEDS SIGN-OFF] |
+| Minimum stake — default, every role without a specific figure below | 1,000 OPEN | [PROPOSED — NEEDS SIGN-OFF] |
+| Minimum stake — Arbitrator (higher bar, per Ch.11 §11.6) | 10,000 OPEN | [PROPOSED — NEEDS SIGN-OFF] |
+| Minimum stake — Notification Provider | 5,000 OPEN | [DECISION — protocol steward] |
+| How minimums are stored | `StakingConfig.min_stake_by_role`, a `[u64; 7]` indexed by `Role` | [IMPLEMENTED — replaced a flat field plus a special-cased arbitrator field, which made §7's "future governance parameter change, not new code" impossible to honour] |
+| How minimums are enforced | `stake` and `request_unstake` both reject a resulting balance that is neither zero nor at least the role's minimum | [IMPLEMENTED — until this landed the minimums were stored and read by nothing, so any amount was accepted] |
+| Unstaking below the minimum | Refused; a full exit to zero is always allowed, so a minimum can never trap tokens | [DECISION — the alternative, letting a balance sit below its minimum, leaves an account that still reads as staked while no longer qualifying] |
 | Unbonding / unlock period (all roles, flat for v1) | 7 days | [PROPOSED — NEEDS SIGN-OFF] |
 | Effective-stake timing on unstake request | Reduces immediately at request time, not only at unlock release | [DECISION — whitepaper wording is ambiguous between these two readings; this specification picks the immediate-reduction interpretation to prevent a participant from requesting unstake and still counting the stake toward eligibility/voting/priority during the unbonding window] |
 | Slashing percentage (flat, all misconduct types, v1) | 10% of staked amount | [PROPOSED — NEEDS SIGN-OFF] |
@@ -151,7 +155,6 @@ The following are real parts of the whitepaper's long-term vision but are **not*
 
 - Chapter 23's governance-authorized post-genesis minting exception (§1 — supply is strictly fixed for v1).
 - Partial Settlement as a dispute resolution outcome (OFS-2400 marks this "Future").
-- Per-role-differentiated staking minimums (v1 ships flat + one arbitrator-specific minimum; further differentiation is a future governance parameter change, not new code).
 
 ## 8. Decision Log
 
@@ -161,7 +164,7 @@ Every place this specification made a call rather than citing a whitepaper numbe
 2. Presale bucket = 20% (200,000,000 OPEN), confirmed by the protocol steward — funds two sequential sale phases (a $2,000,000-target presale at 1 OPEN = 1 USDC, then a public sale at 1 OPEN = 1.25 USDC for whatever remains unsold) rather than sizing a single capped raise.
 3. All allocation percentages, vesting cliffs/durations.
 4. Presale hard/soft cap, min/max contribution, no vesting on presale tokens (with tradeoff stated), 1% max slippage, stablecoin whitelist contents.
-5. Staking minimums (flat + arbitrator-specific), unbonding period, slashing %, the four enumerated slashing triggers (two of which depend on future amendments elsewhere).
+5. Staking minimums (per-role, §4), unbonding period, slashing %, the four enumerated slashing triggers (two of which depend on future amendments elsewhere). Minimums were originally specified as flat-plus-arbitrator and listed in §7 as not-yet-differentiated; they are now a per-role array and are actually enforced.
 6. Unstake-request effective-stake timing = immediate reduction.
 7. Governance: "OFIP" naming, 6-category taxonomy, deposit amount, quorum/threshold numbers, vote-lock duration, cast-time snapshot, quorum-met-as-frivolity-proxy.
 8. Fee amounts, dust-handling rule.
