@@ -34,7 +34,7 @@ because nothing has been decided to record — not because a number is awaiting 
 **Two things in this document are decided but NOT yet true of the deployed code**, recorded here so the gap is not mistaken for agreement:
 
 - Dust remainders are specified to the Ecosystem treasury (§6); the deployed `openfiat-escrow` sweeps them to the Emergency Reserve.
-- Per-role unbonding and the 500 OPEN staking floors (§4) are not yet in `StakingConfig`, which still holds one flat unbonding period. Note §4.1: the arbitrator floor **must not** be lowered before case-scaled eligibility exists.
+- Per-role unbonding and the 500 OPEN staking floors (§4) are not yet in `StakingConfig`, which still holds one flat unbonding period. Note §4.1: the arbitrator floor **must not** be lowered before per-case sortition exists, and §4.1 itself was corrected — a stake requirement cannot make seat capture cost more than its payoff, because a squatter who holds every seat is never slashed.
 
 Chapters 13, 14, 15, 16, and 23 of the whitepaper repeatedly defer exact figures to "the Tokenomics Specification." This is that document. It does not repeat the behavioral/state-machine design already specified in those chapters or in OFS-1600/2300/2400/4000 — it supplies the numbers those documents deliberately omitted.
 
@@ -123,7 +123,7 @@ Seven staked roles per Chapter 15/23: Merchant, Arbitrator, Node Operator, Notif
 |---|---|---|
 | Minimum stake — default, every role without a specific figure below | 1,000 OPEN | [CONFIRMED] |
 | Minimum stake — Merchant | 500 OPEN | [CONFIRMED] |
-| Minimum stake — Arbitrator | 500 OPEN **floor only** — eligibility for any given case scales with the amount in dispute, see below | [CONFIRMED] |
+| Minimum stake — Arbitrator | 500 OPEN **floor only** — which cases a wallet may join is decided by the per-case draw in §4.1, not by how much above the floor it stakes | [CONFIRMED] |
 | Minimum stake — Notification Provider | 5,000 OPEN | [CONFIRMED] |
 | How minimums are stored | `StakingConfig.min_stake_by_role`, a `[u64; 7]` indexed by `Role` | [IMPLEMENTED — replaced a flat field plus a special-cased arbitrator field, which made §7's "future governance parameter change, not new code" impossible to honour] |
 | How minimums are enforced | `stake` and `request_unstake` both reject a resulting balance that is neither zero nor at least the role's minimum | [IMPLEMENTED — until this landed the minimums were stored and read by nothing, so any amount was accepted] |
@@ -133,47 +133,77 @@ Seven staked roles per Chapter 15/23: Merchant, Arbitrator, Node Operator, Notif
 | Unbonding / unlock period — every other role | 7 days | [CONFIRMED] |
 | Effective-stake timing on unstake request | Reduces immediately at request time, not only at unlock release | [DECISION — whitepaper wording is ambiguous between these two readings; this specification picks the immediate-reduction interpretation to prevent a participant from requesting unstake and still counting the stake toward eligibility/voting/priority during the unbonding window] |
 | Slashing percentage (flat, all misconduct types, v1) | 5% of staked amount | [CONFIRMED] |
-| Arbitrator minimum protocol age before eligibility | 30 days since first stake | [CONFIRMED] |
+| Arbitrator minimum protocol age before eligibility | 30 days since first stake | [CONFIRMED] — **not currently enforceable**: `StakeAccount` records no first-staked timestamp. Adding one is a prerequisite for §4.1, because this is what stops an attacker grinding keys until they win the draw. |
 | Arbitrator "no active penalties" definition | No unresolved slash event in the trailing 90 days | [CONFIRMED] |
-| Arbitrator case eligibility | Scales with the amount in dispute — see the subsection below | [CONFIRMED] |
+| Arbitrator case eligibility | Drawn per case: stake floor, plus stake age, plus a verifiable sortition test the arbitrator cannot choose the outcome of (§4.1) | [CONFIRMED — mechanism; the sortition threshold itself is `[PROPOSED — NEEDS SIGN-OFF]`] |
 | Shortfall disclosure when a wallet is ineligible | Prompt to increase stake; **never state how much is missing** | [CONFIRMED] |
 
-### 4.1 Arbitrator eligibility scales with the amount in dispute
+### 4.1 Arbitrator seats are drawn, not claimed
 
-The 500 OPEN figure above is a **floor**, not the bar for every case. Which
-cases a wallet may join is a function of how much it has staked: larger
-disputes require proportionally more stake.
+**This section replaces an earlier version of itself, and the correction
+matters more than the text.** That version said the 500 OPEN floor would be
+backed by eligibility scaling with the amount in dispute, and stated an
+inequality: *occupying enough seats to force an outcome must cost more than
+the disputed amount can win.* **A stake requirement cannot deliver that
+inequality at any size**, and the reason is worth keeping on the record.
 
-**This is a security mechanism, not a convenience.** The arbitrator minimum
-is what closes the seat-squatting attack: `commit_dispute_vote` is gated on
-it, `MAX_ARBITRATORS` is 7, and zero-balance stake accounts are legal, so
-without a meaningful bar an attacker occupies every arbitrator seat for the
-price of rent, reveals zero-weight votes, and drives the tally to a tie that
-returns a disputed escrow to the merchant. At the previous 10,000 OPEN
-minimum, filling all seven seats cost 70,000 OPEN. At a flat 500 it would
-cost 3,500 — twenty times cheaper. Case-scaled eligibility is what replaces
-the protection the flat minimum was providing.
+Slashing fires for revealing a vote **outside consensus** (§4's enumerated
+triggers, and `crates/slashing`). An attacker holding every seat *is* the
+consensus, so is never outside it, so is never slashed. Their stake is
+therefore **capital locked, not capital at risk** — returned in full after
+unbonding. There is no price at which locked-and-returned capital "costs more
+than" a payoff it is not forfeited against. The old 10,000 OPEN minimum was
+never charging an attacker 70,000 OPEN; it was requiring them to *have* it,
+which is a liquidity barrier and a real one, but a different thing from a
+cost. Scaling that barrier with dispute size would have made it a larger
+liquidity barrier described as a cost, which is worse than a small one
+described accurately.
 
-**The inequality any implementation must satisfy:** occupying enough
-arbitrator seats to force an outcome must cost more than the disputed amount
-can win. Scaling the requirement with dispute size holds this at the top of
-the range automatically. At the floor it is the **margin** that holds it,
-since 7 × 500 = 3,500 OPEN of at-risk stake only deters capture while it
-exceeds the value at stake. Derive the per-case threshold from (dispute
-amount ÷ arbitrators required) with a margin, so the inequality holds at
-*every* size rather than only for large cases. The margin is therefore a
-security parameter, not a tuning knob, and the boundary must be tested at the
-floor and not merely at large values.
+**The vulnerability is seat allocation, not seat pricing.** Seats go to
+whoever calls `commit_dispute_vote` first, and `MAX_ARBITRATORS` is 7, so an
+attacker with seven funded wallets takes every seat whenever they choose to.
+Pricing a seat treats a Sybil-and-allocation problem as an economic one.
 
-**The minimum must not be lowered before this exists.** Shipping 500 OPEN
-with a flat gate reopens the attack at twenty times lower cost.
+**Seats are therefore drawn rather than claimed.** Eligibility for a
+*specific* case is a function the arbitrator cannot choose the output of:
 
-**On withholding the shortfall.** When a wallet is not eligible for a case it
-is told to increase its stake and *not* told by how much. This raises the
-cost of probing for the threshold in order to target a specific high-value
-case. It does not prevent it: an attacker can binary-search the boundary by
-attempting with varying stakes. Treat it as friction, and do not describe it
-anywhere as a control.
+1. **Stake at or above the role floor** (§4). Gates who is in the pool at all.
+2. **Stake age at or above the arbitrator minimum protocol age** (§4, 30
+   days). This is the anti-grinding requirement and it is load-bearing: without
+   it an attacker generates keys until seven of them satisfy step 3, which
+   costs nothing. Note this parameter is **signed off but not currently
+   enforceable** — `StakeAccount` records no first-staked timestamp, so
+   implementing sortition requires adding one.
+3. **A per-case sortition test** — the arbitrator qualifies for this case only
+   if a hash of their stake account against a seed fixed when the case opened
+   falls below a threshold. Selection is verifiable by anyone and choosable by
+   nobody.
+
+A Solana program cannot enumerate accounts, so this is deliberately
+*self-selection with verifiable eligibility* rather than the program picking
+names from a list. It reaches the same place: an attacker no longer decides to
+take all seven seats, they can only hope to. To reliably capture a case they
+must pre-stake on the order of `seats ÷ threshold` wallets, each held for the
+age requirement, without knowing which cases any of them will qualify for.
+That is a genuine multiplicative barrier, and it is a barrier of **capital and
+time**, which is what this mechanism can honestly provide.
+
+**The seed must be fixed at case opening and unpredictable before it.** If it
+is known in advance, wallets can be ground to match; if it can be re-rolled,
+an attacker retries until they qualify.
+
+**The 500 OPEN floor must not ship before this exists.** Not because 500 is
+worse than 10,000 by the inequality above — that inequality never held — but
+because the flat 10,000 is currently the only thing making seven wallets
+expensive to assemble, and lowering it to 500 reduces that barrier twentyfold
+while nothing has yet replaced it.
+
+**On withholding the shortfall.** When a wallet is not eligible it is told to
+increase its stake and not told by how much. Under sortition this matters less
+than it did — the binding constraint is usually the draw, not the amount — but
+the honest framing is unchanged: it raises the cost of probing for a
+threshold, it does not prevent it, and it must not be described anywhere as a
+control.
 
 **Enumerated slashing triggers** (Chapter 15 gives categories, not concrete triggers — this is the concrete list a program can actually check):
 
@@ -334,9 +364,14 @@ interact, and reading them separately hides the couplings:
   assumes in their own favour when it goes unstated.
 - Staking: merchant and arbitrator floors of 500 OPEN, per-role unbonding
   (merchant 24h, arbitrator 3 days, all others 7 days), slashing 5%.
-  **The arbitrator figure is a floor with case-scaled eligibility above it (§4.1),
-  and the floor must not ship without that scaling** — a flat 500 makes
-  seat-squatting twenty times cheaper than the 10,000 it replaces.
+  **The arbitrator figure is a floor, and which cases a wallet may join is decided
+  by the per-case draw in §4.1 rather than by staking further above it.** The floor
+  must not ship before that draw exists: a flat 500 makes assembling seven wallets
+  twenty times cheaper than the 10,000 it replaces, and nothing has yet replaced
+  what the high flat minimum was doing. §4.1 was corrected after this round —
+  scaling a stake requirement cannot make seat capture cost more than its payoff,
+  because a squatter holding every seat is the consensus and is therefore never
+  slashed.
 - Fees: ad-listing confirmed, settlement fee 0.85% on the buyer confirmed, dispute
   filing **10 OPEN** (was 20), dust remainders to the **Ecosystem** treasury.
   The deployed escrow sends dust to the Emergency Reserve, so the program is now
