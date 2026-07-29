@@ -201,9 +201,10 @@ Every place this specification made a call rather than citing a whitepaper numbe
 14. §9.6's oracle formula shape — freshness weighting and the in-use eligibility condition are
     this specification's anti-gaming proposal; the steward's decision was that payment scales
     with currencies covered. The new-corridor bootstrap gap is recorded, not solved.
-15. §9.7's reading that the protocol pays the risk-intelligence subscription. The amount, the
-    governance approval gate and AllenHark as default provider are steward decisions; the payer
-    is inferred from the approval gate's purpose and is flagged for correction.
+15. Snapshot providers receive no compensation (§9.5); oracle and risk-intelligence
+    compensation are both scaled by observed uptime (§9.6, §9.7); the risk-intelligence
+    subscription is paid by the treasury; AllenHark's default service key is
+    `ALLENLMtV1zEAHT3xpVryqcbdPCB8c9JhM1Jdbe5XHg5`. All protocol-steward decisions.
 
 ---
 
@@ -326,7 +327,7 @@ for by the protocol.
 |---|---|---|---|
 | Notification gateway | Per delivery, by the participant who enabled it | That fee | [PROPOSED — NEEDS SIGN-OFF] |
 | Oracle provider | **Nothing. Reads are free** | Paid by the protocol, scaled by currency coverage (§9.6) | [DECISION — protocol steward] |
-| Snapshot provider | **Nothing. Downloads are free** | Not specified | [DECISION on free; provider compensation OPEN] |
+| Snapshot provider | **Nothing. Downloads are free** | **Nothing.** No provider compensation | [DECISION — protocol steward] |
 | Risk intelligence | Nothing directly | A subscription paid by the protocol, default 1,000 USDC/month (§9.7) | [DECISION — protocol steward] |
 
 Oracle rates and snapshots are free to consume because charging would work against
@@ -341,11 +342,12 @@ contributes to thinner and easier to move, and a priced snapshot slows the thing
 that lets a new node join at all. Both are load-bearing public goods, and the
 network is stronger when they are cheap to consume.
 
-**Snapshot providers remain the open case.** Downloads are free and no provider
-compensation has been specified. In practice the role is usually run by a party
-already operating a node, so compensation arrives through the node reward pool
-(§9.2) and the marginal cost of also serving snapshots is small — but unlike oracles
-that has not been decided, and it is recorded as open rather than assumed settled.
+**Snapshot providers are not compensated.** Downloads are free and the role carries
+no payment, by decision. It is run by parties already operating a node — serving a
+snapshot is a marginal cost on infrastructure that already exists and is already
+paid for through the node reward pool (§9.2). A provider considering a standalone
+snapshot service should read this as: there is no revenue in it, and none is
+planned.
 
 ### 9.6 Oracle provider compensation
 
@@ -359,6 +361,7 @@ specification's proposal.
 | Basis | Distinct currency pairs for which the provider published a fresh, unexpired rate during the epoch |
 | Freshness weight | Each pair counts by the fraction of the epoch it was covered by an unexpired rate, not merely touched once |
 | Eligibility of a pair | A pair counts only if it is **in use** — referenced by at least one active advertisement, or independently covered by at least one other provider |
+| Uptime | The share is scaled by the provider's observed uptime over the epoch, on the same basis §9.2 uses for nodes — measured from what other participants observed, never self-asserted |
 | Epoch | 24 hours, matching §9.2 |
 | Funding | The same Infrastructure allocation and treasury share that funds §9.2 |
 
@@ -385,8 +388,9 @@ protocol-steward decisions.
 | Compensation | Fixed subscription, default **1,000 USDC per month** | [DECISION — protocol steward] |
 | Adjustability | Governance-configurable, and expected to change as the network grows | [DECISION — protocol steward] |
 | Who may provide | **Only providers approved by governance.** Registration is permissioned for this role alone | [DECISION — protocol steward] |
-| Default provider | AllenHark, pending publication of the approving public key | [DECISION — protocol steward; key not yet supplied] |
-| Payer | The protocol, from treasury | [PROPOSED — this specification's reading; see below] |
+| Uptime | The subscription is scaled by observed uptime over the billing period — a provider that is down does not draw a full month | [DECISION — protocol steward] |
+| Default provider | AllenHark, service key `ALLENLMtV1zEAHT3xpVryqcbdPCB8c9JhM1Jdbe5XHg5` | [DECISION — protocol steward] |
+| Payer | **The treasury** | [DECISION — protocol steward] |
 
 Approval is what makes a fixed subscription safe. Every other role in this protocol
 is permissionless because the cost of a bad actor is bounded — a useless oracle is
@@ -396,10 +400,12 @@ provider and draw a subscription. Gating who may *receive* is therefore not a
 departure from the protocol's permissionless design so much as the condition that
 lets a paid slot exist at all.
 
-**One reading flagged rather than assumed.** The steward specified the amount and the
-approval gate, but not explicitly who pays it. This specification reads it as the
-protocol paying an approved provider from treasury, because that is what makes the
-approval gate necessary — if consumers paid individually, approval would prevent
-little. If the intent was instead a price that subscribers pay directly, this
-section needs revising, and it should be corrected before implementation rather
-than after.
+The treasury pays, which is what makes the approval gate load-bearing: an unapproved
+party drawing a standing subscription would be drawing directly on protocol funds.
+
+**Uptime scaling applies to both paid provider roles.** A fixed monthly figure that
+pays the same whether a provider served every query or none is an invitation to
+register and go quiet. Uptime must be measured the way §9.2 measures it for nodes —
+from what other participants observed, never from a provider's own assertion about
+itself. The registry's health-update path is a provider's *claim* about its state
+and is not admissible as the basis for payment.
