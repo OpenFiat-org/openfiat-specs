@@ -539,6 +539,14 @@ Implementations MUST prevent:
 
 All settlement events MUST be digitally signed.
 
+### 24.1 A settlement read does not name the parties
+
+A node answering a settlement read to a caller who has not proven they are party to it MUST NOT disclose the buyer, the seller, their keys, or the payment reference. The state, the amount, the timings and the on-chain release signature remain public — they describe the trade rather than the people, and the release signature names a transaction anyone can already read on chain, which is what makes a settlement independently checkable.
+
+The payment reference is the sharpest of these. It is free text a buyer fills in with their own bank or mobile-money reference, so it routinely carries a real name or an account number, and nothing outside the trade has any business reading it.
+
+OFS-8200 §7.1 states the rule across every trade read and gives the reasoning, which is about a graph rather than about any single field: a settlement names both parties, so an unauthenticated enumerating read reconstructs who trades with whom across the whole network. A party reads their own settlements in full through the wallet-proof reads of OFS-8200 §7.2.
+
 ## Idempotency
 
 Every settlement event (`PaymentSubmitted`, `PaymentReversed`, `VerificationRequested`, `SettlementApproved`, `SettlementRejected`, `EscrowReleased`, `SettlementCompleted`) carries a unique nonce. Implementations MUST detect a duplicate nonce and discard the redundant event — for example, a resent `SettlementApproved` for an already-released escrow MUST NOT trigger a second release of funds, and a duplicated `PaymentSubmitted` MUST NOT be treated as two independent payment claims.
