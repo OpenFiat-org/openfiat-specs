@@ -188,6 +188,19 @@ age requirement, without knowing which cases any of them will qualify for.
 That is a genuine multiplicative barrier, and it is a barrier of **capital and
 time**, which is what this mechanism can honestly provide.
 
+**This design now has a companion participation floor, and it was sequenced
+first.** OFS-2400 §16.1 requires at least three *counted* votes before a
+dispute round produces a verdict; short of that the case re-arbitrates and,
+at the round limit, splits the escrow evenly rather than deciding. Sortition
+and that floor need each other. A draw over a thin pool can leave one or two
+eligible wallets on a case, and with no minimum the case goes to whoever holds
+the most wallets — the draw would have narrowed the field and then handed the
+outcome to the largest Sybil in it. Conversely a minimum alone still lets an
+attacker who can take every seat decide the case; it only sets how many seats
+they must take. The floor landed before sortition because it is the half that
+holds without new state: it needs nothing added to `StakeAccount`, whereas
+sortition is blocked on the first-staked timestamp noted in §4 above.
+
 **The seed must be fixed at case opening and unpredictable before it.** If it
 is known in advance, wallets can be ground to match; if it can be re-rolled,
 an attacker retries until they qualify.
