@@ -324,10 +324,25 @@ In summary:
 * Case evidence remains hidden until an arbitrator has committed stake and been accepted into the case, reducing pre-participation bribery risk (Chapter 11 §11.7-11.8).
 * The arbitrator threshold required for a case is determined internally and not publicly disclosed (Chapter 11 §11.9); once reached, the case locks and no further arbitrators may join (Chapter 11 §11.10).
 * Arbitrators vote via commit-and-reveal: each arbitrator submits a cryptographic commitment during the commit phase, then reveals the vote and secret during the reveal phase (Chapter 11 §11.12). Only revealed votes matching their earlier commitment are counted.
+* A round reaches a verdict only if at least three votes were counted (§16.1). Fewer is not a decision, whatever stake stands behind them.
 * Consensus follows deterministic protocol rules, with no discretionary interpretation by AllenHark or any node operator (Chapter 11 §11.13).
 * Arbitrators whose revealed vote falls outside consensus may incur a partial, moderate stake slash; arbitrators voting with consensus earn arbitration rewards (Chapter 11 §11.15-11.16).
 
 Future protocol versions MAY extend this model — specialized arbitrator categories, expert witnesses, cross-protocol interoperability (Chapter 11 §11.20) — but the underlying commit-reveal, stake-secured, voluntary-participation mechanism is not itself a future upgrade; it is the current protocol.
+
+### 16.1 Minimum Counted Votes
+
+A dispute round MUST NOT produce a verdict unless at least **three** votes were counted.
+
+This minimum is new in this amendment. Earlier versions of this specification stated only that qualified arbitrators "may voluntarily join a published case" and set no minimum anywhere, so consensus followed whatever happened to be revealed: one arbitrator who was the only one to reveal decided the case alone and moved the escrow, and nothing in the protocol required a second participant to exist. Three is the smallest set that produces a genuine majority and still resolves cases when one member is absent or dishonest.
+
+**Counted, not seated.** A counted vote is one the tally actually sums: revealed within the reveal window, matching that arbitrator's earlier commitment, and carrying non-zero stake weight. The minimum is deliberately *not* a count of seats filled. A seat can be occupied while contributing nothing to the totals — an arbitrator who commits and never reveals, or who reveals with no effective stake behind them — so counting seats would let three such accounts satisfy the minimum while the decision still rested on a single real vote. That is the seat-squatting shape the stake gate on joining a case already exists to prevent, and it must not be reintroduced through the participation check.
+
+**A floor on participants, not on weight.** No amount of stake behind fewer than three counted votes decides a case. A single large stake deciding alone is precisely the case this rule exists to exclude, so the threshold is independent of the weights, which continue to determine only *which* outcome wins once the floor is met.
+
+**Falling short is not a verdict.** A round with fewer than three counted votes MUST NOT pay either party, and MUST NOT be resolved to any of §17's outcomes. It is handled exactly as a tie is: the case re-opens for a further arbitration round with fresh commit and reveal windows (§14), bounded by the protocol's round limit, giving arbitrators who missed the round another opportunity to participate. If the round limit is reached with still no verdict, the escrow is split evenly between the parties. Deciding nothing must never be worth more to either party than losing, which is what the even split guarantees: a party who suppresses participation forfeits half rather than winning the escrow.
+
+**Companion to per-case sortition.** OFS-4100 §4.1 makes arbitrator eligibility a per-case draw the arbitrator cannot choose the outcome of. Drawing seats from a small pool is what makes this floor necessary rather than merely prudent: on a thin pool a draw can leave one or two eligible wallets, and without a minimum the case would be handed to whoever holds the most wallets. The two mechanisms are load-bearing together — sortition decides who may vote, this floor decides how few voters is too few for the result to count.
 
 ---
 
@@ -356,6 +371,10 @@ Partial Settlement (Future)
 Invalid Dispute
 
 * Dispute rejected.
+
+No Consensus
+
+* Reached only when the round limit is exhausted without a verdict — including because no round ever reached the minimum counted votes of §16.1. The escrow is split evenly between the parties. This is a termination, not a finding against either of them.
 
 ---
 
@@ -508,6 +527,7 @@ A compliant implementation MUST:
 * Support evidence submission.
 * Preserve immutable evidence history.
 * Support deterministic dispute states.
+* Refuse to decide a round on fewer than the minimum counted votes (§16.1), and re-open rather than pay out when it falls short.
 * Generate signed dispute events.
 * Synchronize dispute records.
 * Update reputation after resolution.
