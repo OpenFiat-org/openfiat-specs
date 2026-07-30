@@ -91,7 +91,7 @@ Seven buckets, named in Chapter 14, with no percentages given there. Proposed sp
 | Hard cap | None distinct from the bucket itself — the presale may sell up to the full 200,000,000 OPEN Community Presale allocation. | [CONFIRMED] |
 | Soft cap | **None.** There is no minimum to raise, so there is no threshold a raise can fall short of and no refund condition derived from one. The presale proceeds with whatever it raises. | [CONFIRMED] |
 | Minimum contribution per wallet | 50 USDC-equivalent | [CONFIRMED] |
-| Maximum contribution per wallet | 1,000,000 USDC-equivalent | [CONFIRMED] |
+| Maximum contribution per wallet | 10,000,000 USDC-equivalent | [CONFIRMED] |
 | Vesting on presale tokens | None — immediate unlock at claim | [CONFIRMED] |
 | Max swap slippage tolerance | 1% | [CONFIRMED] |
 | Stablecoin whitelist | USDC, USDT, PYUSD (devnet equivalents/test mints during the devnet phase of this build) | [CONFIRMED — and structurally must remain a governance-updatable list, never an open "any SPL token claiming to be a stablecoin"] |
@@ -103,6 +103,10 @@ Seven buckets, named in Chapter 14, with no percentages given there. Proposed sp
 This replaces an earlier proposed term under which a 5,000,000 USDC-equivalent soft cap made contributions refundable if unmet, with refunds paid in USDC rather than in whatever asset was originally sent. That term is withdrawn in full. Any surface still describing a refundable presale is wrong and must be corrected, not merely left ambiguous.
 
 Nothing here affects refunds that arise for other reasons — a failed or reverted contribution transaction is a separate matter, as is the governance **deposit** refund in §7, which is unrelated to the presale and unchanged.
+
+**Maximum contribution raised to 10,000,000 USDC-equivalent**, confirmed by the protocol steward, superseding the 1,000,000 this table previously specified. The concentration tradeoff is the reason to state the change rather than just edit the number: at a 20,000,000 raise target, a single wallet may now take up to half the target and, at the 200,000,000-OPEN bucket ceiling, up to 5% of total supply — with no vesting, since presale tokens unlock immediately at claim. That is a materially larger single-holder position than the previous cap allowed, and the per-wallet maximum is the only thing limiting it, because the presale has no hard cap of its own distinct from the bucket. Accepted deliberately in favour of not turning away large contributors.
+
+Note that a per-wallet cap constrains wallets, not people: it has never been a defence against one buyer splitting a position across several addresses, and raising it does not weaken a protection that was in place. Anyone reading this cap as a distribution guarantee is reading it wrong.
 
 **Public Sale (follow-on phase):**
 
