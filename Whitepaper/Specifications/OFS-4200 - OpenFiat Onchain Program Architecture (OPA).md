@@ -93,7 +93,8 @@ pub enum DisputeOutcome { BuyerWins, MerchantWins, MutualSettlement, InvalidDisp
 
 - `LiquidityVault { merchant: Pubkey, mint: Pubkey, total: u64, reserved: u64, available: u64, settled: u64, pending_settlement: u64, bump: u8 }`
 - `TradeEscrowVault { reservation_id: u64, buyer: Pubkey, seller: Pubkey, mint: Pubkey, amount: u64, state: VaultState, dispute_authority: Pubkey, created_at: i64, timeout_at: i64, bump: u8 }`
-- `FeeConfig { ad_listing_fee: u64, dispute_filing_fee: u64, dev_treasury: Pubkey, ecosystem_treasury: Pubkey, infra_treasury: Pubkey, emergency_reserve: Pubkey, bump: u8 }`
+- `FeeConfig { admin: Pubkey, ad_listing_fee: u64, dispute_filing_fee: u64, settlement_fee_bps: u16, dev_treasury: Pubkey, ecosystem_treasury: Pubkey, infra_treasury: Pubkey, emergency_reserve: Pubkey, dev_treasury_bps: u16, ecosystem_treasury_bps: u16, infra_treasury_bps: u16, emergency_reserve_bps: u16, timeout_secs: i64, bump: u8, min_arbitrator_stake_age_secs: i64, arbitrator_sortition_bps: u16 }`
+  - The last two are OFS-4100 §4/§4.1's arbitrator-eligibility gates. They sit **after** `bump` rather than in declaration order because appending is what let the live singleton be migrated by a resize alone: every offset before them keeps its meaning, so no existing decoder shifts. Both ship at zero (disabled) — see OFS-4100 §4.1.1.
 
 ### Instructions
 
@@ -112,7 +113,8 @@ Every instruction that moves vault funds signs via `invoke_signed` using the vau
 
 ### Account layouts
 
-- `StakeAccount { owner: Pubkey, role: Role, amount: u64, unbonding_amount: u64, unbonding_release_at: i64, slashed_total: u64, bump: u8 }`
+- `StakeAccount { owner: Pubkey, role: Role, amount: u64, unbonding_amount: u64, unbonding_release_at: i64, slashed_total: u64, pending_rewards: u64, bump: u8, first_staked_at: i64 }`
+  - `first_staked_at` is OFS-4100 §4's arbitrator stake-age clock: set when `amount` first goes from zero to positive, cleared on a full exit, and deliberately not reset by a top-up. **Zero means "holds no stake", not "infinitely old"** — every reader must treat zero as failing any age requirement. Appended after `bump` for the same migration reason as `FeeConfig` above.
 - `StakingConfig { min_stake: u64, min_stake_arbitrator: u64, unbonding_period_secs: i64, slash_bps: u16, slashing_authority: Pubkey, bump: u8 }`
 
 ### Instructions
@@ -210,6 +212,17 @@ decodes were sound: `FeeConfig` consumed 202 of 203 bytes, `StakingConfig` 234 o
 `GovernanceConfig` 138 of 140, each remainder being exactly the declared bumps. The
 check takes one line and is the difference between a decode you can cite and one you
 merely believe.
+
+Those figures are as of that audit. `FeeConfig` has since grown to **213** bytes and
+`StakeAccount` to **90**, both by appending fields (see §4 and §5). Re-derive rather
+than cite: a byte count copied forward is exactly the kind of claim this section exists
+to discourage.
+
+**The account layouts in §4-§6 have drifted from the deployed programs in places this
+document has not caught up with** — `StakingConfig`'s flat `min_stake`/`min_stake_arbitrator`
+became a per-role array, and several reward-related fields are absent here. The three
+structs above are current; the rest are being reconciled as part of the documentation
+sweep, and should be read against the code until then.
 
 ## 8. Testing Environment Note
 

@@ -34,7 +34,7 @@ because nothing has been decided to record — not because a number is awaiting 
 **Two things in this document are decided but NOT yet true of the deployed code**, recorded here so the gap is not mistaken for agreement:
 
 - Dust remainders are specified to the Ecosystem treasury (§6); the deployed `openfiat-escrow` sweeps them to the Emergency Reserve.
-- Per-role unbonding and the 500 OPEN staking floors (§4) are not yet in `StakingConfig`, which still holds one flat unbonding period. Note §4.1: the arbitrator floor **must not** be lowered before per-case sortition exists, and §4.1 itself was corrected — a stake requirement cannot make seat capture cost more than its payoff, because a squatter who holds every seat is never slashed.
+- Per-role unbonding and the 500 OPEN staking floors (§4) are not yet in `StakingConfig`, which still holds one flat unbonding period. §4.1's prerequisite is now **met** — per-case sortition and the stake-age clock are implemented, so the arbitrator floor may be lowered. Read §4.1.1 first: what the draw delivers is narrower than §4.1 first described, because the seed is grindable by whoever submits the transaction and the threshold widens to fully open.
 
 Chapters 13, 14, 15, 16, and 23 of the whitepaper repeatedly defer exact figures to "the Tokenomics Specification." This is that document. It does not repeat the behavioral/state-machine design already specified in those chapters or in OFS-1600/2300/2400/4000 — it supplies the numbers those documents deliberately omitted.
 
@@ -133,9 +133,9 @@ Seven staked roles per Chapter 15/23: Merchant, Arbitrator, Node Operator, Notif
 | Unbonding / unlock period — every other role | 7 days | [CONFIRMED] |
 | Effective-stake timing on unstake request | Reduces immediately at request time, not only at unlock release | [DECISION — whitepaper wording is ambiguous between these two readings; this specification picks the immediate-reduction interpretation to prevent a participant from requesting unstake and still counting the stake toward eligibility/voting/priority during the unbonding window] |
 | Slashing percentage (flat, all misconduct types, v1) | 5% of staked amount | [CONFIRMED] |
-| Arbitrator minimum protocol age before eligibility | 30 days since first stake | [CONFIRMED] — **not currently enforceable**: `StakeAccount` records no first-staked timestamp. Adding one is a prerequisite for §4.1, because this is what stops an attacker grinding keys until they win the draw. |
+| Arbitrator minimum protocol age before eligibility | 30 days since first stake | [CONFIRMED] — now **enforceable and enforced**: `StakeAccount.first_staked_at` records when the current position began, and `escrow::commit_dispute_vote` checks it against `FeeConfig.min_arbitrator_stake_age_secs`. Ships at zero (disabled) and is raised by governance — see §4.1.1 for why zero is the only value true on a chain younger than the requirement. |
 | Arbitrator "no active penalties" definition | No unresolved slash event in the trailing 90 days | [CONFIRMED] |
-| Arbitrator case eligibility | Drawn per case: stake floor, plus stake age, plus a verifiable sortition test the arbitrator cannot choose the outcome of (§4.1) | [CONFIRMED — mechanism; the sortition threshold itself is `[PROPOSED — NEEDS SIGN-OFF]`] |
+| Arbitrator case eligibility | Drawn per case: stake floor, plus stake age, plus a verifiable sortition test the arbitrator cannot choose the outcome of (§4.1) | [CONFIRMED] — implemented; opening threshold **1/100**, widening across the commit window. Read §4.1.1 before relying on it: the seed is grindable by the transaction's submitter, and the widening reaches fully open. |
 | Shortfall disclosure when a wallet is ineligible | Prompt to increase stake; **never state how much is missing** | [CONFIRMED] |
 
 ### 4.1 Arbitrator seats are drawn, not claimed
@@ -201,15 +201,68 @@ they must take. The floor landed before sortition because it is the half that
 holds without new state: it needs nothing added to `StakeAccount`, whereas
 sortition is blocked on the first-staked timestamp noted in §4 above.
 
-**The seed must be fixed at case opening and unpredictable before it.** If it
-is known in advance, wallets can be ground to match; if it can be re-rolled,
-an attacker retries until they qualify.
+**The seed must be fixed when the round opens and unpredictable before it.** If
+it is known in advance, wallets can be ground to match; if it can be re-rolled,
+an attacker retries until they qualify. It is re-drawn on **every** re-opened
+round: one seed reused across rounds means the same wallets qualify each time,
+so an attacker who wins the draw once holds those seats for the life of the
+case — and forcing a re-round is something they can do deliberately by
+committing and never revealing.
 
-**The 500 OPEN floor must not ship before this exists.** Not because 500 is
-worse than 10,000 by the inequality above — that inequality never held — but
-because the flat 10,000 is currently the only thing making seven wallets
-expensive to assemble, and lowering it to 500 reduces that barrier twentyfold
-while nothing has yet replaced it.
+#### 4.1.1 What sortition delivers, as built
+
+This section previously described the mechanism as intended. It is now
+implemented (`shared::sortition`, `escrow::commit_dispute_vote`), and two
+limits emerged that the design above did not anticipate. Both are recorded
+here rather than in code comments alone, because both bound what the protocol
+may claim.
+
+**The seed is grindable by whoever submits the transaction that latches it.**
+Solana offers no in-transaction randomness. A seed taken from a recent slot
+hash cannot be predicted far enough ahead to pre-grind wallets against — which
+is all the 30-day stake age needs, since wallets cannot be aged retroactively —
+but the submitter can simulate the transaction, observe the resulting draw, and
+resubmit in a later slot until it suits them. For `open_dispute_case` the
+submitter is a *party to the trade*. So the honest claim is **capture is
+expensive**, not capture is impossible: an attacker still needs many aged,
+funded wallets before any draw can land well, and grinding lowers how many
+rather than removing the requirement. Closing this properly needs a VRF or a
+two-transaction future-slot commit, and is future work.
+
+**The threshold must widen across the commit window, and therefore reaches
+fully open.** A fixed 1/100 would deadlock a young network: with ten
+registered arbitrators the expected number of qualifiers per case is 0.1, so
+almost every dispute would reach no arbitrators at all. The threshold
+therefore loosens as the window elapses and is open to everyone in its final
+slice. The consequence is that the draw **delays** seat claims rather than
+permanently excluding anyone, so a thin arbitrator pool degrades to the old
+first-come race instead of freezing — and an attacker who simply waits can
+still sweep a case no honest arbitrator is watching, against which no
+seat-allocation rule helps.
+
+Widening deliberately does **not** stop once a quorum is seated: freezing it
+would appear to protect an early honest majority, but would hand an attacker
+who wins three early seats a way to lock everyone else out of the case
+permanently. Nor is it capped below fully open: a cap does not slow an
+attacker, whose advantage is ticket count, while it does stop a small honest
+pool from ever filling a case.
+
+**Both gates ship disabled, and this is not caution.** Neither the stake age
+nor the draw can be satisfied by anybody on a chain younger than the
+requirement it imposes: on day one no wallet has held stake for thirty days,
+and a 1/100 draw over a ten-wallet pool leaves nobody eligible. They are
+therefore initialized to zero and turned on by governance
+(`escrow::update_fee_config`) once the arbitrator pool has genuinely aged and
+is large enough to draw from. The signed-off values in §4 are the values
+governance should *reach*.
+
+**The 500 OPEN floor may now ship, with that qualification.** The barrier it
+rests on is real but smaller than the mechanism's first description implied:
+assembling a majority of seats moves from holding seven wallets of any age to
+holding on the order of `seats ÷ threshold` aged, funded wallets — a large
+multiple, eroded by seed grinding and by the widening above. Lowering the
+floor to 500 is sound against that barrier; it would not have been sound
+against nothing, which was the situation before this landed.
 
 **On withholding the shortfall.** When a wallet is not eligible it is told to
 increase its stake and not told by how much. Under sortition this matters less
