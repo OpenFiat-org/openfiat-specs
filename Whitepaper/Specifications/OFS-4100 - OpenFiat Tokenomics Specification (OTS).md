@@ -544,10 +544,11 @@ network earned.
 |---|---|---|
 | Epoch length | 24 hours | [CONFIRMED] |
 | Bootstrap emission | 120,000,000 OPEN linear over 4 years (≈82,192 OPEN per epoch), capped by the remaining bucket | [CONFIRMED] |
-| Per-node share | Proportional to `effective_stake × connectivity × availability` | [CONFIRMED] |
+| Per-node share | Proportional to `effective_stake × connectivity × availability × content_retrievability` | [CONFIRMED for the first three factors; the fourth is PROPOSED — see below] |
 | Connectivity multiplier | `RpcConnected` = 1.0, `GossipOnly` = 0.4 | [CONFIRMED] |
 | Availability multiplier | The fraction of the epoch a node was observed live, measured from its own signed chain-bridge announcements and gossip participation as seen by the paying node | [CONFIRMED] |
 | Eligibility floor | Stake at or above the role minimum (§4), and registered in the OFS-1500 registry | [CONFIRMED] |
+| Content-retrievability multiplier | Answers a retrievability challenge = 1.0, does not = 0.7 | [PROPOSED — NEEDS SIGN-OFF] |
 
 Stake alone must not determine reward, or the network pays for capital rather than
 service — OFS-1600 §5's "reputation is earned" applies here. The connectivity
@@ -555,6 +556,26 @@ multiplier exists because a node bridging to Solana does strictly more work than
 only gossiping, and the difference is externally observable from its own signed
 blockhash announcements rather than self-reported: a node cannot fabricate a valid
 recent (blockhash, slot) pair.
+
+The content-retrievability multiplier is the one factor here added after this
+section's sign-off sweep, and it is tagged accordingly rather than quietly folded
+into the confirmed set. It exists because a node holding the files protocol records
+reference — dispute evidence, merchant avatars — is doing work a node that stores
+nothing is not, and because that work is the only thing standing between a
+weeks-later dispute and evidence its uploader stopped paying to pin.
+
+It is measured, not declared. Peers challenge each other by asking for content by CID
+and hashing what comes back; a content address is the hash of its content, so the
+right bytes cannot be produced without holding them. A node that has never been
+challenged defaults to the *reduced* multiplier, which is the conservative direction —
+the opposite default would pay the full share to every unchallenged node and let one
+earn the premium by being unreachable.
+
+Two constraints on any implementation. Only a raw-codec CID can be decided by
+hashing, so challenges MUST be drawn from that set and a node MUST NOT be penalised
+for a CID nobody can verify: "failed" and "could not be decided" are different
+outcomes and conflating them punishes honest nodes. And the multiplier MUST remain at
+or below 1.0 — a factor above unity would mint emission the bucket never allocated.
 
 Availability deliberately does **not** reuse OFS-3000 §13. That dimension measures a
 *trader's* responsiveness on a settlement and says nothing about a node. Node
