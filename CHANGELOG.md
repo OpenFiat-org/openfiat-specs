@@ -16,8 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OFS-2200 §7.1: a reservation records the price it was made at, validated
   as arithmetic against the advertisement's own terms rather than against
   the validating node's oracle view.
-- OFS-2400 §16.2: the chain arbitrates and the off-chain registry only
-  collects, replicates and records what it observed executed.
+- OFS-2400 §14, §16.2 and §17: the chain arbitrates and the off-chain
+  registry only collects, replicates and records what it observed executed
+  — with no exception for a mutual settlement, which is recorded as agreed
+  and still waits for the escrow to move. The state is named
+  `Awaiting Chain Execution`, since it is reached both by a completed
+  reveal phase and by party agreement, and only one of those is a verdict.
 - OFS-8200 §7.1–§7.3: public trade reads are redacted, wallet-proof reads
   return a party's own records, and the three reads whose honest answer is
   a shape rather than a number.

@@ -285,7 +285,7 @@ Reveal Phase
 
 ↓
 
-Awaiting Chain Verdict
+Awaiting Chain Execution
 
 ↓
 
@@ -308,7 +308,9 @@ Reputation Updated
 Dispute Closed
 ```
 
-The verdict is the chain's, not the collecting node's — see §16.2. `Awaiting Chain Verdict` is the state the off-chain record holds from the moment it has collected everything it can until the moment it observes what the chain decided.
+The verdict is the chain's, not the collecting node's — see §16.2. `Awaiting Chain Execution` is the state the off-chain record holds from the moment it has collected everything it can until the moment it observes what the chain decided.
+
+The state is named for the *execution* rather than for a verdict because it is reached two ways and only one of them is a verdict. The path drawn above arrives from a completed reveal phase, where an arbitrator ruling is pending. A case where both parties have agreed a mutual settlement (§17) arrives at the same state from a different direction, with no ruling pending at all — but with the same thing outstanding, which is the escrow actually moving.
 
 ---
 
@@ -363,8 +365,8 @@ This minimum is new in this amendment. Earlier versions of this specification st
 |---|---|
 | Who tallies revealed votes | The on-chain program, alone |
 | What the off-chain dispute registry does | Collects, verifies and replicates signed commitments and reveals |
-| State once every required reveal is in | `Awaiting Chain Verdict` |
-| What may set a resolution | An observed, confirmed on-chain execution — and party agreement (§17) |
+| State once every required reveal is in | `Awaiting Chain Execution` |
+| What may set a resolution | An observed, confirmed on-chain execution. Nothing else, with no exceptions |
 
 The off-chain registry MUST NOT tally revealed votes, and MUST NOT derive a verdict from them.
 
@@ -372,11 +374,13 @@ The off-chain registry MUST NOT tally revealed votes, and MUST NOT derive a verd
 
 **Collecting is still the off-chain layer's job**, and it is a real one: verifying each arbitrator's signature, checking a reveal against that arbitrator's earlier commitment, refusing a reveal from a wallet that never committed, discarding duplicates, and replicating the result so every node sees the same evidence. All of that is the layer doing everything it can. Deciding is the part it cannot do.
 
-**Observing, not assuming.** A resolution is recorded only when this node has independently observed the executing transaction confirm and has read the outcome from the case account on chain. A node that saw an execution land but could not read what it decided MUST remain in `Awaiting Chain Verdict` and record the transaction it observed. That state is the truth — something happened on chain and this node does not yet know what — and inventing a verdict to fill the gap is the exact failure this rule removes.
+**Observing, not assuming.** A resolution is recorded only when this node has independently observed the executing transaction confirm and has read the outcome from the case account on chain. A node that saw an execution land but could not read what it decided MUST remain in `Awaiting Chain Execution` and record the transaction it observed. That state is the truth — something happened on chain and this node does not yet know what — and inventing a verdict to fill the gap is the exact failure this rule removes.
 
 **The chain executes on its own deadlines.** A commit or reveal window can expire with seats unfilled, and the chain will decide anyway. So an implementation MUST accept an observed execution against a case its own view still considers live; refusing it would leave the node displaying a running case that has already paid out.
 
-**A case is `Awaiting Chain Verdict`, never "Resolved pending execution".** The distinction is the whole point: the first says the off-chain layer has finished its work, the second would claim an outcome it is not entitled to name.
+**A case is `Awaiting Chain Execution`, never "Resolved pending execution".** The distinction is the whole point: the first says the off-chain layer has finished its work, the second would claim an outcome it is not entitled to name.
+
+**This rule has no exception for party agreement.** A mutual settlement is agreed off-chain and MUST be recorded as agreed — but agreeing is not paying, and until the escrow moves the case is `Awaiting Chain Execution` like any other. Two signatures do not release funds; a record reading `Resolved` while the money is still locked overstates by exactly the margin this section exists to close. Worse, the chain remains free to execute an arbitrated outcome on a case whose parties agreed but never relayed that agreement, which would put the two layers back into contradiction about a single dispute. See §17.
 
 ---
 
@@ -384,7 +388,11 @@ The off-chain registry MUST NOT tally revealed votes, and MUST NOT derive a verd
 
 A dispute concludes with exactly one resolution.
 
-Every outcome below except Mutual Settlement is an **arbitrator ruling**, and is therefore the chain's to declare (§16.2). Mutual Settlement is the exception because it is not a ruling at all: it is reached by both parties signing their agreement, which the off-chain layer verifies directly and which requires no arbitrator to have voted. An implementation MUST NOT report a mutual settlement as an arbitrator ruling, or fold it into Invalid Dispute — the two pay different parties.
+Every outcome below except Mutual Settlement is an **arbitrator ruling**, and is therefore the chain's to declare (§16.2). Mutual Settlement is the exception in one respect only: it is not a ruling at all, being reached by both parties signing their agreement rather than by any arbitrator voting. An implementation MUST NOT report a mutual settlement as an arbitrator ruling, or fold it into Invalid Dispute — the two pay different parties.
+
+**It is not an exception to §16.2.** The off-chain layer verifies both signatures directly and MUST record the agreement as soon as it has them — that is a real fact about the case and withholding it would hide the parties' own decision from them. But recording an agreement is not recording a resolution. Until the escrow has actually moved and that execution has been observed confirmed, the case is `Awaiting Chain Execution` and its resolution is unset, exactly as for a case awaiting a ruling.
+
+The distinction is easy to lose, because unlike a ruling there is no computation here that two nodes could perform differently — the agreement simply *is* the two signatures. The reason it still must wait is that signatures do not move money. A case marked `Mutual Settlement` while the funds sit locked tells both parties the dispute is over and paid when neither is true. And because the chain arbitrates on its own deadlines (§16.2), it remains free to execute an arbitrated outcome on a case whose parties agreed privately and never relayed it — putting the two layers back into contradiction about a single dispute, which is precisely what §16.2 exists to prevent.
 
 Possible outcomes include:
 
