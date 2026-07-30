@@ -280,6 +280,62 @@ control.
 
 Triggers 1 and 3 depend on future amendments to OFS-2400 and OFS-1600 respectively to define concrete deadlines/thresholds; until those exist, only triggers 2 and 4 are enforceable in v1.
 
+## 4.2 Which mints may settle a trade
+
+| Parameter | Value | Status |
+|---|---|---|
+| Default settlement mints | wSOL, USDC, USDT | [CONFIRMED] |
+| Extending the list | Governance vote | [CONFIRMED] |
+| OPEN as a settlement mint | Not until the public sale, then by vote | [CONFIRMED] |
+| List capacity | 16 slots on `FeeConfig` | [CONFIRMED — implementation] |
+
+Before this, the escrow accepted **any** mint. An advertisement's `asset` is
+merchant-supplied free text with no link to a mint address, so a merchant
+could mint their own token, call it USDC, and have the escrow settle the trade
+correctly — it moved exactly the tokens it was asked to move. The buyer sent
+real fiat for a token the merchant created.
+
+A symbol is spoofable; a mint address is not. The allowlist is the enforcement,
+and an advertisement carrying its **mint** rather than a ticker is the other
+half — until both exist, the allowlist bounds which tokens can move but not
+which one a taker believes they are buying.
+
+**De-listing must not strand funds.** A vault for a de-listed mint stays
+depositable and withdrawable; it simply cannot take new exposure. Enforcement
+therefore sits at the two points where new exposure is created —
+`create_trade_escrow` and `reserve_liquidity` — rather than at withdrawal.
+
+### 4.2.1 The OPEN vault carve-out
+
+`[CONFIRMED — protocol steward]`
+
+`create_liquidity_vault` accepts an allowlisted mint **or** OPEN, even though
+OPEN is deliberately not settleable until public sale.
+
+This is not an exception to the rule above; it is a consequence of one
+instruction serving two purposes. The same instruction — same seeds, same
+account type — is how a merchant's **OPEN** vault comes into existence: the
+vault `charge_ad_listing_fee` debits and `open_dispute_case` takes the
+arbitration deposit from. Nothing in the type system distinguishes the two.
+Only the mint does.
+
+Applying the allowlist there unconditionally follows the letter of the
+directive and would have made ad listing uncallable and **silently reduced
+every arbitration deposit to zero** — `open_dispute_case` takes whatever the
+vault can cover and opens the case anyway, rather than letting an underfunded
+merchant block a buyer's dispute. The failure would not have surfaced as an
+error. It would have surfaced as arbitrators no longer being paid, which is
+the disincentive half of arbitration.
+
+OPEN is identified on chain by the seeds-pinned `arbitration_pool` PDA's own
+mint — the escrow program's only existing definition of OPEN — so the carve-out
+cannot be spoofed and costs no additional configuration field.
+
+**OPEN remains non-settleable.** A merchant may hold an OPEN vault for protocol
+charges; they may not open a trade escrow denominated in it.
+
+---
+
 ## 5. Governance
 
 | Parameter | Value | Status |
