@@ -153,7 +153,8 @@ Each dispute contains:
 * Creation Time
 * Current Status
 * Assigned Arbitrators
-* Resolution
+* Resolution (set only as §16.2 allows)
+* On-Chain Execution Signature
 * Evidence References
 
 ---
@@ -284,11 +285,19 @@ Reveal Phase
 
 ↓
 
-Decision (Consensus)
+Awaiting Chain Verdict
+
+↓
+
+Chain Arbitrates & Executes Outcome
 
 ↓
 
 Escrow Released
+
+↓
+
+Execution Observed Confirmed
 
 ↓
 
@@ -298,6 +307,8 @@ Reputation Updated
 
 Dispute Closed
 ```
+
+The verdict is the chain's, not the collecting node's — see §16.2. `Awaiting Chain Verdict` is the state the off-chain record holds from the moment it has collected everything it can until the moment it observes what the chain decided.
 
 ---
 
@@ -344,11 +355,36 @@ This minimum is new in this amendment. Earlier versions of this specification st
 
 **Companion to per-case sortition.** OFS-4100 §4.1 makes arbitrator eligibility a per-case draw the arbitrator cannot choose the outcome of. Drawing seats from a small pool is what makes this floor necessary rather than merely prudent: on a thin pool a draw can leave one or two eligible wallets, and without a minimum the case would be handed to whoever holds the most wallets. The two mechanisms are load-bearing together — sortition decides who may vote, this floor decides how few voters is too few for the result to count.
 
+### 16.2 The chain decides; the off-chain layer collects and records
+
+`[PROPOSED — NEEDS SIGN-OFF]`
+
+| Rule | Value |
+|---|---|
+| Who tallies revealed votes | The on-chain program, alone |
+| What the off-chain dispute registry does | Collects, verifies and replicates signed commitments and reveals |
+| State once every required reveal is in | `Awaiting Chain Verdict` |
+| What may set a resolution | An observed, confirmed on-chain execution — and party agreement (§17) |
+
+The off-chain registry MUST NOT tally revealed votes, and MUST NOT derive a verdict from them.
+
+**Two tallies of the same votes are a divergence generator, not a second opinion.** The chain re-arbitrates the same case under its own rules — stake-weighted, with the counted-vote floor of §16.1, re-opening a round on a tie rather than breaking it. An off-chain tally counting heads over the same reveals can therefore reach a different answer about the same dispute, and when it does, the interface shows one outcome while the money follows the other. The chain is the authority over the escrow, so the off-chain answer is not a second opinion; it is a statement the protocol makes and then contradicts with its own funds.
+
+**Collecting is still the off-chain layer's job**, and it is a real one: verifying each arbitrator's signature, checking a reveal against that arbitrator's earlier commitment, refusing a reveal from a wallet that never committed, discarding duplicates, and replicating the result so every node sees the same evidence. All of that is the layer doing everything it can. Deciding is the part it cannot do.
+
+**Observing, not assuming.** A resolution is recorded only when this node has independently observed the executing transaction confirm and has read the outcome from the case account on chain. A node that saw an execution land but could not read what it decided MUST remain in `Awaiting Chain Verdict` and record the transaction it observed. That state is the truth — something happened on chain and this node does not yet know what — and inventing a verdict to fill the gap is the exact failure this rule removes.
+
+**The chain executes on its own deadlines.** A commit or reveal window can expire with seats unfilled, and the chain will decide anyway. So an implementation MUST accept an observed execution against a case its own view still considers live; refusing it would leave the node displaying a running case that has already paid out.
+
+**A case is `Awaiting Chain Verdict`, never "Resolved pending execution".** The distinction is the whole point: the first says the off-chain layer has finished its work, the second would claim an outcome it is not entitled to name.
+
 ---
 
 ## 17. Resolution Outcomes
 
 A dispute concludes with exactly one resolution.
+
+Every outcome below except Mutual Settlement is an **arbitrator ruling**, and is therefore the chain's to declare (§16.2). Mutual Settlement is the exception because it is not a ruling at all: it is reached by both parties signing their agreement, which the off-chain layer verifies directly and which requires no arbitrator to have voted. An implementation MUST NOT report a mutual settlement as an arbitrator ruling, or fold it into Invalid Dispute — the two pay different parties.
 
 Possible outcomes include:
 
@@ -442,12 +478,15 @@ Dispute events include:
 * CaseLocked
 * VoteCommitted
 * VoteRevealed
+* MutualSettlementAgreed
 * ResolutionIssued
 * EscrowReleased
 * AppealSubmitted (future)
 * DisputeClosed
 
 Events propagate through OFS-1200.
+
+**No gossiped event carries a verdict.** `ResolutionIssued` and `EscrowReleased` describe what the chain did, and a node learns both by observing the chain rather than by accepting a peer's assertion (§16.2). A node MUST NOT adopt a resolution because a peer sent one — a signed message claiming an outcome is a claim, and the escrow is not moved by claims. This is the same rule the Settlement Protocol already applies to escrow release: every node verifies chain confirmation for itself.
 
 ---
 
@@ -480,6 +519,10 @@ Only authorized participants and designated arbitrators SHOULD access dispute ev
 Sensitive financial information SHOULD remain encrypted whenever possible.
 
 Public network synchronization SHOULD replicate hashes and metadata rather than exposing confidential documents.
+
+**A public dispute read is redacted.** A node answering a dispute read to a caller who has not proven they are party to it MUST NOT disclose the parties, the opening party's free-text reason, or which arbitrator cast which vote. Counts survive so a case can be seen to be progressing; the pairings do not. OFS-8200 §7.1 states the rule in full and the reasoning behind it, and applies it identically to reservations, settlements and trades. A dispute is the record where knowing who fell out with whom is most obviously worth misusing, and its `reason` field is free text describing a real disagreement about real money — it names people, banks and account references as a matter of course.
+
+The mutual-settlement flags are redacted with them. "One side has agreed and the other has not" is a negotiating position, and publishing it to onlookers changes a negotiation between two people.
 
 ---
 
@@ -528,6 +571,8 @@ A compliant implementation MUST:
 * Preserve immutable evidence history.
 * Support deterministic dispute states.
 * Refuse to decide a round on fewer than the minimum counted votes (§16.1), and re-open rather than pay out when it falls short.
+* Collect and replicate reveals without tallying them, and record a resolution only from an observed on-chain execution (§16.2).
+* Redact parties, the opening reason, and the arbitrator-to-vote pairing from any dispute read the caller has not proven their standing for (§23).
 * Generate signed dispute events.
 * Synchronize dispute records.
 * Update reputation after resolution.
