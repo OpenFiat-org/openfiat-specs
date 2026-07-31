@@ -161,7 +161,7 @@ That argument was made once and enforced in one method, while the same graph sta
 
 | Parameter | Value |
 |---|---|
-| Challenge issuer | `getWalletChallenge`, taking the wallet and returning a subject, a nonce and an expiry |
+| Challenge issuers | `getWalletChallenge` and `getCounterpartiesChallenge` (§7.2.1), each taking a subject and returning a nonce and an expiry |
 | Nonce | 32 random bytes, single-use |
 | Challenge lifetime | 300 seconds |
 | Signed bytes | `<domain>:<subject>:<nonce>` |
@@ -183,6 +183,43 @@ A caller asks for a challenge, signs the exact bytes it names, and presents the 
 **Refusal, never narrowing.** A caller who cannot prove the wallet gets an error, not a filtered answer. An implementation that silently narrows looks identical in every passing test right up until a refactor drops the filter; a refusal fails loudly and immediately.
 
 **A proven party learns nothing new about anyone else.** These methods return the caller's own records — the trades they are party to, and, for an arbitrator, the cases they are seated on. A party already knows who they traded with.
+
+#### 7.2.1 The gated surfaces, and the domain each one answers under
+
+`[PROPOSED — NEEDS SIGN-OFF]`
+
+This section specified the mechanism without ever naming the methods that
+use it. Six live surfaces do, under six distinct domains:
+
+| Method | Subject | Domain separator | Challenge from |
+|---|---|---|---|
+| `getMyReservations` | wallet | `openfiat-my-reservations` | `getWalletChallenge` |
+| `getMySettlements` | wallet | `openfiat-my-settlements` | `getWalletChallenge` |
+| `getMyTrades` | wallet | `openfiat-my-trades` | `getWalletChallenge` |
+| `getMyDisputes` | wallet | `openfiat-my-disputes` | `getWalletChallenge` |
+| `getCounterparties` | wallet | `openfiat-counterparties` | `getCounterpartiesChallenge` |
+| `getProviderEarnings` | service ID | `openfiat-earnings` | `getProviderEarningsChallenge` |
+
+**The subject is not always a wallet**, which is why the challenge is
+issued per surface rather than once per identity. A provider proves control
+of a *service* registered in OFS-1500, not of a wallet, and the key that
+signs is the one that registered the service. An implementation that
+assumed every subject is a wallet would have no way to express that.
+
+**Six domains, not one.** The nonce carries no domain — the separation is
+entirely in what the caller signs — so a signature obtained for one surface
+would answer any other if they shared a separator. A caller persuaded to
+sign for their own earnings could then have that signature replayed against
+their trade history. Every surface added later MUST take its own separator,
+and MUST NOT borrow an existing one.
+
+**Two issuers rather than one is a consequence, not a design.**
+`getProviderEarningsChallenge` and `getCounterpartiesChallenge` exist
+because their subjects and lifetimes differ from the wallet case. All three
+obey §7.2's rules identically, including keying outstanding challenges by
+nonce rather than by subject — an earnings challenge keyed by service ID
+would let any stranger lock a provider out of reading their own statement
+by requesting challenges in a loop.
 
 ### 7.3 Reads that must state what they are not
 

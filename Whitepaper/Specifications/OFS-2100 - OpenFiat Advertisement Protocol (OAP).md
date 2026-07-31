@@ -310,10 +310,30 @@ Merchants specify:
 
 * Oracle Provider
 * Premium
-* Discount
-* Refresh Frequency
+* Price Decimals
 
 Applications calculate the current price locally using the latest verified oracle data.
+
+### 12.0 Two fields this list used to name, and why they are gone
+
+**Discount.** The Premium is **signed**. A merchant quoting below mid — a
+Buy advertisement competing for flow — expresses that as a negative
+Premium, and `-10 000` bps is exactly zero. A separate Discount field would
+be a second way to say the same thing, and two ways to say one thing can
+contradict: an advertisement carrying Premium `+100` *and* Discount `50`
+has no defined price, and every implementation would have to invent one.
+
+**Refresh Frequency.** A merchant does not control how often the price is
+recomputed, so a merchant-declared frequency would be a claim they are not
+in a position to make. The price is resolved **at read time**, from the
+freshest oracle record the answering node holds, and the record carries its
+own expiry. What actually bounds staleness is the `mid_expires_at` on the
+resolved quote (§12.1), which tells a reader how long the number they were
+given remains good — a property of the oracle data, not a merchant setting.
+
+**Price Decimals** was missing from this list and is a real merchant-set
+field. See §12.1 for why the precision is declared per advertisement rather
+than inferred from the currency.
 
 ---
 

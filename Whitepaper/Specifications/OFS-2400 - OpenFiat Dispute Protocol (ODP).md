@@ -151,11 +151,46 @@ Each dispute contains:
 * Buyer Wallet
 * Merchant Wallet
 * Creation Time
-* Current Status
+* Current Status (§8.1)
 * Assigned Arbitrators
 * Resolution (set only as §16.2 allows)
 * On-Chain Execution Signature
 * Evidence References
+
+### 8.1 Dispute statuses
+
+`[PROPOSED — NEEDS SIGN-OFF]`
+
+This specification named a Current Status without ever saying what the
+statuses are. §16.2 then described `Awaiting Chain Execution` in prose, as
+an addition to a list that did not exist. The enumeration:
+
+| Status | Meaning |
+|---|---|
+| `Open` | Escrow frozen (§6). Evidence accepted; arbitrators may still join. |
+| `CaseLocked` | The required arbitrator count is reached (§14). No further arbitrators may join; the commit phase is live. |
+| `RevealPhase` | Every required arbitrator has committed. The reveal phase is live. |
+| `AwaitingChainExecution` | The off-chain layer has done everything it can, and the escrow has not moved. |
+| `Resolved` | The chain executed an outcome and this node has independently observed the confirmation. |
+
+Two of these carry rules that are not obvious from the name.
+
+**`AwaitingChainExecution` is reached two ways** — every required
+arbitrator has revealed, or both parties signed a mutual settlement (§17).
+It is named for the *execution* rather than for a verdict because those two
+differ: the chain decides the first and merely carries out the second. What
+a node knows in both cases is the same, and it is the only thing worth
+recording — nothing has been paid yet.
+
+**`Resolved` has exactly one entry path**: an observed, confirmed on-chain
+execution (§16.2). No count of reveals, no pair of party signatures, and no
+gossiped message may set it. A record that reaches `Resolved` by any other
+route is asserting an outcome the protocol did not establish.
+
+There is no `Rejected` or `Cancelled` status. A dispute that should not
+have been opened is resolved as `Invalid Dispute` (§17) by the chain like
+any other outcome, rather than disappearing from the record — the Dispute
+ID is permanent (§7) and so is what happened to it.
 
 ---
 
@@ -477,7 +512,7 @@ Repeated abuse may reduce marketplace reputation.
 
 ## 21. Dispute Synchronization
 
-Dispute events include:
+Dispute events gossiped between nodes:
 
 * DisputeOpened
 * EvidenceSubmitted
@@ -487,14 +522,30 @@ Dispute events include:
 * VoteCommitted
 * VoteRevealed
 * MutualSettlementAgreed
-* ResolutionIssued
-* EscrowReleased
 * AppealSubmitted (future)
 * DisputeClosed
 
 Events propagate through OFS-1200.
 
-**No gossiped event carries a verdict.** `ResolutionIssued` and `EscrowReleased` describe what the chain did, and a node learns both by observing the chain rather than by accepting a peer's assertion (§16.2). A node MUST NOT adopt a resolution because a peer sent one — a signed message claiming an outcome is a claim, and the escrow is not moved by claims. This is the same rule the Settlement Protocol already applies to escrow release: every node verifies chain confirmation for itself.
+### 21.1 What a node learns from the chain instead
+
+`ResolutionIssued` and `EscrowReleased` are **not gossip events**, and were
+listed above as though they were. They name things the chain does, and a
+node learns both by observing the chain rather than by accepting a peer's
+message (§16.2).
+
+The distinction is not editorial. A gossiped event is something a peer
+tells you; a chain observation is something you checked. **No gossiped
+event carries a verdict**, and an implementation MUST NOT adopt a
+resolution because a peer sent one — a signed message claiming an outcome
+is a claim, and escrow is not moved by claims. This is the rule the
+Settlement Protocol already applies to escrow release: every node verifies
+chain confirmation for itself.
+
+Listing them as gossip events invited exactly the implementation this
+protocol forbids: a node that accepts `ResolutionIssued` from the network
+and marks a case resolved. There is no such message, and there must not be
+one.
 
 ---
 

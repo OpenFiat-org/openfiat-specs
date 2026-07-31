@@ -31,6 +31,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   nothing and the anti-rollback check compared two different quantities. A
   borrowed clock is also checkable, which a self-reported one never is.
   States plainly what a slot does not assert: recency, not containment.
+- OFS-2100 §12: drops two fields no implementation has and none should.
+  A Discount is a negative Premium — the field is signed — and two ways to
+  say one thing can contradict. A Refresh Frequency is a claim a merchant
+  is not in a position to make: the price resolves at read time and the
+  oracle record carries its own expiry. Adds Price Decimals, which is real
+  and was missing.
+- OFS-2400 §8.1: the dispute statuses, enumerated. §16.2 had been
+  describing `Awaiting Chain Execution` as an addition to a list that did
+  not exist.
+- OFS-2400 §21.1: `ResolutionIssued` and `EscrowReleased` were listed as
+  gossip events beside a paragraph explaining that they are not. Moved to
+  their own section as chain observations — listing them as messages
+  invited the implementation the protocol forbids.
+- OFS-8200 §7.2.1: the six wallet-proof surfaces and the domain each signs
+  under. The mechanism was specified in full without naming a single method
+  that uses it, and the subject is not always a wallet.
 - OFS-7000 §12.1: a lapsed feed and an unpriced pair are different answers.
 - OFS-1100 §18.1 and OFS-2300 §24.1: reading a node's own discovery state,
   and settlement reads that do not name the parties.
