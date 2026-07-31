@@ -25,6 +25,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OFS-8200 §7.1–§7.3: public trade reads are redacted, wallet-proof reads
   return a party's own records, and the three reads whose honest answer is
   a shape rather than a number.
+- OFS-1300 §9 and OFS-1700 §10: a snapshot is tagged with the Solana slot
+  its state is current as of, not a locally-invented height. A per-producer
+  counter is not comparable between producers, so ordering by it ordered
+  nothing and the anti-rollback check compared two different quantities. A
+  borrowed clock is also checkable, which a self-reported one never is.
+  States plainly what a slot does not assert: recency, not containment.
 - OFS-7000 §12.1: a lapsed feed and an unpriced pair are different answers.
 - OFS-1100 §18.1 and OFS-2300 §24.1: reading a node's own discovery state,
   and settlement reads that do not name the parties.
