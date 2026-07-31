@@ -340,6 +340,44 @@ Compression reduces:
 
 The compression method MUST be recorded within snapshot metadata.
 
+### 15.1 Container Format
+
+A compressed snapshot SHALL be a gzip-compressed tar archive, carrying
+the file extension `.tar.gz`, with the serialized state stored as a
+member named `state`.
+
+Readers SHALL locate members by name and SHALL ignore members they do not
+recognize. This is what makes a later addition — content blocks stored
+separately from records, for instance — a compatible change rather than a
+new format, since an older reader skips what it was not written to
+expect.
+
+A bare compressed stream would be marginally smaller. A tar is specified
+instead because a snapshot is something an operator is asked to trust:
+`tar xzf` opens one with tools that are already on the machine, so what a
+node is about to import can be inspected before it is. It is also the
+shape a Solana operator already expects, that chain's own snapshots being
+`.tar` archives under a compressor.
+
+Implementations SHALL continue to accept snapshots recording a
+compression method of `None`. A snapshot announced before an
+implementation gained compression is still a valid snapshot, and refusing
+it partitions the network on a detail of encoding.
+
+An implementation SHALL NOT announce a compression method it does not
+apply. Announcing one algorithm and shipping another moves the failure
+from the producer, where it can be seen and fixed, to every consumer.
+
+### 15.2 Bounding Decompression
+
+A reader SHALL enforce its maximum snapshot size against the
+*decompressed* length, not only against the downloaded one.
+
+The compressed size of an archive says nothing about what it expands to,
+so a size limit applied only to the download leaves the expansion
+unbounded — which is precisely where an archive built to exhaust a
+reader's memory would be aimed.
+
 ---
 
 ## 16. Snapshot Verification

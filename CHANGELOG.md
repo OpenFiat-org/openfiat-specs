@@ -61,6 +61,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   multihash preamble is shared by every provider, so an eight-byte prefix
   carries two varying bytes and collides at a few hundred providers,
   displacing one provider's record with another's.
+- OFS-1300 §15.1 and §15.2: a compressed snapshot is a gzip-compressed
+  tar named `.tar.gz`, with the state in a member read by name so a later
+  member is a compatible addition. States that `None` must stay
+  acceptable, that an implementation must not announce a method it does
+  not apply, and that the size limit belongs on the decompressed length —
+  the compressed size says nothing about what it expands to.
 - Initial repository scaffold: directory layout, CI, developer tooling,
   and community health files.
 
