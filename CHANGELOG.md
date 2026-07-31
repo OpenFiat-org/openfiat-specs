@@ -50,6 +50,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OFS-7000 §12.1: a lapsed feed and an unpriced pair are different answers.
 - OFS-1100 §18.1 and OFS-2300 §24.1: reading a node's own discovery state,
   and settlement reads that do not name the parties.
+- OFS-8200 §4.1: every key, peer id, signature and event id is base58 in
+  JSON, never an array of integers. An Ed25519 private key is also 32
+  bytes, so the array form gave a reader no way to tell a published
+  identity from a leaked secret; it was also the only form nobody could
+  paste into an entrypoint. Records that the encoding is part of the
+  signed transcript, and that non-identity byte fields stay arrays.
+- OFS-1500 §8: a Service ID derived from an identity SHALL use the whole
+  public key. A truncated peer id looks unique and is not — the Ed25519
+  multihash preamble is shared by every provider, so an eight-byte prefix
+  carries two varying bytes and collides at a few hundred providers,
+  displacing one provider's record with another's.
 - Initial repository scaffold: directory layout, CI, developer tooling,
   and community health files.
 

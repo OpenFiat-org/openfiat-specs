@@ -73,6 +73,48 @@ The request and response bodies are JSON-RPC 2.0 envelopes exactly as defined by
 
 A node MAY additionally expose `GET /health` (liveness only, no protocol semantics) and `GET /metrics` (operator-facing Prometheus text format, out of scope for this specification).
 
+### 4.1 Identifier Encoding
+
+Every public key, peer identifier, signature and event identifier
+appearing in a JSON request or response SHALL be encoded as a base58
+string using the Bitcoin alphabet. A node SHALL NOT emit any of them as
+an array of integers, and SHALL reject a request that supplies one that
+way.
+
+This is normative rather than cosmetic, for three reasons.
+
+An Ed25519 private key is thirty-two bytes, and so is a public key. A
+field named `provider_public_key` whose value is a bare array of thirty-
+two integers therefore carries nothing that distinguishes a published
+identity from a leaked secret, and a reader has no way to tell which one
+they have been handed. Base58 is the encoding every adjacent system —
+Solana addresses, libp2p peer identifiers, IPFS identifiers — already
+uses for exactly this reason: a public key should look like a public key.
+
+The base58 form is also the only usable one. A peer identifier's byte
+array and its `12D3Koo…` spelling are the same value, but only the second
+can be placed in an entrypoint argument, searched for in a log, or
+compared by eye against another node's.
+
+Finally, JSON object keys are strings, so a map keyed by a public key
+cannot be represented at all while the array encoding stands.
+
+Implementations SHOULD keep the compact byte representation on any
+non-human-readable encoding used for gossip or storage, where the
+identifiers are not read and the space is paid for on every message.
+
+Note that the identifier encoding participates in signature
+verification: a signed payload's transcript is its JSON encoding, so a
+client that writes an identifier in the array form produces a transcript
+the verifying node does not reproduce, and the signature fails. Changing
+this encoding is therefore a coordinated change across a deployment, not
+a compatible one.
+
+Byte-valued fields that are *not* identifiers — a vote commitment, a
+reveal salt, an opaque payload — remain arrays. The distinction is by
+type, not by field length: a thirty-two byte commitment is not an
+identity and is not base58-encoded.
+
 ## 5. Method Naming
 
 Method names are camelCase and fall into exactly two families, distinguished by their prefix:

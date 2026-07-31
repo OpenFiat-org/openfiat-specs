@@ -190,6 +190,27 @@ The Service ID remains constant for the lifetime of the service.
 
 Changing endpoints or metadata SHALL NOT change the Service ID.
 
+A Service ID SHOULD be derived from the provider's identity rather than
+generated randomly, so that a provider re-registering after a restart
+updates its existing record instead of accumulating one abandoned entry
+per restart.
+
+Where it is so derived, the derivation SHALL use the provider's public
+key in full, prefixed by the role the record describes — the prefix being
+what allows one provider to register several services without those
+records colliding with each other.
+
+The derivation SHALL NOT use a truncation of the peer identifier. A peer
+identifier for an Ed25519 key begins with a fixed multihash and protobuf
+preamble that is identical for every such provider on the network, so a
+truncation short enough to be convenient carries only the few bytes that
+follow it. An eight-byte prefix, for instance, varies in two bytes: it
+admits roughly sixty-five thousand distinct values, and two providers
+collide with even odds within a few hundred registrations. A collision
+here is not cosmetic — the two providers claim one registry key, and
+whichever registers second displaces the first, so a provider vanishes
+from the registry because an unrelated provider started up.
+
 ---
 
 ## 9. Service Metadata
