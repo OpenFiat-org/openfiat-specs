@@ -138,6 +138,8 @@ A reservation request contains:
 * Reservation ID
 * Advertisement ID
 * Trade Amount
+* Agreed Price (see §7.1)
+* Agreed Mid (see §7.1; floating advertisements only)
 * Wallet Address
 * Session ID
 * Timestamp
@@ -155,11 +157,41 @@ Nodes SHALL verify:
 * Advertisement is active.
 * Requested amount is within limits.
 * Liquidity is available.
+* Agreed price follows from the advertisement's own terms (§7.1).
 * Wallet signature is valid.
 * Session is authenticated.
 * Protocol versions are compatible.
 
 Only valid reservations proceed.
+
+---
+
+### 7.1 A reservation pins the price
+
+`[PROPOSED — NEEDS SIGN-OFF]`
+
+| Parameter | Value |
+|---|---|
+| Agreed Price | The fiat-per-asset number the taker accepted. Required on every reservation |
+| Agreed Mid | The oracle mid that number was derived from. Required for a floating advertisement, and MUST be absent for a fixed one |
+| Validation | Arithmetic against the advertisement's own signed terms |
+| Comparison against the node's own oracle view | Explicitly forbidden |
+
+A floating advertisement publishes a **formula**, and a formula is not a price. Before this, the number a taker agreed to was recorded nowhere: the advertisement carried a premium and an oracle reference, the reservation carried an amount, and the price the two parties believed they had struck existed only in the interface that displayed it. A merchant could later assert a different rate and nothing held them to anything, because nothing had ever been written down.
+
+The reservation is where the agreement happens, so the reservation is where the number belongs — inside the payload the requester signs, so it is their own claim about what they accepted rather than anybody's later reconstruction.
+
+**A fixed advertisement is checked exactly.** The merchant signed a number; there is nothing to derive and nothing to tolerate. The agreed price MUST equal it in both value and scale, and no mid may accompany it — a mid alongside a fixed price is a claim about a computation that never happened, and refusing it keeps the field meaning exactly one thing.
+
+**A floating advertisement is checked by recomputation.** The node applies the advertisement's own signed premium to the mid the taker recorded, at the advertisement's declared precision and rounding (OFS-2100 §12.1), and requires the result to equal the agreed price. Both the value and the scale must match: 129.00 and 12900.0 have the same digits at different precisions, and comparing only the digits would bind a taker to a price a hundredfold out.
+
+**Validation is arithmetic, not consensus.** A node MUST NOT compare the recorded mid against its own oracle view. Two honest nodes hold different oracle records and would accept different reservations, so the same user would succeed or fail depending on which access node they happened to reach — the network would behave differently for the same request depending on where it entered. What every node *can* agree on, without agreeing about the oracle, is that the price follows from the mid the taker recorded and the premium the merchant signed. That catches a miscomputing client, and it catches a party later claiming the formula produced something else.
+
+**Whether the mid itself was honest is a dispute question.** It is deliberately out of scope here, and it is answerable where it belongs: oracle records are replicated and timestamped, so an arbitrator can compare a recorded mid against what was actually published at that moment (OFS-2400 §10).
+
+**Once a reservation exists, the price stops moving.** The advertisement's own quote continues to track the oracle and is only ever a display — two nodes may show different numbers for the same floating advertisement at the same instant, and neither is wrong. The reservation is the commitment, and it is the commitment that names the price the trade is for.
+
+**A reservation whose price does not follow MUST be refused rather than stored** — the same rule as every other validation failure in §7. Nothing is recorded for a rejected request.
 
 ---
 
@@ -516,6 +548,8 @@ Implementations MUST reject:
 * Expired sessions
 * Invalid advertisement references
 * Negative reservation amounts
+* An agreed price that does not follow from the advertisement's own terms (§7.1)
+* A mid supplied against a fixed-price advertisement, or omitted from a floating one (§7.1)
 * Replay attacks
 * Unauthorized reservation updates
 * Duplicate processing of an already-applied reservation event
@@ -548,6 +582,8 @@ Reservation events SHOULD receive high network priority under OFS-1600 (SWQoS).
 A compliant implementation MUST:
 
 * Enforce first-come, first-served reservations.
+* Record the agreed price, and the mid behind it, in the signed reservation request (§7.1).
+* Validate that price against the advertisement's own terms, and never against the node's own oracle view (§7.1).
 * Automatically create escrow.
 * Prevent double-selling.
 * Prevent duplicate reservations.

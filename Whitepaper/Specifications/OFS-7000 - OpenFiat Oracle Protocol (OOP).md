@@ -296,6 +296,22 @@ Expired data SHOULD NOT be treated as current.
 
 Applications SHOULD indicate stale information to users.
 
+### 12.1 A lapsed feed and an unpriced pair are different answers
+
+`[PROPOSED — NEEDS SIGN-OFF]`
+
+A rate lookup has three outcomes, and an implementation MUST be able to report all three:
+
+| Outcome | Meaning |
+|---|---|
+| Current | A median over at least one unexpired record, good until the earliest expiry among the records that produced it |
+| Stale | Providers do publish this pair, but every record for it has expired |
+| No data | No provider publishes this pair at all |
+
+Collapsing the last two into one empty answer loses the only part a caller can act on. Stale means the corridor is served and the feed will likely return, so waiting or retrying is sensible. No data means nobody prices this corridor and waiting is pointless — the caller needs a different route, or none. A lookup returning "a rate or nothing" cannot distinguish them, and a client that needs the distinction will otherwise reimplement the median itself over raw records, which is how two implementations end up disagreeing about a price.
+
+Neither Stale nor No data is a number. An implementation MUST NOT substitute a last-known rate, a zero, or a rate derived from a single expired record for either of them — quoting a lapsed rate is precisely the failure expiry exists to prevent, and it is worse than having no price, because it looks like one.
+
 ---
 
 ## 13. Synchronization

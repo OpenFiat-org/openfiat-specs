@@ -151,10 +151,46 @@ Each dispute contains:
 * Buyer Wallet
 * Merchant Wallet
 * Creation Time
-* Current Status
+* Current Status (§8.1)
 * Assigned Arbitrators
-* Resolution
+* Resolution (set only as §16.2 allows)
+* On-Chain Execution Signature
 * Evidence References
+
+### 8.1 Dispute statuses
+
+`[PROPOSED — NEEDS SIGN-OFF]`
+
+This specification named a Current Status without ever saying what the
+statuses are. §16.2 then described `Awaiting Chain Execution` in prose, as
+an addition to a list that did not exist. The enumeration:
+
+| Status | Meaning |
+|---|---|
+| `Open` | Escrow frozen (§6). Evidence accepted; arbitrators may still join. |
+| `CaseLocked` | The required arbitrator count is reached (§14). No further arbitrators may join; the commit phase is live. |
+| `RevealPhase` | Every required arbitrator has committed. The reveal phase is live. |
+| `AwaitingChainExecution` | The off-chain layer has done everything it can, and the escrow has not moved. |
+| `Resolved` | The chain executed an outcome and this node has independently observed the confirmation. |
+
+Two of these carry rules that are not obvious from the name.
+
+**`AwaitingChainExecution` is reached two ways** — every required
+arbitrator has revealed, or both parties signed a mutual settlement (§17).
+It is named for the *execution* rather than for a verdict because those two
+differ: the chain decides the first and merely carries out the second. What
+a node knows in both cases is the same, and it is the only thing worth
+recording — nothing has been paid yet.
+
+**`Resolved` has exactly one entry path**: an observed, confirmed on-chain
+execution (§16.2). No count of reveals, no pair of party signatures, and no
+gossiped message may set it. A record that reaches `Resolved` by any other
+route is asserting an outcome the protocol did not establish.
+
+There is no `Rejected` or `Cancelled` status. A dispute that should not
+have been opened is resolved as `Invalid Dispute` (§17) by the chain like
+any other outcome, rather than disappearing from the record — the Dispute
+ID is permanent (§7) and so is what happened to it.
 
 ---
 
@@ -284,11 +320,19 @@ Reveal Phase
 
 ↓
 
-Decision (Consensus)
+Awaiting Chain Execution
+
+↓
+
+Chain Arbitrates & Executes Outcome
 
 ↓
 
 Escrow Released
+
+↓
+
+Execution Observed Confirmed
 
 ↓
 
@@ -298,6 +342,10 @@ Reputation Updated
 
 Dispute Closed
 ```
+
+The verdict is the chain's, not the collecting node's — see §16.2. `Awaiting Chain Execution` is the state the off-chain record holds from the moment it has collected everything it can until the moment it observes what the chain decided.
+
+The state is named for the *execution* rather than for a verdict because it is reached two ways and only one of them is a verdict. The path drawn above arrives from a completed reveal phase, where an arbitrator ruling is pending. A case where both parties have agreed a mutual settlement (§17) arrives at the same state from a different direction, with no ruling pending at all — but with the same thing outstanding, which is the escrow actually moving.
 
 ---
 
@@ -344,11 +392,42 @@ This minimum is new in this amendment. Earlier versions of this specification st
 
 **Companion to per-case sortition.** OFS-4100 §4.1 makes arbitrator eligibility a per-case draw the arbitrator cannot choose the outcome of. Drawing seats from a small pool is what makes this floor necessary rather than merely prudent: on a thin pool a draw can leave one or two eligible wallets, and without a minimum the case would be handed to whoever holds the most wallets. The two mechanisms are load-bearing together — sortition decides who may vote, this floor decides how few voters is too few for the result to count.
 
+### 16.2 The chain decides; the off-chain layer collects and records
+
+`[PROPOSED — NEEDS SIGN-OFF]`
+
+| Rule | Value |
+|---|---|
+| Who tallies revealed votes | The on-chain program, alone |
+| What the off-chain dispute registry does | Collects, verifies and replicates signed commitments and reveals |
+| State once every required reveal is in | `Awaiting Chain Execution` |
+| What may set a resolution | An observed, confirmed on-chain execution. Nothing else, with no exceptions |
+
+The off-chain registry MUST NOT tally revealed votes, and MUST NOT derive a verdict from them.
+
+**Two tallies of the same votes are a divergence generator, not a second opinion.** The chain re-arbitrates the same case under its own rules — stake-weighted, with the counted-vote floor of §16.1, re-opening a round on a tie rather than breaking it. An off-chain tally counting heads over the same reveals can therefore reach a different answer about the same dispute, and when it does, the interface shows one outcome while the money follows the other. The chain is the authority over the escrow, so the off-chain answer is not a second opinion; it is a statement the protocol makes and then contradicts with its own funds.
+
+**Collecting is still the off-chain layer's job**, and it is a real one: verifying each arbitrator's signature, checking a reveal against that arbitrator's earlier commitment, refusing a reveal from a wallet that never committed, discarding duplicates, and replicating the result so every node sees the same evidence. All of that is the layer doing everything it can. Deciding is the part it cannot do.
+
+**Observing, not assuming.** A resolution is recorded only when this node has independently observed the executing transaction confirm and has read the outcome from the case account on chain. A node that saw an execution land but could not read what it decided MUST remain in `Awaiting Chain Execution` and record the transaction it observed. That state is the truth — something happened on chain and this node does not yet know what — and inventing a verdict to fill the gap is the exact failure this rule removes.
+
+**The chain executes on its own deadlines.** A commit or reveal window can expire with seats unfilled, and the chain will decide anyway. So an implementation MUST accept an observed execution against a case its own view still considers live; refusing it would leave the node displaying a running case that has already paid out.
+
+**A case is `Awaiting Chain Execution`, never "Resolved pending execution".** The distinction is the whole point: the first says the off-chain layer has finished its work, the second would claim an outcome it is not entitled to name.
+
+**This rule has no exception for party agreement.** A mutual settlement is agreed off-chain and MUST be recorded as agreed — but agreeing is not paying, and until the escrow moves the case is `Awaiting Chain Execution` like any other. Two signatures do not release funds; a record reading `Resolved` while the money is still locked overstates by exactly the margin this section exists to close. Worse, the chain remains free to execute an arbitrated outcome on a case whose parties agreed but never relayed that agreement, which would put the two layers back into contradiction about a single dispute. See §17.
+
 ---
 
 ## 17. Resolution Outcomes
 
 A dispute concludes with exactly one resolution.
+
+Every outcome below except Mutual Settlement is an **arbitrator ruling**, and is therefore the chain's to declare (§16.2). Mutual Settlement is the exception in one respect only: it is not a ruling at all, being reached by both parties signing their agreement rather than by any arbitrator voting. An implementation MUST NOT report a mutual settlement as an arbitrator ruling, or fold it into Invalid Dispute — the two pay different parties.
+
+**It is not an exception to §16.2.** The off-chain layer verifies both signatures directly and MUST record the agreement as soon as it has them — that is a real fact about the case and withholding it would hide the parties' own decision from them. But recording an agreement is not recording a resolution. Until the escrow has actually moved and that execution has been observed confirmed, the case is `Awaiting Chain Execution` and its resolution is unset, exactly as for a case awaiting a ruling.
+
+The distinction is easy to lose, because unlike a ruling there is no computation here that two nodes could perform differently — the agreement simply *is* the two signatures. The reason it still must wait is that signatures do not move money. A case marked `Mutual Settlement` while the funds sit locked tells both parties the dispute is over and paid when neither is true. And because the chain arbitrates on its own deadlines (§16.2), it remains free to execute an arbitrated outcome on a case whose parties agreed privately and never relayed it — putting the two layers back into contradiction about a single dispute, which is precisely what §16.2 exists to prevent.
 
 Possible outcomes include:
 
@@ -433,7 +512,7 @@ Repeated abuse may reduce marketplace reputation.
 
 ## 21. Dispute Synchronization
 
-Dispute events include:
+Dispute events gossiped between nodes:
 
 * DisputeOpened
 * EvidenceSubmitted
@@ -442,12 +521,31 @@ Dispute events include:
 * CaseLocked
 * VoteCommitted
 * VoteRevealed
-* ResolutionIssued
-* EscrowReleased
+* MutualSettlementAgreed
 * AppealSubmitted (future)
 * DisputeClosed
 
 Events propagate through OFS-1200.
+
+### 21.1 What a node learns from the chain instead
+
+`ResolutionIssued` and `EscrowReleased` are **not gossip events**, and were
+listed above as though they were. They name things the chain does, and a
+node learns both by observing the chain rather than by accepting a peer's
+message (§16.2).
+
+The distinction is not editorial. A gossiped event is something a peer
+tells you; a chain observation is something you checked. **No gossiped
+event carries a verdict**, and an implementation MUST NOT adopt a
+resolution because a peer sent one — a signed message claiming an outcome
+is a claim, and escrow is not moved by claims. This is the rule the
+Settlement Protocol already applies to escrow release: every node verifies
+chain confirmation for itself.
+
+Listing them as gossip events invited exactly the implementation this
+protocol forbids: a node that accepts `ResolutionIssued` from the network
+and marks a case resolved. There is no such message, and there must not be
+one.
 
 ---
 
@@ -480,6 +578,10 @@ Only authorized participants and designated arbitrators SHOULD access dispute ev
 Sensitive financial information SHOULD remain encrypted whenever possible.
 
 Public network synchronization SHOULD replicate hashes and metadata rather than exposing confidential documents.
+
+**A public dispute read is redacted.** A node answering a dispute read to a caller who has not proven they are party to it MUST NOT disclose the parties, the opening party's free-text reason, or which arbitrator cast which vote. Counts survive so a case can be seen to be progressing; the pairings do not. OFS-8200 §7.1 states the rule in full and the reasoning behind it, and applies it identically to reservations, settlements and trades. A dispute is the record where knowing who fell out with whom is most obviously worth misusing, and its `reason` field is free text describing a real disagreement about real money — it names people, banks and account references as a matter of course.
+
+The mutual-settlement flags are redacted with them. "One side has agreed and the other has not" is a negotiating position, and publishing it to onlookers changes a negotiation between two people.
 
 ---
 
@@ -528,6 +630,8 @@ A compliant implementation MUST:
 * Preserve immutable evidence history.
 * Support deterministic dispute states.
 * Refuse to decide a round on fewer than the minimum counted votes (§16.1), and re-open rather than pay out when it falls short.
+* Collect and replicate reveals without tallying them, and record a resolution only from an observed on-chain execution (§16.2).
+* Redact parties, the opening reason, and the arbitrator-to-vote pairing from any dispute read the caller has not proven their standing for (§23).
 * Generate signed dispute events.
 * Synchronize dispute records.
 * Update reputation after resolution.

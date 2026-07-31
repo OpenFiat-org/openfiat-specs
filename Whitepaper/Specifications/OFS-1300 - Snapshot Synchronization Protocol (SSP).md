@@ -160,7 +160,7 @@ Required metadata includes:
 
 * Snapshot Version
 * OFS Version
-* Snapshot Height
+* Snapshot Slot
 * Creation Timestamp
 * Snapshot Identifier
 * State Root
@@ -173,25 +173,61 @@ Metadata allows clients to evaluate and verify snapshots before downloading them
 
 ---
 
-## 9. Snapshot Height
+## 9. Snapshot Slot
 
-Every snapshot is assigned a monotonically increasing Snapshot Height.
+`[PROPOSED — NEEDS SIGN-OFF]`
 
-Example:
+Every snapshot SHALL record the **Solana slot its state is current as of**,
+and a node MUST NOT produce a snapshot until it has observed one.
 
-```text id="snapshot-height"
-Snapshot 4,215
+### 9.1 Why the ordering key is borrowed rather than invented
 
-↓
+An earlier revision of this section required "a monotonically increasing
+Snapshot Height" without saying what a height counts. An implementation
+resolved that as the producing node's own local count of gossip events,
+and that cannot do the job the field is asked to do.
 
-Snapshot 4,216
+**A per-producer counter is not comparable across producers.** Two nodes
+holding identical state report different numbers if they have observed
+different numbers of events; a node that joined last week reports a lower
+number than one running since genesis, with the same state. So ordering two
+producers' snapshots by it orders nothing, and a receiving node comparing
+an incoming number against its own — which is what an anti-rollback check
+must do — is comparing two different quantities.
 
-↓
+The protocol has no consensus over off-chain state, so it cannot mint a
+global sequence of its own. It does not need to: participants already share
+one. The Solana slot is agreed by everyone, monotonic, and produced by a
+consensus this protocol already depends on for settlement (OFS-4300).
 
-Snapshot 4,217
-```
+A borrowed clock also gains a property a self-reported counter can never
+have: **a claimed slot is checkable.** A node MAY compare an announced slot
+against its own view of the chain and refuse one from an implausible
+future. Nothing equivalent is possible against a number only the announcer
+can see.
 
-Snapshot Height enables nodes to determine whether newer snapshots are available.
+### 9.2 What a slot asserts, and what it does not
+
+A Snapshot Slot says **when** the state was captured. It does not assert
+**what** the snapshot contains.
+
+Two nodes snapshotting at the same slot MAY hold different off-chain state,
+because gossip propagation is not instantaneous. A slot is a recency
+anchor, not a proof of containment — the same thing a Solana snapshot means
+by it. Establishing containment would require consensus over off-chain
+state, which this protocol deliberately does not have, and implementations
+MUST NOT present slot ordering as such a proof.
+
+### 9.3 A node without a slot does not produce
+
+A node that has never observed a slot MUST NOT produce a snapshot. It
+cannot say when its state is current as of, and a fabricated value is worse
+than no snapshot at all: every peer orders candidates by that number, so an
+invented one either buries an honest producer or promotes itself above one.
+
+This is not a requirement to hold an RPC connection. A `GossipOnly` node
+learns slots over the Chain Bridge (OFS-4300), so any node connected to the
+network at all has one shortly after its first peer.
 
 ---
 
@@ -263,7 +299,7 @@ Nodes searching for snapshots query the Service Registry.
 
 Providers respond with:
 
-* Latest Snapshot Height
+* Latest Snapshot Slot
 * Snapshot Identifier
 * Supported OFS Version
 * Download Endpoints

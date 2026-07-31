@@ -215,21 +215,21 @@ After snapshot installation, nodes request only missing events.
 Example:
 
 ```text
-Snapshot Height
+Snapshot Slot
 
-4,200,000
+412,000,000
 
 ↓
 
-Current Height
+Current Slot
 
-4,201,356
+412,001,356
 
 ↓
 
 Replay
 
-1,356 Events
+Events gossiped since that slot
 
 ↓
 
@@ -237,6 +237,11 @@ Synchronized
 ```
 
 Incremental synchronization minimizes bandwidth and startup time.
+
+The slot gap is **not** an event count, and an implementation MUST NOT
+treat it as one. A slot is a moment on Solana; how many OpenFiat events
+were gossiped during it depends entirely on trading activity, and may be
+none. The slot answers *from when* to replay, not *how much*.
 
 ---
 

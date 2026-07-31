@@ -418,6 +418,16 @@ Examples:
 
 Metadata assists future peer selection.
 
+### 18.1 Reading a node's own discovery state
+
+`[PROPOSED — NEEDS SIGN-OFF]`
+
+A node SHOULD expose its discovery state for reading (OFS-8200 §7.3, `getPeers`): the peers in its local cache with the metadata above, **its own peer identity**, and the addresses it announces to others.
+
+The last two are the operationally important part. An operator publishing an entrypoint has to hand other operators a complete dialable address, and their own peer identity is the one component of it they cannot read from anywhere else — reconstructing it from a log line is how it gets typed wrong. Reporting the announced addresses answers the other question that is otherwise invisible from outside: whether an operator-declared external address actually took effect, or whether the node is announcing nothing at all.
+
+Counts of successful and failed exchanges are **one node's own measurements of its own exchanges**. Two honest nodes can disagree about both, because they had different exchanges. An implementation SHOULD report them as the counts they are and SHOULD NOT fold them into an uptime percentage or a health score, which would present one node's local experience as a network-wide verdict about a peer.
+
 ---
 
 ## 19. Service Awareness

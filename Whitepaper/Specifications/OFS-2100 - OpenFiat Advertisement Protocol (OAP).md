@@ -129,7 +129,7 @@ Every advertisement SHALL contain:
 * Advertisement ID
 * Merchant ID
 * Wallet Address
-* Asset
+* Asset Mint (see §6.1)
 * Trade Direction
 * Fiat Currency
 * Minimum Trade
@@ -142,6 +142,28 @@ Every advertisement SHALL contain:
 * Creation Time
 * Last Updated
 * Digital Signature
+
+---
+
+### 6.1 An advertisement names a mint, not a ticker
+
+| Parameter | Value | Status |
+|---|---|---|
+| Asset field on an advertisement | A base58-encoded 32-byte Solana mint address | [CONFIRMED — OFS-4100 §4.2] |
+| Asset ticker on an advertisement | Not carried. The record has no symbol field at all | [CONFIRMED — OFS-4100 §4.2] |
+| Displayed symbol | Resolved from the mint at the presentation edge | [CONFIRMED — OFS-4100 §4.2] |
+
+The asset field was previously free text the merchant chose — an advertisement said `USDC` and the buyer read `USDC`. Nothing connected that string to the token the escrow would actually move. A merchant could advertise one asset and settle in another, and every layer would agree the trade had completed correctly, because each layer did exactly what it was asked: the escrow moved the mint it was handed, the settlement recorded the amount it was given, and the label was only ever a label.
+
+**A ticker is a label; a mint address is an identity.** A ticker is additionally cluster-dependent — `USDC` names one mint on mainnet and a different one on devnet — and it is spoofable by construction, because it is a string somebody else filled in. An address is neither.
+
+So the label does not travel. An advertisement carries the mint, and the symbol a buyer sees is derived from that mint by the application showing it. A merchant never supplies the name of the thing they are selling.
+
+**A mint with no known name is displayed as its address.** Symbol resolution is a lookup that may fail, and its failure is not an error: the honest answer for an address nobody has named is the address. An implementation MUST NOT substitute a guess, and MUST NOT fall back to any name the merchant supplied — there is no such field to fall back to.
+
+**Validation is well-formedness, not membership.** A node MUST verify that the asset mint is a real address: base58, decoding to exactly 32 bytes. A node MUST NOT reject an advertisement because its mint is absent from any list the node itself compiles in — see §24.1.
+
+OFS-4100 §4.2 records the other half of this defence, the governance-updatable on-chain settlement allowlist, and states that until an advertisement carries its mint the allowlist bounds which tokens can move but not which one a taker believes they are buying. This section is that other half.
 
 ---
 
@@ -288,10 +310,57 @@ Merchants specify:
 
 * Oracle Provider
 * Premium
-* Discount
-* Refresh Frequency
+* Price Decimals
 
 Applications calculate the current price locally using the latest verified oracle data.
+
+### 12.0 Two fields this list used to name, and why they are gone
+
+**Discount.** The Premium is **signed**. A merchant quoting below mid — a
+Buy advertisement competing for flow — expresses that as a negative
+Premium, and `-10 000` bps is exactly zero. A separate Discount field would
+be a second way to say the same thing, and two ways to say one thing can
+contradict: an advertisement carrying Premium `+100` *and* Discount `50`
+has no defined price, and every implementation would have to invent one.
+
+**Refresh Frequency.** A merchant does not control how often the price is
+recomputed, so a merchant-declared frequency would be a claim they are not
+in a position to make. The price is resolved **at read time**, from the
+freshest oracle record the answering node holds, and the record carries its
+own expiry. What actually bounds staleness is the `mid_expires_at` on the
+resolved quote (§12.1), which tells a reader how long the number they were
+given remains good — a property of the oracle data, not a merchant setting.
+
+**Price Decimals** was missing from this list and is a real merchant-set
+field. See §12.1 for why the precision is declared per advertisement rather
+than inferred from the currency.
+
+---
+
+### 12.1 The floating formula, and the two fields it needs
+
+`[PROPOSED — NEEDS SIGN-OFF]`
+
+| Parameter | Value |
+|---|---|
+| Premium | Signed basis points over the oracle mid. A discount is a negative premium, not a separate field |
+| Premium floor | −10,000 bps is exactly zero. Below that is a negative price, and resolves to no price rather than clamping to zero |
+| Price precision | Declared by the merchant, in decimal places of the **fiat** currency (2 for KES/NGN/USD, 0 for JPY) |
+| Rounding | Half-to-even, at the declared precision |
+
+`price = mid × (1 + premium_bps ÷ 10,000)`, rounded half-to-even to the declared precision.
+
+**Why the premium is signed rather than paired with a discount field.** A merchant competing for flow may legitimately quote below mid. Two fields for one number invite an advertisement that sets both, and then every implementation has to decide which wins.
+
+**Why the precision is declared rather than inferred.** Nothing else on the record carries it: the trade limits and the available liquidity are denominated in the *asset*, and a floating advertisement has no fixed price to borrow the precision from. Inferring it from the fiat currency code would mean a currency table inside the protocol, silently mis-rounding every currency missing from it.
+
+**Why half-to-even.** The last minor unit has to go to somebody, and whoever it goes to gets it on *every* trade — a merchant is a repeat player, so a systematic half-cent is a real transfer even where any single instance is negligible. Rounding toward the merchant is a small theft from every taker; rounding toward the taker is the same transfer pointed the other way, and merchants would widen the premium to recover it, moving the cost back onto takers where it is less visible than a premium they can read. Half-to-even has no directional drift and its worst case is half a minor unit rather than a whole one. It also does not depend on the advertisement's direction, so the price shown to a taker and the price quoted to the merchant are the same number.
+
+**A resolved price is never written onto the advertisement.** It is computed at the instant somebody asks, from an oracle read they made. A price refreshed onto a gossip-replicated record would be stale between refreshes and different on every node, because each node would refresh on its own clock from its own oracle view. This is why the record carries a formula and no refresh interval: there is nothing being refreshed.
+
+**Crossing from a mint to a symbol.** An oracle publishes a rate against a symbol (`USDC/KES`) because a rate is a fact about an asset rather than about one cluster's mint of it, while an advertisement names a mint (§6.1). Pricing a floating advertisement is the one place the two must meet, and an implementation SHOULD perform that crossing in a single place rather than by string comparison scattered through the pricing path. A mint the implementation has no name for is simply **unpriceable**: no oracle publishes a pair it cannot name, and inventing one would be inventing a rate.
+
+**No price is an answer.** A floating advertisement whose feed has lapsed, or whose pair nobody publishes, has no price — not a last-known price, not zero, not the mid alone. An implementation MUST distinguish the two reasons when it reports this (OFS-7000 §12), because a lapsed feed will likely return and an unpublished corridor will not, and MUST NOT present either as a number.
 
 ---
 
@@ -433,6 +502,35 @@ The protocol does not mandate a single ranking algorithm.
 
 ---
 
+### 20.1 Narrowing and paging the order book
+
+`[PROPOSED — NEEDS SIGN-OFF]`
+
+| Parameter | Value |
+|---|---|
+| Filters | Asset mint, fiat currency, direction, payment method, trade amount, status |
+| Default status filter | Active only |
+| Page size — default | 25 |
+| Page size — maximum | 100 |
+| Resume mechanism | A cursor naming the last row seen. Never a numeric offset |
+| Ordering | By Advertisement ID, which is unique and immutable |
+
+A listing read that takes no parameters and returns every advertisement on the network works at pilot volume and fails in both directions at any real one: the response grows without bound, and a buyer cannot find the offer they want. Filtering in the client moves the second problem and leaves the first — the node still serializes the whole book on every request, and every client still downloads it to show a page of it. So the narrowing belongs at the node.
+
+**A cursor, not an offset.** Advertisements are published continuously. Between a reader's first page and their second, a new one can sort ahead of both, and "skip 20, take 20" then returns rows 20–39 of a list whose contents have shifted underneath it — so one advertisement is shown twice and another is never shown at all. A reader scrolling an order book has no way to notice. A cursor names the last row actually seen and asks for what comes after it, under a total order that does not change when a row is inserted. That is stable by construction rather than by luck, and it costs nothing: the identifier is already in the response.
+
+**The cursor MUST be returned beside the rows**, not left for the caller to derive from the last one. A caller deriving it has to know the ordering, and an ordering the two sides disagree about is exactly how a page gets skipped.
+
+**A deleted cursor row MUST NOT reset the reader.** Resumption is "strictly after this identifier", which is well-defined whether or not that row still exists — an advertisement can be removed between two pages, and a reader must not be thrown back to the beginning because the row they last saw is gone.
+
+**The page size ceiling is not advisory.** Without one, the page size is chosen by whoever is calling, which makes "return everything" available again under a different name.
+
+**The default status filter is Active.** A disabled, paused or deleted advertisement cannot be traded against, so returning one by default would be offering something that is not on offer. Asking for another status explicitly is a merchant reviewing their own book, which is a different question.
+
+**An empty filter is the whole book, one page at a time.** The unparameterised call keeps working and only its size changes. The response shape does not: it carries the rows *and* the cursor, so a caller that previously read a bare array has to be updated. That is a breaking change to this domain's read method, and it is recorded here rather than in OFS-8200, which versions the envelope rather than individual methods (OFS-8200 §12).
+
+---
+
 ## 21. Advertisement Expiration
 
 Advertisements may expire automatically due to:
@@ -498,6 +596,16 @@ Implementations MUST reject:
 
 Every advertisement MUST be cryptographically authenticated.
 
+### 24.1 "Unsupported assets" means malformed, not unlisted
+
+A node MUST reject an advertisement whose asset mint is not a well-formed address (§6.1). A node MUST NOT reject one because the mint is absent from any list that node compiles in.
+
+The settlement-mint allowlist is on chain and governance-updatable (OFS-4100 §4.2). A node built last month enforcing its own copy of that list would refuse an advertisement naming a mint governance approved last week — it would be enforcing a stale copy of a rule it is not the authority for, and two honest nodes on different releases would disagree about which advertisements are valid. That disagreement is a network partition dressed as validation.
+
+Enforcement belongs where the funds move: a mint that is not allowlisted cannot back a liquidity vault, cannot be reserved against, and cannot fund a trade escrow, and all three refusals are made by the on-chain program regardless of what any node believed. A node's job at this layer is to make the field unambiguous, not to adjudicate it.
+
+The symbol table an implementation uses to display a name (§6.1) is a **display** table for exactly this reason. It is not an allowlist, it enforces nothing, and a mint missing from it is an address with no nickname rather than an invalid advertisement.
+
 ---
 
 ## 25. Conformance
@@ -505,7 +613,12 @@ Every advertisement MUST be cryptographically authenticated.
 A compliant implementation MUST:
 
 * Support Buy and Sell advertisements.
+* Identify an advertisement's asset by mint address, never by a merchant-supplied ticker (§6.1).
+* Resolve a displayed symbol from the mint, and show the address where it knows no name.
+* Accept an advertisement naming a well-formed mint it does not itself recognize (§24.1).
 * Support fixed and floating pricing.
+* Return no price, with its reason, for a floating advertisement whose oracle read is stale or absent (§12.1).
+* Serve advertisement listings filtered and paged, resuming by cursor rather than by offset (§20.1).
 * Integrate with Oracle Providers for floating prices.
 * Support automatic inventory updates.
 * Support multiple payment methods.
