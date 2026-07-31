@@ -345,6 +345,47 @@ A proposal becomes Approved when:
 
 Approval alone does not immediately change protocol behavior.
 
+### 16.1 Where the approval decision is made
+
+The three conditions above are evaluated **on chain**, by the
+`openfiat-governance` program's `tally_and_finalize` (OFS-4200 §6), over
+stake-weighted votes any node can verify. A node MUST adopt that result rather
+than compute its own.
+
+This is not a stylistic preference. A node only records a vote once it has
+verified the voter's weight against their on-chain stake account, so the vote set
+a node holds is a function of its own connectivity: an RPC-connected node and a
+gossip-only node tallying the same proposal reach different answers, both
+correctly. Worse, a node holding no verifiable votes cannot distinguish "nobody
+voted" from "I discarded what I could not verify", so a local tally would report
+a confident rejection where the honest answer is "I do not know". A node MUST
+NOT resolve a proposal from the votes it happens to hold.
+
+### 16.2 Adopting the on-chain result
+
+A proposal that goes on chain carries `onchain_proposal_id`, the `u64` of its
+on-chain counterpart, inside its signed `ProposalCreate` event — fixed at
+creation, because no event amends it. The on-chain proposal names the off-chain
+one back. **Both claims are required**; the exact mechanism, the digest, and why
+one claim alone must never be treated as a link are specified in OFS-4200 §6.1.
+
+A node MUST NOT adopt an outcome from an on-chain proposal that has not named it
+back, and MUST distinguish, when reporting to a client:
+
+* no on-chain counterpart was ever claimed;
+* a claim that is not reciprocated (including one this node has not yet been able
+  to check);
+* linked, chain still voting;
+* linked, chain resolved, not yet adopted locally;
+* linked and in agreement;
+* linked and in disagreement.
+
+The fourth and the sixth are different facts and collapsing them is an error:
+every linked proposal passes through the fourth on its way to the fifth. A
+proposal with no on-chain counterpart is not an error — informational proposals
+legitimately never go on chain — and remains resolvable only by the off-chain
+lifecycle events of §21 and §18.
+
 ---
 
 ## 17. Implementation
@@ -511,6 +552,10 @@ A compliant implementation MUST:
 * Support quorum validation.
 * Support protocol activation.
 * Support digitally signed governance events.
+* Adopt approval outcomes from the on-chain tally rather than computing them
+  locally (§16.1), and never report a locally-derived tally as a resolution.
+* Report the off-chain/on-chain link state honestly, including the case where it
+  cannot corroborate a claim (§16.2).
 
 ---
 

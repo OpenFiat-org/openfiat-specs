@@ -128,6 +128,7 @@ Every instruction that moves vault funds signs via `invoke_signed` using the vau
 - Proposal: `[b"proposal", proposal_id_le_bytes]`
 - Vote record: `[b"vote", proposal_pubkey, voter_pubkey]` — existence of this PDA is itself the double-vote guard.
 - Governance config: `[b"governance_config"]` — singleton (quorum %, thresholds per category, deposit amount, vote-lock duration).
+- Emergency authority: `[b"emergency_authority"]` — singleton, holding AllenHark's first-year exception and the timestamp it expires at (OFS-4100 §5.1).
 
 ### Account layouts
 
@@ -135,14 +136,82 @@ Every instruction that moves vault funds signs via `invoke_signed` using the vau
 - `ProposalState { Draft, Voting, Accepted, Rejected }`
 - `VoteRecord { proposal: Pubkey, voter: Pubkey, weight: u64, in_favor: bool, locked_until: i64, bump: u8 }`
 - `GovernanceConfig { quorum_bps: u16, threshold_simple_bps: u16, threshold_treasury_bps: u16, threshold_upgrade_bps: u16, quorum_upgrade_bps: u16, deposit_amount: u64, vote_lock_secs: i64, bump: u8 }`
+- `EmergencyAuthority { primary_holder: Pubkey, secondary_holder: Pubkey, initialized_at: i64, expires_at: i64, bump: u8 }`
+
+`Proposal` additionally carries `offchain_id_hash: [u8; 32]` — the SHA-256 of the
+off-chain proposal id this account is the chain-side half of, or all zeroes for
+"none claimed". See §6.1.
+
+**`EmergencyAuthority` is a separate account rather than five more fields on
+`GovernanceConfig`, and that is a requirement, not a preference.** A deployed
+`GovernanceConfig` singleton already exists; growing an Anchor `#[account]` struct
+makes every already-allocated account of that type too small to deserialize, which
+would take down every instruction that reads the config. Any future addition to a
+singleton that is already live faces the same constraint.
 
 ### Instructions
 
-`create_proposal(category, title_hash, summary_hash)` (full title/summary text lives off-chain per the OpenFiat network's existing gossip/session-sync machinery — only content hashes are recorded on-chain, matching the whitepaper's off-chain-messaging/on-chain-anchoring split used elsewhere), `cast_vote(in_favor)` (reads effective stake from `openfiat-staking` via CPI at cast time), `tally_and_finalize` (permissionless after `voting_ends_at`), `refund_or_forfeit_deposit`, `update_config_parameter(target_program, parameter_key, new_value)` (only callable when the calling proposal is `Accepted` and `category == Parameter`), `authorize_treasury_spend` (only when `Accepted` and `category == Treasury`).
+`create_proposal(category, title_hash, summary_hash)` (full title/summary text lives off-chain per the OpenFiat network's existing gossip/session-sync machinery — only content hashes are recorded on-chain, matching the whitepaper's off-chain-messaging/on-chain-anchoring split used elsewhere), `cast_vote(in_favor)` (reads effective stake from `openfiat-staking` via CPI at cast time), `tally_and_finalize` (permissionless after `voting_ends_at`), `refund_or_forfeit_deposit`, `update_config_parameter(target_program, parameter_key, new_value)` (only callable when the calling proposal is `Accepted` and `category == Parameter`), `authorize_treasury_spend` (only when `Accepted` and `category == Treasury`), `initialize_emergency_authority` (§6.2), `link_offchain_proposal(offchain_id_hash)` (§6.1).
+
+### 6.1 Linking an on-chain proposal to its off-chain counterpart
+
+Governance runs in two places and they were not correlated. `openfiat-core`'s
+`crates/governance` holds proposals as gossiped, signed off-chain records keyed by
+an author-chosen string; this program holds `Proposal` accounts keyed by a `u64`.
+An interface showing "the" proposal was therefore showing one record and implying
+the other, with no way to detect a disagreement — and the two can disagree, since
+the program tallies stake-weighted votes under its own quorum and threshold rules
+while a node only holds the votes it could independently verify.
+
+**The join key is two reciprocal claims, and one alone MUST NOT be treated as a
+link.**
+
+| Side | Field | Written | Immutable because |
+|---|---|---|---|
+| Off-chain | `Proposal.onchain_proposal_id: Option<u64>` | inside the signed `ProposalCreate` gossip event, at creation | no event amends it |
+| On-chain | `Proposal.offchain_id_hash: [u8; 32]` | by `link_offchain_proposal`, proposer-only, `Voting`-only, once | the instruction refuses a second write |
+
+The digest is **SHA-256 over the off-chain id's UTF-8 bytes**. Pinning the hash
+function here is the point: `title_hash`/`summary_hash` could not serve as a join
+key precisely because no document said which hash over which bytes, and because
+they describe content two unrelated proposals may legitimately share.
+
+Anyone may create an on-chain proposal naming an off-chain id they do not own, and
+anyone may gossip an off-chain proposal naming an on-chain id they did not create.
+Requiring both directions means a link exists only where two independently
+authorized writes agree. A reader holding one claim MUST report it as
+unreciprocated rather than resolve the proposal from it — otherwise a stranger
+could settle anyone's proposal by creating an on-chain one that names it.
+
+A reader MUST also distinguish "the chain has not decided" from "the chain decided
+the opposite", and MUST NOT report the interval between the chain resolving and a
+node adopting that result as a divergence. Every linked proposal passes through
+that interval.
+
+### 6.2 The first-year exception's account
+
+`initialize_emergency_authority` creates the `EmergencyAuthority` singleton. It is
+**permissionless and takes no parameters** — the holders are compiled-in constants
+and `expires_at` is `now + FIRST_YEAR_SECS`. Both properties are load-bearing:
+
+- No parameters means nothing about the initializing transaction can lengthen the
+  window. The only thing a caller influences is when the clock starts, which can
+  only bring the deadline nearer.
+- Permissionless means no key can withhold the start of the window in order to
+  keep the exception's expiry perpetually ahead of itself.
+
+`initialize_governance_config` creates the same PDA in the same way, so a fresh
+deployment's clock starts at governance genesis. Both use `init`, so whichever runs
+first wins and the other fails; there is no ordering that produces two deadlines.
+The standalone instruction exists for deployments whose config predates it.
+
+**No instruction in the program takes `EmergencyAuthority` as writable except the
+two that create it.** That is the sunset, and it is verifiable from the IDL rather
+than from this document.
 
 ### Forbidden-action checklist (design-review gate, not a single test)
 
-Confirm no instruction, in any combination, can: confiscate a user's funds outside a resolved dispute or a proven-misconduct slash; reverse a `Released` trade; alter a finalized `VoteRecord` or a closed dispute's recorded outcome; move funds from any vault/stake account to an arbitrary destination not enumerated in this document's instruction set.
+Confirm no instruction, in any combination, can: confiscate a user's funds outside a resolved dispute or a proven-misconduct slash; reverse a `Released` trade; alter a finalized `VoteRecord` or a closed dispute's recorded outcome; move funds from any vault/stake account to an arbitrary destination not enumerated in this document's instruction set; **move `EmergencyAuthority.expires_at`, or reach it through any writable configuration field, any `GovernanceAction` variant, or any re-initialization**.
 
 ## 7. Config Accounts Naming Token Destinations
 

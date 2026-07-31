@@ -386,6 +386,37 @@ afterwards. The holder must not be able to move its own deadline, directly or
 through any configuration field it can write. An implementation must test that
 expiry actually closes the power, not merely that the power works before it.
 
+**How this is enforced, now that it is.** The deployed `openfiat-governance`
+program holds the deadline on a singleton `EmergencyAuthority` account
+(OFS-4200 §6.2), written once at `init` as `initialized_at + FIRST_YEAR_SECS`
+with `FIRST_YEAR_SECS` compiled in. Three properties together are what make it
+non-extendable, and each closes a different route:
+
+| Route to an extension | What closes it |
+|---|---|
+| An instruction that rewrites the deadline | No instruction takes the account as writable except the two that create it. Verifiable from the program's IDL, not from this document. |
+| Re-running initialization to re-base the clock | Both creation paths use `init`, which refuses an account that already exists. |
+| Asking for a longer window at initialization | Neither creation path accepts a duration or a deadline. The only thing a caller influences is *when* the clock starts, which can only bring the deadline nearer. |
+| A passed governance vote postponing it | No `GovernanceAction` variant names the account, so an accepted proposal has no path to it. |
+| Withholding initialization so the window never starts expiring | `initialize_emergency_authority` is permissionless. No key can stall it. |
+
+Extending it therefore requires a **program upgrade** — a separately authorized,
+publicly visible act — and not a governance action or an administrative one.
+
+The exception's concrete content is the delay power identified below: writing
+`GovernanceConfig.vote_lock_secs`. It has two limits of different kinds.
+`MAX_VOTE_LOCK_SECS` bounds how far a delay may be pushed; `FIRST_YEAR_SECS`
+bounds how long anyone may push it at all. Past the deadline
+`update_governance_config` refuses to change the field, freezing it at whatever
+value it held when the exception lapsed — every other parameter stays
+governance-configurable.
+
+One honest limitation, recorded rather than glossed. The branch *past* the
+deadline is proven by unit tests over the gate function (at expiry, and one
+through ten years after), because a local validator's clock tracks wall time and
+cannot be advanced a year; the on-chain suite proves the harder half — that the
+deadline cannot be moved by any route in the table above.
+
 **Why the vote-lock ceiling belongs here.** `vote_lock_secs` is writable, and
 left unbounded it is an emergency power wearing a different hat: parked at any
 large value it leaves every accepted proposal unexecutable — including one
