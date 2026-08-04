@@ -136,6 +136,49 @@ Every transition produces a signed protocol event.
 
 ---
 
+## 5a. The Reservation During Settlement
+
+`Escrow Locked` is a handoff, and a handoff has two sides. OFS-2200 §18 terminates its state machine there and this specification picks it up — but the reservation record does not cease to exist, and while nothing said otherwise it remained in `Escrow Locked` for the whole life of the trade: cancellable by its owner under OFS-2200 §14, and expirable by OFS-2200 §12's validation-window sweep, both of which return the reserved liquidity to the merchant's advertisement.
+
+Either one, performed while a settlement is running, unwinds one half of a trade whose other half continues. The merchant's advertisement is credited liquidity committed to a live settlement; the settlement proceeds to `Approved` and the escrow releases; and a client joining the two records reports a cancelled trade whose funds have moved. The timing is not exotic: §8a's payment window and merchant-review window are thirty minutes each against OFS-2200 §12a's thirty-minute validation window, so an ordinary trade that reaches a merchant for review outlives its reservation's deadline as a matter of course.
+
+A settlement SHALL therefore record its hold in the reservation. Two reservation states exist for this. They are defined here rather than in OFS-2200 because they describe what *settlement* has done to a reservation it has taken authority over; OFS-2200 §18's own machine still terminates at `Escrow Locked`.
+
+| Reservation state | Entered when | Cancellable (OFS-2200 §14) | Expiry sweep (OFS-2200 §12) | Reserved liquidity |
+|---|---|---|---|---|
+| Escrow Locked | The reservation validated (OFS-2200 §18) | Yes | Expires it, returning the liquidity | Held, returnable |
+| Settling | A settlement was initiated against it | **No** — refused | **Skipped** | Committed to the settlement |
+| Settled | That settlement concluded with the escrow moving | No — terminal | Skipped | Spent; never returned |
+
+```text id="reservation-under-settlement"
+Escrow Locked
+
+↓  settlement initiated
+
+Settling ──────── settlement approved, or arbitration released the escrow ────────→ Settled
+
+    │
+    └──── settlement cancelled, rejected, or arbitration returned the escrow ───────→ Escrow Locked
+```
+
+A settlement that ends **without** a transfer returns the reservation to `Escrow Locked` rather than terminating it. The reservation is genuinely live again for whatever remains of its own validation window: its owner may cancel it, a further settlement against it is legitimate, and if nobody does anything the ordinary sweep expires it and returns the liquidity on its next pass. This keeps the liquidity returned by exactly the two paths that already return it, exactly once.
+
+A settlement that ends **with** a transfer terminates the reservation at `Settled`, and the liquidity is not returned. The asset was sold. Returning it would credit the merchant's advertisement with inventory they no longer hold — which is what happened to every completed trade for as long as a completed reservation sat in `Escrow Locked` waiting to go stale.
+
+### 5a.1 Where the refusal lives
+
+The refusal SHALL be part of the deterministic function every node applies to a replicated `ReservationCancelled` event, not a check performed by the node that received the request. A cancellation reaches a peer as gossip (OFS-1200) without passing through any node-local API guard, so a guard placed at the API boundary would refuse the originator and admit every replica — nodes would disagree about one reservation, which is worse than the condition it was meant to fix.
+
+### 5a.2 Where the two records may still disagree
+
+Marking the reservation is best-effort and MUST NOT gate acceptance of the settlement. A node that does not hold the reservation, or holds it in some other state, SHALL still accept the settlement.
+
+This is not a loose end but the only safe rule available. OFS-2200 §12 computes expiry against each node's own clock, so around the deadline a node that has swept holds an `Expired` reservation for a reservation its neighbours still hold as `Escrow Locked`. A settlement initiated in that window would be refused by the node that swept and accepted everywhere else, stranding a live trade on that node permanently — a strictly worse failure than the reservation record being briefly out of step.
+
+Because the two can disagree, a client presenting one aggregate status for a trade SHALL let the settlement decide whenever a settlement exists, and consult the reservation only where none does. That ordering is what makes two honest nodes answer the same question the same way; the reverse ordering reports `Cancelled` for a trade whose escrow is about to release.
+
+---
+
 ## 6. Escrow State
 
 Before settlement begins:
@@ -467,6 +510,36 @@ Disputed
 ```
 
 Only valid state transitions are permitted.
+
+## 20a. Disputed
+
+`Disputed` is a state of *this* machine, not a label the Dispute Protocol keeps to itself. Opening a dispute (OFS-2400 §5) freezes the escrow (OFS-2400 §6), and a settlement whose escrow is frozen is not awaiting payment, not under merchant review, and not concluded. A settlement left in its previous state while arbitrators examine it is indistinguishable from one whose merchant simply has not replied yet, which is what every client reading it would show.
+
+It SHALL have both an entry and an exit. An entry alone would be worse than neither: dispute resolution terminates on the dispute record, escrow release requires `Approved`, and a settlement parked in `Disputed` could therefore never record the release of an escrow arbitration awarded to the buyer. Every arbitrated trade would strand there permanently.
+
+**Entry.** Opening a dispute moves the settlement to `Disputed` and records that it was escalated. It is legal from every state except:
+
+* `Cancelled` — no escrow was ever at stake, so there is nothing to freeze.
+* `Disputed` — already frozen; OFS-2400 §5 permits one dispute per settlement, and this is what enforces it.
+
+`Approved` and `Completed` are deliberately not distinguished. `Completed` is each node's own observation of an on-chain confirmation (OFS-4300 §7-8), so two honest nodes hold the two states for the same settlement at the same instant; a rule that admitted one and refused the other would accept a dispute on one node and refuse it on its neighbour.
+
+**Exit.** The settlement leaves `Disputed` when — and only when — the chain has executed the case and the node has independently observed that confirmation (OFS-4200). The verdict decides where it lands, because what the settlement layer needs to know is not who won but what happened to the escrow:
+
+| Dispute outcome (OFS-2400 §17) | What the program did to the escrow | Settlement state |
+|---|---|---|
+| Buyer Wins | Released to the buyer, identically to an uncontested approval | `Completed` |
+| Mutual Settlement | Split; part reaches the buyer | `Completed` |
+| Merchant Wins | Returned to the merchant's liquidity vault | `Cancelled` |
+| Invalid | Returned to the merchant's liquidity vault | `Cancelled` |
+
+A node that observed an execution but could not read its outcome SHALL leave the settlement in `Disputed`. That is the truth — something happened on chain and this node does not yet know what — and it matches what the same node records about the dispute itself.
+
+The settlement does **not** return to the state it was escalated from. A restored `Payment Submitted` would be a live settlement awaiting a merchant decision that has already been made for them and will never come.
+
+The reservation follows the same fork: an escrow released ends it at `Settled` (§5a), an escrow returned puts it back to `Escrow Locked`, and while the case is open it stays `Settling` — a frozen escrow is the strongest possible statement that the liquidity behind it is committed.
+
+**After the case.** A settlement that has been arbitrated retains a record of the escalation once it resolves, because its state no longer says so. "Was this trade arbitrated?" is a question about a trade's history that reputation (OFS-3000) and counterparty history both ask, and it is answerable from the settlement alone — which is what keeps a reader of one party's own settlements from having to consult, and be able to see, dispute records at large.
 
 ---
 

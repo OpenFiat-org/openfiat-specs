@@ -400,6 +400,8 @@ Cancellation immediately releases reserved liquidity.
 
 **Before payment: either party may cancel, subject to protocol rules.** This applies for the whole reservation phase, up to and including the moment escrow is locked. Once escrow is locked and the trade moves into the Settlement Protocol (OFS-2300), cancellation rules change — after payment is marked sent, cancellation is restricted to prevent abuse. See OFS-2300 §19 for the full post-escrow cancellation rules and matrix.
 
+Those narrower rules bind here too, and not only in OFS-2300's own events. A reservation a settlement is running against (`Settling`, OFS-2300 §5a) SHALL NOT be cancelled through this specification either — otherwise §19's restriction is simply defeated from the other side, by releasing the liquidity underneath a settlement it does not permit anyone to cancel.
+
 ---
 
 ## 15. Automatic Inventory Updates
@@ -496,7 +498,9 @@ or
 Expired
 ```
 
-`Escrow Locked` is a terminal state **for this specification** — it is the handoff point to the Settlement Protocol (OFS-2300 §20), which owns every subsequent state (Awaiting Payment, Payment Sent, Merchant Reviewing, Approved, Escrow Released, Completed). This specification's scope (§2) explicitly excludes settlement, so its own state machine must not include settlement-phase states; earlier drafts of this document incorrectly extended the reservation state machine through payment and settlement states, which duplicated and could drift from OFS-2300's authoritative definitions. That has been corrected here.
+`Escrow Locked` is a terminal state **for this specification** — it is the handoff point to the Settlement Protocol (OFS-2300 §20), which owns every subsequent state (Awaiting Payment, Payment Sent, Merchant Reviewing, Approved, Escrow Released, Completed).
+
+Terminal here does not mean the reservation record stops changing. A settlement raised against it marks it `Settling` and, when that settlement concludes with the escrow moving, `Settled` — two states OFS-2300 §5a defines and writes, because they say what settlement has done to a reservation it has taken authority over rather than anything this protocol decides. Their consequences for this specification are the ones §5a's table sets out: §14's cancellation and §12's expiry sweep both leave a `Settling` reservation alone, and neither ever returns the liquidity of a `Settled` one. This specification's scope (§2) explicitly excludes settlement, so its own state machine must not include settlement-phase states; earlier drafts of this document incorrectly extended the reservation state machine through payment and settlement states, which duplicated and could drift from OFS-2300's authoritative definitions. That has been corrected here.
 
 Illegal state transitions MUST be rejected.
 
