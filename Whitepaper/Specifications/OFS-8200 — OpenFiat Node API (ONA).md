@@ -293,19 +293,23 @@ This specification does not mandate a specific description format; the reference
 
 Transport-level failures (malformed JSON, an unknown method, malformed parameters, an internal fault) use the standard JSON-RPC 2.0 error codes: `-32700` (parse error), `-32601` (method not found), `-32602` (invalid params), `-32603` (internal error).
 
-Every domain-level failure — insufficient liquidity, a duplicate event, an unauthorized signer, any failure OFS-8000 (Error Code Registry) already assigns a numeric code — is reported as a single JSON-RPC error code, `-32000` ("Application error"), carrying OFS-8000's own numeric code and symbolic name in the error's `data` field:
+Every domain-level failure — insufficient liquidity, a duplicate event, an unauthorized signer, any failure OFS-8000 (Error Code Registry) already assigns a numeric code — is reported as a single JSON-RPC error code, `-32000` ("Application error"), carrying OFS-8000's own numeric code, symbolic name and retryability in the error's `data` field:
 
 ```json
 {
   "error": {
     "code": -32000,
     "message": "INSUFFICIENT_AVAILABLE_LIQUIDITY",
-    "data": { "ofsErrorCode": 4004, "ofsErrorName": "INSUFFICIENT_AVAILABLE_LIQUIDITY" }
+    "data": { "ofsErrorCode": 4004, "ofsErrorName": "INSUFFICIENT_AVAILABLE_LIQUIDITY", "ofsRetryable": true }
   }
 }
 ```
 
 A client MUST treat `data.ofsErrorCode` as the authoritative error identity for programmatic handling and MAY treat `message`/`data.ofsErrorName` as a human-readable label. This API introduces no error codes of its own outside the standard JSON-RPC transport codes — every application-level failure is already named by OFS-8000.
+
+`data.ofsRetryable` is OFS-8000 §16's judgement for that code, sent so a client does not have to keep its own copy of the table. It is a property of the code and never of the caller: it is the same for a given code on every method and every call. `false` means an identical request reaches an identical outcome, so repeating it unchanged learns nothing; `true` means the request may succeed later, not that it will, and a client remains responsible for its own backoff and retry budget. A node MUST send the field with every `-32000` error, and MUST derive it from the same registry it derives `ofsErrorCode` from rather than maintaining a second opinion at the transport boundary.
+
+A client MUST tolerate `data` fields it does not recognise. `ofsRetryable` was added after `ofsErrorCode` and `ofsErrorName`, and a future revision MAY add more; a client that rejects unknown fields will break on a node newer than itself.
 
 ## 11. Subscriptions
 
