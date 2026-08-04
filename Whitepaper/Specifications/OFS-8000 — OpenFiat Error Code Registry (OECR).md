@@ -133,6 +133,9 @@ Future specifications SHALL allocate codes only within their assigned range.
 | 0007 | RESOURCE_ALREADY_EXISTS |
 | 0008 | OPERATION_TIMEOUT       |
 | 0009 | RATE_LIMIT_EXCEEDED     |
+| 0010 | DECRYPTION_FAILED       |
+
+`DECRYPTION_FAILED` (0010) is a sealed payload that did not open, and it MUST NOT be reported as `INVALID_SIGNATURE` (1003). The two are routinely reached in sequence — a record's signature is verified, and its encrypted payload is opened afterwards with a key the reader may not hold — so the second failing says nothing whatever about the first. A peer told 1003 signs again and re-sends the identical unreadable bytes, while the remedy for 0010 is to obtain the key. 0010 is deliberately silent on *why* the box did not open: an implementation SHALL NOT distinguish a wrong key from a tampered ciphertext or a payload lifted from another slot, because a caller able to tell them apart holds a decryption oracle. It lives in the general range because no domain owns it; any protocol carrying a sealed payload reports it.
 
 ---
 
@@ -154,6 +157,14 @@ Future specifications SHALL allocate codes only within their assigned range.
 | 1011 | BLOCKHASH_EXPIRED            |
 | 1012 | MALFORMED_TRANSACTION        |
 | 1013 | TRANSACTION_SUBMISSION_FAILED |
+| 1014 | SESSION_REVOKED              |
+| 1015 | REQUEST_EXPIRED              |
+
+`SESSION_EXPIRED` (1006) means one thing: a session reached the end of its validity window. It SHALL NOT be used for either of the conditions below, both of which were reaching clients as 1006.
+
+`SESSION_REVOKED` (1014) is a session deliberately ended before its window closed. Revocation is permanent (OFS-1400 §16) and expiry is not, so the two demand opposite responses: a client answering 1006 renews, and renewing a revoked session is the one request that will never be granted.
+
+`REQUEST_EXPIRED` (1015) is a signed artifact whose own validity window has passed — a signed request outside its anti-replay freshness window, a fee-settlement quote past its validity bound (OFS-1500). No session is involved, and re-authenticating leaves the expired value exactly where it is, inside the bytes that were signed. The remedy is to rebuild the artifact from current values — a fresh timestamp, a fresh quote at the current rate — and sign it again. 1015 is therefore non-retryable in §16's sense: the identical request carries the identical expired window.
 
 ---
 
@@ -167,6 +178,9 @@ Future specifications SHALL allocate codes only within their assigned range.
 | 2003 | IDENTITY_REVOKED          |
 | 2004 | CLAIM_VERIFICATION_FAILED |
 | 2005 | INVALID_SIGNATURE_CHAIN   |
+| 2006 | IDENTITY_IN_USE_ELSEWHERE |
+
+`IDENTITY_IN_USE_ELSEWHERE` (2006) is a node observing an event signed by its own key that it did not emit — proof that a second process holds the same identity. It MUST NOT be reported as `INVALID_SIGNATURE` (1003): the signature verified, and that is the entire finding. Everyone who acts on 1003 acts wrongly here — a peer re-signs, an operator audits their signing path — while the actual remedy is to stop the duplicate and rotate the key. Non-retryable, and permanently so until a human intervenes.
 
 ---
 
@@ -230,6 +244,11 @@ Likewise `SETTLEMENT_NOT_FOUND` (5008) and `INVALID_SETTLEMENT_STATE` (5009) are
 | 6002 | DISPUTE_CLOSED       |
 | 6003 | INVALID_EVIDENCE     |
 | 6004 | DISPUTE_TIMEOUT      |
+| 6005 | INVALID_DISPUTE_STATE |
+
+`INVALID_DISPUTE_STATE` (6005) is this range's counterpart to `INVALID_RESERVATION_STATE` (4006) and `INVALID_SETTLEMENT_STATE` (5009): an action that is not a legal transition from the dispute's current state. It was absent, and in its absence `DISPUTE_CLOSED` (6002) absorbed the role — an arbitrator joining a panel that has just filled, a vote committed before the case locks, a reveal before the commit phase ends. None of those is a closed case. 6002 states an outcome that has not happened, and a participant who believes it stops acting on a dispute they are still entitled, and sometimes obliged, to act on.
+
+6002 retains its meaning for a case that genuinely concluded. An implementation SHALL NOT report it for a dispute that is still live in any state.
 
 ---
 
@@ -242,6 +261,16 @@ Likewise `SETTLEMENT_NOT_FOUND` (5008) and `INVALID_SETTLEMENT_STATE` (5009) are
 | 7002 | DUPLICATE_VOTE            |
 | 7003 | INSUFFICIENT_VOTING_POWER |
 | 7004 | INVALID_PROPOSAL          |
+| 7005 | PROPOSAL_ALREADY_EXISTS   |
+| 7006 | INVALID_PROPOSAL_STATE    |
+
+`INVALID_PROPOSAL` (7004) is a verdict on a proposal's content, and only on its content. Three conditions were reaching clients as 7004 that say nothing about the content, each sending an author to edit text that was never wrong.
+
+`PROPOSAL_ALREADY_EXISTS` (7005) says only that the proposal id in the request is already held. It makes no claim about either proposal. As with `SETTLEMENT_ALREADY_EXISTS` (5010), the ordinary way to reach it is a resend after a dropped connection, and it takes its own code rather than the generic `RESOURCE_ALREADY_EXISTS` (0007) because governance has an allocated range and every domain with one names its own.
+
+`INVALID_PROPOSAL_STATE` (7006) is this range's counterpart to 4006, 5009 and 6005: withdrawing a proposal that already executed, activating one already active. It is fixed by reading the proposal's status, never by editing the proposal.
+
+An unauthorized action — one attempted by someone other than the proposal's author — is `INVALID_IDENTITY_CLAIM` (2001), the same answer every other range gives to a caller who is not who they would have to be. It is not a governance code, and it is not 7004.
 
 ---
 

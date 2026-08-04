@@ -9,6 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- OFS-8000 §6, §7, §8, §12, §13: seven codes for conditions that were being
+  reported as codes naming an outcome that had not happened.
+  DECRYPTION_FAILED (0010) for a sealed payload that did not open, which is
+  not INVALID_SIGNATURE — the signature verified. SESSION_REVOKED (1014) and
+  REQUEST_EXPIRED (1015), because SESSION_EXPIRED had become the answer to
+  anything with a deadline and a client's response to it is to re-authenticate
+  a session that, three times in four, was not involved.
+  IDENTITY_IN_USE_ELSEWHERE (2006), where the remedy is a rotated key and not
+  a fresh signature. INVALID_DISPUTE_STATE (6005), PROPOSAL_ALREADY_EXISTS
+  (7005) and INVALID_PROPOSAL_STATE (7006), each the counterpart its range
+  lacked — without them, a live dispute was reported closed and a taken id
+  was reported as an invalid proposal. Each section says which code the
+  condition used to carry and what a client did wrong on receiving it. No
+  code is renumbered or removed (§18); DISPUTE_CLOSED and INVALID_PROPOSAL
+  keep their numbers and their narrowed meanings.
 - OFS-2100 §6.1, §12.1, §20.1, §24.1: an advertisement names a mint rather
   than a ticker; the floating-price formula, its precision and its rounding;
   filtered, cursor-paged listing; and why a node must not reject a mint it
